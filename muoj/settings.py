@@ -41,7 +41,11 @@ INSTALLED_APPS = [
     # 3rd Party Apps
 
     # My Apps
-    'accounts.apps.AccountsConfig'
+    'accounts.apps.AccountsConfig',
+    'blog.apps.BlogConfig',
+    'contest.apps.ContestConfig',
+    'core.apps.CoreConfig',
+    'problemset.apps.ProblemsetConfig'
 ]
 
 MIDDLEWARE = [
