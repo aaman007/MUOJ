@@ -1,0 +1,80 @@
+-------- App: Acoounts ----
+* User
+
+* Profile
+- profile_picture (ImageField)
+- institution (CharField)
+- location (CharField)
+- rating (IntegerField)
+- rank (CharField)
+
+------- App: Blog ----------------
+* Blog
+- title (CharField)
+- content (TextField)
+- user (FK to User)
+- prference (BooleanField)
+- created_at (DateTimeField)
+- modified_at (DateTimeFIeld)
+
+
+----------- App: Problemset --------------
+* Language
+- name (CharField)
+
+* Problem
+- name (CharField)
+- statement (TextField)
+- input_section (TextField)
+- output_section (TextFIeld)
+- editorial (TextField)
+- solution (FileField)
+- solution_language (Fk to Language)
+- author (Fk to User)
+- is_protected (BooleanField)
+
+* LanguageSpec
+- problem (Fk to Problem)
+- language (fk to Language) [example: language = models.ForeignKey(to=Language)]
+- time_limit (DurationField)
+- memory_limit (PositiveIntegerField)
+
+* TestCase
+- input (FileField)
+- output (FileFIeld)
+- label (CharField)
+- is_sample (BooleanField)
+- problem (Fk to Problem)
+- notes (TextField)
+
+* Submission
+- contest (Fk to Contest)
+- problem (Fk to Problem)
+- solution (FileField)
+- solution_language (Fk to language)
+- status (CharField - choices)
+- user (Fk to User)
+- created_at (DateTimeField)
+
+----- App: Contest ---------
+* Contest
+- title (CharField)
+- start_time (DateTimeFIeld)
+- duration (DurationField)
+- openness (BooleanField)
+- description (TextField)
+- problem_ids (JSONField - list)
+- problem_scores (JSONField - list)
+- is_rated (BooleanField)
+- author (Fk to User)
+
+* Announcement
+- title (CharFIeld)
+- content (TextField)
+- contest (Fk to Contest)
+
+* Clarification
+- content (TextField)
+- problem (Fk to Problem)
+- contest (Fk to Contest)
+- user (Fk to User)
