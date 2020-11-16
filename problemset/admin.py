@@ -1,3 +1,23 @@
 from django.contrib import admin
 
-# Register your models here.
+from problemset.models import Language, Problem, TestCase, Submission
+
+
+@admin.register(Language)
+class LanguageAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Problem)
+class ProblemAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(TestCase)
+class TestCaseAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Submission)
+class SubmissionAdmin(admin.ModelAdmin):
+    pass

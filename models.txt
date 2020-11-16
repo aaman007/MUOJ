@@ -2,6 +2,7 @@
 * User
 
 * Profile
+- user (Fk to User)
 - profile_picture (ImageField)
 - institution (CharField)
 - location (CharField)
@@ -67,14 +68,21 @@
 - problem_scores (JSONField - list)
 - is_rated (BooleanField)
 - author (Fk to User)
+- created_at
+- modified_at
 
 * Announcement
 - title (CharFIeld)
 - content (TextField)
 - contest (Fk to Contest)
+- user (Fk to User)
+- created_at
+- modified_at
 
 * Clarification
 - content (TextField)
 - problem (Fk to Problem)
 - contest (Fk to Contest)
 - user (Fk to User)
+- created_at
+- modified_at
