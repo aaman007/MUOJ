@@ -1,3 +1,87 @@
-from django.shortcuts import render
+from django.urls import reverse_lazy
+from django.views.generic import (
+    ListView,
+    DeleteView,
+    CreateView,
+    UpdateView,
+    DetailView
+)
 
-# Create your views here.
+from blog.forms import BlogForm
+from blog.models import Blog
+
+
+class BlogListView(ListView):
+    model = Blog
+    paginate_by = 5
+    context_object_name = 'blogs'
+    ordering = ['-created_at']
+    template_name = 'blog/blog_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'blog_nav': 'active'
+        })
+        return context
+
+
+class BlogCreateView(CreateView):
+    model = Blog
+    template_name = 'blog/blog_form.html'
+    form_class = BlogForm
+    success_url = reverse_lazy('blog:blog-list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'blog_nav': 'active',
+            'operation': 'Create'
+        })
+        return context
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
+class BlogUpdateView(UpdateView):
+    model = Blog
+    template_name = 'blog/blog_form.html'
+    context_object_name = 'blog'
+    form_class = BlogForm
+    success_url = reverse_lazy('blog:blog-list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'blog_nav': 'active',
+            'operation': 'Update'
+        })
+        return context
+
+
+class BlogDeleteView(DeleteView):
+    model = Blog
+    template_name = 'blog/blog_delete.html'
+    success_url = reverse_lazy('blog:blog-list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'blog_nav': 'active'
+        })
+        return context
+
+
+class BlogDetailView(DetailView):
+    model = Blog
+    template_name = 'blog/blog_details.html'
+    context_object_name = 'blog'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'blog_nav': 'active'
+        })
+        return context

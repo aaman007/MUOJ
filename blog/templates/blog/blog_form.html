@@ -1,0 +1,10 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {{ form.media }}
+        <input class="btn btn-primary" type="submit" value="{{ operation }}">
+    </form>
+{% endblock %}

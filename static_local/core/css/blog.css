@@ -1,0 +1,19 @@
+.blog-title {
+    text-decoration: none;
+    opacity: 0.8;
+}
+
+.blog-title:hover {
+    text-decoration: none;
+    opacity: 1;
+}
+
+.read-more {
+    text-decoration: dotted underline;
+    text-underline-position: under;
+}
+
+.read-more:hover {
+    text-decoration: dotted underline;
+    text-underline-position: under;
+}
