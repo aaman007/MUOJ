@@ -1,6 +1,14 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
+    {% comment %} Breadcrumb {% endcomment %}
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Blogs</li>
+            <li class="breadcrumb-item active" aria-current="page">Details</li>
+        </ol>
+    </nav>
+
     <div class="card mt-2 mb-2">
         <div class="card-body">
             <h4> <a class="blog-title" href="{% url 'blog:blog-details' blog.id %}"> {{ blog.title }} </a>  </h4>

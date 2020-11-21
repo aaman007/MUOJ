@@ -36,6 +36,7 @@ class BlogCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         context.update({
             'blog_nav': 'active',
+            'card_header': 'New Blog',
             'operation': 'Create'
         })
         return context
@@ -56,6 +57,7 @@ class BlogUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         context.update({
             'blog_nav': 'active',
+            'card_header': 'Update Blog',
             'operation': 'Update'
         })
         return context

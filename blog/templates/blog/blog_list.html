@@ -1,12 +1,16 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
+    {% comment %} Breadcrumb {% endcomment %}
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">Blogs</li>
+        </ol>
+    </nav>
+
     <div class="mb-4 d-flex">
-        <div>
-            <h3> Blogs </h3>
-        </div>
         <div class="w-100">
-            <a href="{% url 'blog:blog-create' %}" class="add-blog btn btn-primary float-right mr-0">
+            <a href="{% url 'blog:blog-create' %}" class="add-blog btn btn-sm btn-primary float-right mr-0">
                 <i class="fa fa-plus mr-1"></i> Add Blog
             </a>
         </div>

@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'contest.apps.ContestConfig',
     'core.apps.CoreConfig',
-    'problemset.apps.ProblemsetConfig'
+    'problemset.apps.ProblemsetConfig',
+    'training.apps.TrainingConfig'
 ]
 
 MIDDLEWARE = [
@@ -120,6 +121,14 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+# CKEditor
+CKEDITOR_CONFIGS = {
+    'default': {
+        'height': '300',
+        'width': '100%',
+    },
+}
 
 
 # Static files (CSS, JavaScript, Images)

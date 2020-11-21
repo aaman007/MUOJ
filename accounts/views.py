@@ -1,6 +1,11 @@
 from django.shortcuts import render, redirect
+from django.views.generic import ListView
+from django.contrib.auth import get_user_model
 from django.contrib import messages
-from .forms import UserRegisterForm
+
+from accounts.forms import UserRegisterForm
+
+User = get_user_model()
 
 
 def register(request):
@@ -14,3 +19,15 @@ def register(request):
     else:
         form = UserRegisterForm()
     return render(request, 'accounts/register.html', {'form': form})
+
+
+class UserListView(ListView):
+    model = User
+    template_name = 'accounts/user_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'users_nav': 'active'
+        })
+        return context

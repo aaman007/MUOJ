@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-	<div clas="content-section">
+	<div class="content-section">
 		<form method="POST">
 			{% csrf_token %}
 			<fieldset class="form-group">
@@ -17,7 +17,7 @@
 
 		</form>
 		<div class="border-top pt-3">
-			<small class="text-muted">Not a user yet?<a class="ml-2" href="{% url 'register' %}">Register</a></small>
+			<small class="text-muted">Not a user yet?<a class="ml-2" href="{% url 'accounts:register' %}">Register</a></small>
 		</div>
 	</div>
 {% endblock content %}
