@@ -49,9 +49,12 @@
                                 {% if user.is_superuser %}
                                     <a class="dropdown-item" href="/admin">Admin Panel</a>
                                 {% endif %}
+                                <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
                             </div>
                         </li>
                     {% else %}
+                        <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+	          		    <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
                     {% endif %}
                 </ul>
             </div>
