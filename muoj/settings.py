@@ -37,7 +37,7 @@ INSTALLED_APPS = [
 
     # 3rd Party Apps
     'ckeditor',
-
+    'crispy_forms',
     # My Apps
     'accounts.apps.AccountsConfig',
     'blog.apps.BlogConfig',
@@ -130,6 +130,7 @@ STATIC_ROOT = BASE_DIR / 'static'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 STATICFILES_DIRS = [
     BASE_DIR / "static_local"

@@ -23,6 +23,8 @@ class Problem(models.Model):
     editorial = models.TextField()
     solution = models.FileField()
     solution_language = models.ForeignKey(to=Language, on_delete=models.CASCADE)
+    author = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True)
+    is_protected = models.BooleanField(default=0)
 
 
 class TestCase(models.Model):
