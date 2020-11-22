@@ -20,6 +20,10 @@ from django.urls import path, include
 
 from django.views.generic import TemplateView
 
+from django.contrib.auth import views as auth_views
+from accounts import views as account_views
+
+
 urlpatterns = [
     path('', TemplateView.as_view(
         template_name='base.html', extra_context={'home': 'active'}
@@ -31,6 +35,11 @@ urlpatterns = [
     path('problemset/', include('problemset.urls')),
     path('training/', include('training.urls')),
     path('core/', include('core.urls')),
+
+    # authentication
+    path('register/', account_views.register, name='register'),
+    path('login/', auth_views.LoginView.as_view(template_name='accounts/login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(template_name='accounts/logout.html'), name='logout'),
 ]
 
 if settings.DEBUG:

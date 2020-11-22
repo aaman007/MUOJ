@@ -7,14 +7,15 @@
             <li class="breadcrumb-item active" aria-current="page">Blogs</li>
         </ol>
     </nav>
-
-    <div class="mb-4 d-flex">
-        <div class="w-100">
-            <a href="{% url 'blog:blog-create' %}" class="add-blog btn btn-sm btn-primary float-right mr-0">
-                <i class="fa fa-plus mr-1"></i> Add Blog
-            </a>
+    {% if user.is_authenticated %}
+        <div class="mb-4 d-flex">
+            <div class="w-100">
+                <a href="{% url 'blog:blog-create' %}" class="add-blog btn btn-sm btn-primary float-right mr-0">
+                    <i class="fa fa-plus mr-1"></i> Add Blog
+                </a>
+            </div>
         </div>
-    </div>
+    {% endif %}
 
     {% for blog in blogs %}
         <div class="card mt-2 mb-2">

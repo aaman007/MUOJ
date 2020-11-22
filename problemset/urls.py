@@ -1,11 +1,15 @@
 from django.urls import path
 
 from problemset.views import (
-    ProblemListView
+    ProblemListView,
+    SubmissionListView,
+    StandingsListView
 )
 
 app_name = 'problemset'
 
 urlpatterns = [
-    path('', ProblemListView.as_view(), name='problem-list'),
+    path('problems/', ProblemListView.as_view(), name='problem-list'),
+    path('submissions/', SubmissionListView.as_view(), name='submission-list'),
+    path('standings/', StandingsListView.as_view(), name='standings')
 ]
