@@ -1,5 +1,23 @@
 {% extends 'accounts/base.html' %}
 
 {% block content %}
-    User List
+    <table class="table table-responsive table-hover table-bordered text-center">
+        <thead >
+            <tr>
+                <th > #</th>
+                <th width="50%"> Handle</th>
+                <th width="50%"> Rating</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td> {{ forloop.counter }} </td>
+                    <td><a href="#">{{ user.user }}</a></td>
+                    <td> {{ user.rating }} </td>
+
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

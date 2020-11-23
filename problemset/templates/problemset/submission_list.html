@@ -2,5 +2,51 @@
 
 {% block content %}
     {% include 'problemset/snippets/list_tabs.html' %}
-    Submission List
+
+    <div class="card">
+        <div class="card-body">
+            <table class="table  table-borderless table-responsive table-hover table-bordered text-center">
+                <thead >
+                    <tr>
+                        <th > #</th>
+                        <th width="30%"> Problem</th>
+                        <th width="8%"> Language</th>
+                        <th width="8%"> Solution</th>
+                        <th width="8%"> Status</th>
+                        <th width="8%"> Time</th>
+                        <th width="8%"> Memory</th>
+                        <th width="8%"> Who</th>
+                        <th width="20%"> When</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for submission in submissions %}
+                        <tr>
+                            <td> {{ forloop.counter }} </td>
+                            <td> <a href="#"> {{ submission.problem.name }}</a> </td>
+                             <td> {{ submission.solution_language }} </td>
+                             <td> <a href="#"> {{ submission.id }}</a> </td>
+                             {% if submission.status == 'AC' %}
+                                    <td class="badge badge-success">{{ submission.status }}</td>
+                             {% elif submission.status == 'WA'%}
+                                    <td class="badge badge-danger">{{ submission.status }}</td>
+                             {% elif submission.status == 'TLE'%}
+                                    <td class="badge badge-warning">{{ submission.status }}</td>
+                             {% elif submission.status == 'CE'%}
+                                    <td class="badge badge-info">{{ submission.status }}</td>
+                             {% elif submission.status == 'MLE'%}
+                                    <td class="badge badge-dark">{{ submission.status }}</td>
+                             {% else %}
+                                    <td class="bg-primary">{{ submission.status }}</td>
+                             {% endif %}
+                             <td> {{ 0 }} </td>
+                             <td> {{ 0 }} </td>
+                             <td> <a href="#"> {{ submission.user }}</a> </td>
+                             <td> {{ submission.created_at|date:"H:i | d-n-Y" }} </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}

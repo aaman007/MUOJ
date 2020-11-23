@@ -45,6 +45,9 @@ class SubmissionListView(ListView):
     context_object_name = 'submissions'
     template_name = 'problemset/submission_list.html'
 
+    def get_queryset(self):
+        return Submission.objects.all().order_by('-created_at')
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({

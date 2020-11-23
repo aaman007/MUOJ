@@ -47,12 +47,12 @@ class TestCase(models.Model):
 
 class Submission(models.Model):
     STATUS_CHOICES = (
-        ('running', 'Running'),
-        ('ac', 'Accepted'),
-        ('wa', 'Wrong Answer'),
-        ('tle', 'Time Limit Exceeded'),
-        ('mle', 'Memory Limit Exceeded'),
-        ('ce', 'Compilation Error')
+        ('Running', 'Running'),
+        ('AC', 'Accepted'),
+        ('WA', 'Wrong Answer'),
+        ('TLE', 'Time Limit Exceeded'),
+        ('MLE', 'Memory Limit Exceeded'),
+        ('CE', 'Compilation Error')
     )
 
     solution = models.FileField(verbose_name=_('Solution File'), upload_to=submission_directory_path)
