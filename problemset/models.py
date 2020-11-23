@@ -26,6 +26,9 @@ class Problem(models.Model):
     author = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True)
     is_protected = models.BooleanField(default=0)
 
+    def __str__(self):
+        return self.name
+
 
 class TestCase(models.Model):
     label = models.CharField(verbose_name=_('Label'), max_length=200, blank=True)

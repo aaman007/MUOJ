@@ -3,6 +3,7 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
 
 from core.models import AbstractBaseModel
+from contest.managers import ContestManager
 
 
 User = get_user_model()
@@ -27,6 +28,8 @@ class Contest(AbstractBaseModel):
         on_delete=models.SET_NULL,
         null=True
     )
+
+    objects = ContestManager()
 
     def __str__(self):
         return self.title

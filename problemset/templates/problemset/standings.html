@@ -2,5 +2,30 @@
 
 {% block content %}
     {% include 'problemset/snippets/list_tabs.html' %}
-    Problem Standings
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive p-1">
+                <table id="id_standing_list" class="table table-bordered table-hover">
+                    <thead class="text-center">
+                        <tr>
+                            <th width="8%"> # </th>
+                            <th> Username </th>
+                            <th width="15%"> Problems Solved </th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="text-center">
+                        {% for user in users %}
+                            <tr>
+                                <td> {{ forloop.counter }} </td>
+                                <td> <a href="#"> {{ user.username }} </a></td>
+                                <td> {{ user.solve_count }} </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 {% endblock %}

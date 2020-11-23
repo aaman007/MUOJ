@@ -1,0 +1,9 @@
+{% extends 'contest/base.html' %}
+
+{% block content %}
+    {% include 'contest/snippets/list_tabs.html' %}
+    Running Contest List
+    {% for contest in contests %}
+        <h4> {{ contest.title }} </h4>
+    {% endfor %}
+{% endblock %}

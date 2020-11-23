@@ -1,0 +1,11 @@
+<ul class="nav nav-tabs nav-fill mb-4">
+    <li class="nav-item">
+        <a class="nav-link {{ contest_running_tab }}" href="{% url 'contest:running-contest-list' %}">Running</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {{ contest_upcoming_tab }}" href="{% url 'contest:upcoming-contest-list' %}">Upcoming</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {{ contest_past_tab }}" href="{% url 'contest:past-contest-list' %}">Past Contests</a>
+    </li>
+</ul>
