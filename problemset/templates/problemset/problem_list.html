@@ -2,5 +2,23 @@
 
 {% block content %}
     {% include 'problemset/snippets/list_tabs.html' %}
-    Problem List
+
+    <table class="table table-responsive table-hover col-sm-12">
+        <thead>
+            <tr>
+                <th class="col-2"> #</th>
+                <th class="col-8"> Name</th>
+                <th class="col-2"> Solved</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                {% for problem in problems %}
+                    <td> {{ forloop.counter }} </td>
+                    <td> {{ problem.name }} </td>
+                    <td> 0 </td>
+                {% endfor %}
+            </tr>
+        </tbody>
+    </table>
 {% endblock %}
