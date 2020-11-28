@@ -5,7 +5,7 @@
 
     <div class="card">
         <div class="card-body">
-            <table class="table  table-borderless table-responsive table-hover table-bordered text-center">
+            <table class="table table-responsive table-hover text-center table-bordered">
                 <thead >
                     <tr>
                         <th > #</th>
@@ -27,17 +27,17 @@
                              <td> {{ submission.solution_language }} </td>
                              <td> <a href="#"> {{ submission.id }}</a> </td>
                              {% if submission.status == 'AC' %}
-                                    <td class="badge badge-success">{{ submission.status }}</td>
+                                    <td><span class="badge badge-success">{{ submission.status }}</span></td>
                              {% elif submission.status == 'WA'%}
-                                    <td class="badge badge-danger">{{ submission.status }}</td>
+                                    <td><span class="badge badge-danger">{{ submission.status }}</span></td>
                              {% elif submission.status == 'TLE'%}
-                                    <td class="badge badge-warning">{{ submission.status }}</td>
+                                    <td><span class="badge badge-warning">{{ submission.status }}</span></td>
                              {% elif submission.status == 'CE'%}
-                                    <td class="badge badge-info">{{ submission.status }}</td>
+                                    <td><span class="badge badge-info">{{ submission.status }}</span></td>
                              {% elif submission.status == 'MLE'%}
-                                    <td class="badge badge-dark">{{ submission.status }}</td>
+                                    <td><span class="badge badge-dark">{{ submission.status }}</span></td>
                              {% else %}
-                                    <td class="bg-primary">{{ submission.status }}</td>
+                                    <td><span class="badge badge-primary">{{ submission.status }}</span></td>
                              {% endif %}
                              <td> {{ 0 }} </td>
                              <td> {{ 0 }} </td>

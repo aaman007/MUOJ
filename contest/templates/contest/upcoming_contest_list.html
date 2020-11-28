@@ -2,8 +2,35 @@
 
 {% block content %}
     {% include 'contest/snippets/list_tabs.html' %}
-    Upcoming Contest List
-    {% for contest in contests %}
-        <h4> {{ contest.title }} </h4>
-    {% endfor %}
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-responsive table-hover text-center table-bordered">
+                <thead >
+                    <tr>
+                        <th > #</th>
+                        <th width="40%"> Name</th>
+                        <th width="12%"> Author</th>
+                        <th width="12%"> Start </th>
+                        <th width="12%"> Duration </th>
+                        <th width="12%"> Before start</th>
+                        <th width="12%">  </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for contest in contests %}
+                        <tr>
+
+                            <td> {{ forloop.counter }} </td>
+                            <td> <a href="#"> {{ contest.title }}</a> </td>
+                            <td> <a href="#"> {{ contest.author }}</a> </td>
+                            <td> {{ contest.start_time|date:"H:i e M/d/o" }} </td>
+                            <td>{{ contest.duration }}</td>
+                            <td> {{ 0 }} </td>
+                            <td> {{ 0 }} </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}

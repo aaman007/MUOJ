@@ -2,8 +2,33 @@
 
 {% block content %}
     {% include 'contest/snippets/list_tabs.html' %}
-    Past Contest List
-    {% for contest in contests %}
-        <h4> {{ contest.title }} </h4>
-    {% endfor %}
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-responsive table-hover text-center table-bordered">
+                <thead >
+                    <tr>
+                        <th > #</th>
+                        <th width="40%"> Name</th>
+                        <th width="15%"> Author</th>
+                        <th width="20%"> Start </th>
+                        <th width="10%"> Duration </th>
+                        <th width="15%"> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for contest in contests %}
+                        <tr>
+
+                            <td> {{ forloop.counter }} </td>
+                            <td> <a href="#"> {{ contest.title }}</a> </td>
+                            <td> <a href="#"> {{ contest.author }}</a> </td>
+                            <td> {{ contest.start_time|date:"H:i e | M/d/o" }} </td>
+                            <td>{{ contest.duration }}</td>
+                            <td><a href="#">{{ "Final Standings" }}</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}
