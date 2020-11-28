@@ -13,7 +13,7 @@
                         <th width="12%"> Start </th>
                         <th width="12%"> Duration </th>
                         <th width="12%"> Before start</th>
-                        <th width="12%">  </th>
+                        <th width="12%"> Actions  </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -26,7 +26,7 @@
                             <td> {{ contest.start_time|date:"H:i e M/d/o" }} </td>
                             <td>{{ contest.duration }}</td>
                             <td> {{ 0 }} </td>
-                            <td><button type="button" class="btn btn-primary">Register</button></td>
+                            <td><a href="#" class="btn btn-sm btn-primary">Register</a></td>
                         </tr>
                     {% endfor %}
                 </tbody>

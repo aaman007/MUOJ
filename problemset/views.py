@@ -1,10 +1,15 @@
 from django.contrib.auth import get_user_model
 from django.db.models import Count, Q
+from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy
 from django.views.generic import (
-    ListView
+    ListView,
+    DetailView,
+    CreateView
 )
 
-from problemset.models import Problem, Submission
+from problemset.forms import SubmissionForm
+from problemset.models import Problem, Submission, TestCase
 
 
 User = get_user_model()
@@ -23,11 +28,16 @@ class ProblemListView(ListView):
         by number of unique users for each problem
         """
 
-        return Problem.objects.annotate(
+        current_user = self.request.user if self.request.user.is_authenticated else None
+        return Problem.objects.exclude(is_protected=True).annotate(
             solve_count=Count(
                 'submissions__user',
-                filter=Q(submissions__status='ac'),
+                filter=Q(submissions__status='AC'),
                 distinct=True
+            ),
+            is_solved=Count(
+                'submissions__user',
+                filter=Q(submissions__status='AC', submissions__user=current_user)
             )
         ).order_by('-solve_count')
 
@@ -36,6 +46,21 @@ class ProblemListView(ListView):
         context.update({
             'problemset_nav': 'active',
             'problemset_problems_tab': 'active'
+        })
+        return context
+
+
+class ProblemDetailView(DetailView):
+    model = Problem
+    template_name = 'problemset/problem_details.html'
+    context_object_name = 'problem'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'problemset_nav': 'active',
+            'submission_form': SubmissionForm(),
+            'testcases': self.get_object().testcases.filter(is_sample=True)
         })
         return context
 
@@ -57,6 +82,17 @@ class SubmissionListView(ListView):
         return context
 
 
+class SubmissionCreateView(CreateView):
+    model = Submission
+    form_class = SubmissionForm
+    success_url = reverse_lazy('problemset:submission-list')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        form.instance.problem = get_object_or_404(Problem, pk=self.kwargs.get('problem_id'))
+        return super().form_valid(form)
+
+
 class StandingsListView(ListView):
     model = User
     context_object_name = 'users'
@@ -73,7 +109,7 @@ class StandingsListView(ListView):
         return User.objects.annotate(
             solve_count=Count(
                 'submissions__problem',
-                filter=Q(submissions__status='ac'),
+                filter=Q(submissions__status='AC'),
                 distinct=True
             )
         ).order_by('-solve_count')

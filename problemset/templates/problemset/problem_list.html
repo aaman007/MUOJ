@@ -10,7 +10,9 @@
                     <thead class="text-center">
                         <tr>
                             <th width="8%"> # </th>
-                            <th> Name </th>
+                            <th>
+                                Name
+                            </th>
                             <th width="15%"> Solve Count </th>
                         </tr>
                     </thead>
@@ -19,7 +21,14 @@
                         {% for problem in problems %}
                             <tr>
                                 <td> {{ forloop.counter }} </td>
-                                <td> <a href="#"> {{ problem.name }} </a>  </td>
+                                <td>
+                                    <a href="{% url 'problemset:problem-details' problem.id %}">
+                                        {{ problem.name }}
+                                        {% if problem.is_solved %}
+                                            <span class="fa fa-check text-success"> </span>
+                                        {% endif %}
+                                    </a>
+                                </td>
                                 <td> {{ problem.solve_count }} </td>
                             </tr>
                         {% endfor %}

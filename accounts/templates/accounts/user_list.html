@@ -1,23 +1,35 @@
 {% extends 'accounts/base.html' %}
 
 {% block content %}
-    <table class="table table-responsive table-hover table-bordered text-center">
-        <thead >
-            <tr>
-                <th > #</th>
-                <th width="50%"> Handle</th>
-                <th width="50%"> Rating</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for user in users %}
-                <tr>
-                    <td> {{ forloop.counter }} </td>
-                    <td><a href="#">{{ user.user }}</a></td>
-                    <td> {{ user.rating }} </td>
+    {% comment %} Breadcrumb {% endcomment %}
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">Rank List</li>
+        </ol>
+    </nav>
 
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive p-1">
+                <table class="table table-hover table-bordered text-center">
+                    <thead >
+                        <tr>
+                            <th > #</th>
+                            <th width="50%"> Handle</th>
+                            <th width="50%"> Rating</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                            <tr>
+                                <td> {{ forloop.counter }} </td>
+                                <td><a href="#">{{ user.user }}</a></td>
+                                <td> {{ user.rating }} </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 {% endblock %}

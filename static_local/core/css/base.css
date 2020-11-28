@@ -25,3 +25,7 @@ code {
 .bg-light-blue {
     background-color: #f7f9fc;
 }
+
+a:hover {
+    text-decoration: none;
+}
