@@ -9,7 +9,7 @@ from django.views.generic import (
 )
 
 from problemset.forms import SubmissionForm
-from problemset.models import Problem, Submission, TestCase
+from problemset.models import Problem, Submission
 
 
 User = get_user_model()
@@ -67,6 +67,7 @@ class ProblemDetailView(DetailView):
 
 class SubmissionListView(ListView):
     model = Submission
+    paginate_by = 10
     context_object_name = 'submissions'
     template_name = 'problemset/submission_list.html'
 
