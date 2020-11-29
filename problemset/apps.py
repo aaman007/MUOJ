@@ -5,4 +5,4 @@ class ProblemsetConfig(AppConfig):
     name = 'problemset'
 
     def ready(self):
-        import accounts.signals
+        import problemset.signals
