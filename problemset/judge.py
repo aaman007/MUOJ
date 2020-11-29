@@ -8,9 +8,8 @@ from problemset.models import Submission
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Execute submitted file
-def compile_submission(submission):
-    # language = submission.solution_language
+# C++ code compile
+def compile_cpp_submission(submission):
     solution_url = f"{BASE_DIR}{submission.solution.url}"
     result = 'AC'
 
@@ -25,19 +24,35 @@ def compile_submission(submission):
             input_url = f"{BASE_DIR}{testcase.input.url}"
 
             try:
-                subprocess.run(
+                p = subprocess.run(
+                    f'ulimit -t {submission.problem.time_limit}; '
+                    f'ulimit -v {submission.problem.memory_limit*1024}; '
                     f'{BASE_DIR}/media/c++/todo_coder < {input_url} > {BASE_DIR}/media/c++/todo_coder_output.txt',
                     shell=True
                 )
-
-                with open(f"{BASE_DIR}/media/c++/todo_coder_output.txt", 'r', encoding='UTF-8') as f:
-                    participant_output = f.read()
-                    if participant_output != testcase.output_text:
-                        result = 'WA'
-                        break
+                if not p.returncode:
+                    with open(f"{BASE_DIR}/media/c++/todo_coder_output.txt", 'r', encoding='UTF-8') as f:
+                        participant_output = f.read()
+                        if participant_output != testcase.output_text:
+                            result = 'WA'
+                            break
+                elif p.returncode == 137:
+                    result = 'TLE'
+                elif p.returncode == 139:
+                    result = 'MLE'
+                else:
+                    result = 'RTE'
             except (FileNotFoundError, Exception):
                 result = 'CE'
                 break
 
     # Update submission status
     Submission.objects.filter(id=submission.id).update(status=result)
+
+
+# Execute submitted file
+def compile_submission(submission):
+    language = submission.solution_language
+
+    if language.name == 'C++':
+        compile_cpp_submission(submission)
