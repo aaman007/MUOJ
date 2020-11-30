@@ -1,5 +1,6 @@
 from django.views.generic import (
-    ListView
+    ListView,
+    DetailView
 )
 
 from contest.models import Contest

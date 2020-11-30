@@ -3,7 +3,7 @@ from django.urls import path
 from contest.views import (
     RunningContestListView,
     UpcomingContestListView,
-    PastContestListView
+    PastContestListView,
 )
 
 app_name = 'contest'

@@ -4,15 +4,16 @@
     {% include 'contest/snippets/list_tabs.html' %}
     <div class="card">
         <div class="card-body">
-            <table class="table table-responsive table-hover text-center table-bordered">
+            <table class="table table-responsive table-hover text-center table-bordered table-striped">
                 <thead >
                     <tr>
                         <th > #</th>
                         <th width="40%"> Name</th>
-                        <th width="15%"> Author</th>
-                        <th width="15%"> Start</th>
-                        <th width="15%"> Duration</th>
-                        <th width="15%"> Time Left</th>
+                        <th width="12%"> Author</th>
+                        <th width="12%"> Start</th>
+                        <th width="12%"> Duration</th>
+                        <th width="12%"> Time Left</th>
+                        <th width="12%"> </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -20,11 +21,12 @@
                         <tr>
 
                             <td> {{ forloop.counter }} </td>
-                            <td> <a href="#"> {{ contest.title }}</a> </td>
-                            <td> {{ contest.author }} </td>
-                            <td> <a href="#"> {{ contest.start_time|date:"M/d/o H:i e" }}</a> </td>
+                            <td> <a href="#"> {{ contest.title }}</a> <br><a href="#" class="btn btn-sm btn-primary">Enter</a></td>
+                            <td><a href="#">  {{ contest.author }}</a> </td>
+                            <td> {{ contest.start_time|date:"M/d/o H:i e" }} </td>
                             <td>{{ contest.duration }}</td>
                             <td> {{ 0 }} </td>
+                            <td><a href="#">Details</a></td>
                         </tr>
                     {% endfor %}
                 </tbody>
