@@ -1,0 +1,20 @@
+<ul class="nav nav-tabs nav-fill mb-4">
+    <li class="nav-item">
+        <a class="nav-link {{ dashboard_profile_tab }}" href="#">Profile</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {{ dashboard_submissions_tab }}" href="{% url 'accounts:user-submission-list' %}">Submissions</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {{ dashboard_contest_tab }}" href="{% url 'accounts:user-contest-list' %}">Contest</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {{ dashboard_problemsetting_tab }}" href="#">Problemsetting</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {{ dashboard_blogs_tab }}" href="{% url 'accounts:user-blog-list' %}">Blogs</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {{ dashboard_settings_tab }}" href="#">Settings</a>
+    </li>
+</ul>

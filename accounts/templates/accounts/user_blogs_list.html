@@ -1,0 +1,29 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+    {% include 'accounts/snippets/list_tabs.html' %}
+    {% comment %} Breadcrumb {% endcomment %}
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">Blogs</li>
+        </ol>
+    </nav>
+
+    {% for blog in user_blogs %}
+        <div class="card mt-2 mb-2">
+            <div class="card-body">
+                <h4> <a class="blog-title" href="{% url 'blog:blog-details' blog.id %}"> {{ blog.title }} </a>  </h4>
+                <p>
+                    {{ blog.truncated_content|safe|linebreaks }}
+                </p>
+                {% if blog.content|length > 500 %}
+                    <a class="read-more" href="{% url 'blog:blog-details' blog.id %}"> Read More </a>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+
+    <hr />
+
+    {% include 'snippets/paginations.html' %}
+{% endblock %}

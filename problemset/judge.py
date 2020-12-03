@@ -52,26 +52,25 @@ def compile_cpp_submission(submission):
 def compile_python_submission(submission):
     solution_url = f"{BASE_DIR}{submission.solution.url}"
     result = 'AC'
-
     # Create an executable file for the solution named todo_coder
-    try:
-        subprocess.check_output(f'python {solution_url}', shell=True)
-    except (subprocess.CalledProcessError, Exception):
-        result = 'CE'
 
     if result == 'AC':
         for testcase in submission.problem.testcases.all():
             input_url = f"{BASE_DIR}{testcase.input.url}"
-
             try:
-                p = subprocess.run(
-                    f'ulimit -t {submission.problem.time_limit}; '
-                    f'ulimit -v {submission.problem.memory_limit*1024}; '
-                    f'python {solution_url} < {input_url} > {BASE_DIR}/media/c++/todo_coder_python_output.txt',
-                    shell=True
-                )
+                try:
+                    p = subprocess.run(
+                        f'ulimit -t {submission.problem.time_limit}; '
+                        f'ulimit -v {submission.problem.memory_limit * 1024}; '
+                        f'python {solution_url} < {input_url} > {BASE_DIR}/media/python/output.txt',
+                        shell=True
+                    )
+                except (subprocess.CalledProcessError, Exception):
+                    result = 'CE'
+                    break
+                print(p.returncode)
                 if not p.returncode:
-                    with open(f"{BASE_DIR}/media/c++/todo_coder_python_output.txt", 'r', encoding='UTF-8') as f:
+                    with open(f"{BASE_DIR}/media/python/output.txt", 'r', encoding='UTF-8') as f:
                         participant_output = f.read()
                         if participant_output != testcase.output_text:
                             result = 'WA'
@@ -81,6 +80,7 @@ def compile_python_submission(submission):
                 elif p.returncode == 139:
                     result = 'MLE'
                 else:
+                    print(p.returncode)
                     result = 'RTE'
             except (FileNotFoundError, Exception):
                 result = 'CE'
@@ -93,5 +93,8 @@ def compile_python_submission(submission):
 def compile_submission(submission):
     language = submission.solution_language
 
+
     if language.name == 'Python':
         compile_python_submission(submission)
+    elif language.name == 'C++':
+        compile_cpp_submission(submission)
