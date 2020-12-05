@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.auth.models import Permission
 from accounts.models import Profile
 
 
@@ -8,3 +9,4 @@ admin.site.index_title = "MU Online Judge Admin Panel"
 
 
 admin.site.register(Profile)
+admin.site.register(Permission)

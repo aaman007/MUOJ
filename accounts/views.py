@@ -98,7 +98,7 @@ class UserContestListView(ListView):
     model = Contest
     paginate_by = 10
     context_object_name = 'user_contest'
-    template_name = 'accounts/user_contest_list'
+    template_name = 'accounts/user_contest_list.html'
     ordering = ['-created_at']
 
     def get_queryset(self):

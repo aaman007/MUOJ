@@ -1,0 +1,31 @@
+{% extends 'contest/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+        {% comment %} Breadcrumb {% endcomment %}
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Contests</li>
+            <li class="breadcrumb-item active" aria-current="page">{{ operation }}</li>
+        </ol>
+    </nav>
+
+    <div class="card">
+        <div class="card-header text-center">
+            <strong> {{ card_header }} </strong>
+        </div>
+
+        <div class="card-body">
+            <form method="POST" enctype="multipart/form-data" novalidate>
+                {% csrf_token %}
+                <fieldset>
+                    {{ form | crispy }}
+                    {{ form.media }}
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit"> {{ operation }} </button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

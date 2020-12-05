@@ -1,8 +1,10 @@
+from django.urls import reverse_lazy
 from django.views.generic import (
     ListView,
-    DetailView
+    CreateView
 )
 
+from contest.forms import ContestForm
 from contest.models import Contest
 
 
@@ -55,3 +57,22 @@ class PastContestListView(ListView):
             'contest_nav': 'active'
         })
         return context
+
+
+class ContestCreateView(CreateView):
+    model = Contest
+    form_class = ContestForm
+    success_url = reverse_lazy('contest:upcoming-contest-list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'contest_nav': 'active',
+            'card_header': 'New Contest',
+            'operation': 'Create'
+        })
+        return context
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)

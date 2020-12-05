@@ -1,0 +1,15 @@
+{% extends 'training/base.html' %}
+
+{% block content %}
+    Training Details
+
+    {{ blog.title }}
+
+    <form method="POST" action="{% url 'training:training-details' blog.id %}">
+        {% csrf_token %}
+        <textarea name="code" aria-label="Code">{{ code }}</textarea>
+        <textarea name="input" aria-label="Input">{{ input }}</textarea>
+        <textarea aria-label="Output">{{ output }}</textarea>
+        <button type="submit"> Submit </button>
+    </form>
+{% endblock %}

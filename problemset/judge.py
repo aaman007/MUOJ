@@ -7,6 +7,7 @@ from problemset.models import Submission
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
 # C++ code compile
 def compile_cpp_submission(submission):
     solution_url = f"{BASE_DIR}{submission.solution.url}"
@@ -48,6 +49,7 @@ def compile_cpp_submission(submission):
     # Update submission status
     Submission.objects.filter(id=submission.id).update(status=result)
 
+
 # C++ code compile
 def compile_python_submission(submission):
     solution_url = f"{BASE_DIR}{submission.solution.url}"
@@ -88,6 +90,7 @@ def compile_python_submission(submission):
 
     # Update submission status
     Submission.objects.filter(id=submission.id).update(status=result)
+
 
 # Execute submitted file
 def compile_submission(submission):
