@@ -35,6 +35,7 @@ urlpatterns = [
     path('problemset/', include('problemset.urls')),
     path('training/', include('training.urls')),
     path('core/', include('core.urls')),
+    path('dashboard/', include('dashboard.urls')),
 
     # authentication
     path('register/', account_views.register, name='register'),

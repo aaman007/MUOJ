@@ -1,0 +1,61 @@
+<script>
+    function refreshAddModal() {
+        $('.problem_id').val('');
+        $('.problem_score').val('');
+    }
+
+    function addProblem() {
+        const data = {
+            csrfmiddlewaretoken: Cookies.get("csrftoken"),
+            problem_id: $('.problem_id').val(),
+            problem_score: $('.problem_score').val(),
+            contest_id:  "{{ contest.id }}"
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "{% url 'dashboard:ajax-add-contest-problem' %}",
+            data: data,
+            traditional: true,
+
+            success: function (data) {
+                toastr.success('Problem added successfully', 'Success!');
+                $('#id_add_problem_modal').modal('hide');
+                $('#id_problem_list > tbody').html(data);
+                refreshAddModal();
+            },
+
+            error: function (error) {
+                const response = error['responseJSON'];
+                toastr.error(response["error_message"], 'Error!')
+            },
+        });
+    }
+
+    $(document).ready(function () {
+        $('#id_problem_list > tbody').on('click', '.remove-problem', function (e) {
+            e.preventDefault();
+            const data = {
+                csrfmiddlewaretoken: Cookies.get("csrftoken"),
+                problem_id: $(this).data('id'),
+                contest_id:  "{{ contest.id }}"
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "{% url 'dashboard:ajax-remove-contest-problem' %}",
+                data: data,
+                traditional: true,
+
+                success: function (data) {
+                    toastr.success('Problem removed successfully', 'Success!');
+                    $('#id_problem_list > tbody').html(data);
+                },
+
+                error: function (error) {
+                    toastr.error('Something went wrong', 'Error!')
+                },
+            });
+        });
+    });
+</script>

@@ -6,6 +6,7 @@ from pathlib import Path
 from problemset.utils import input_directory_path, output_directory_path, submission_directory_path
 from problemset.managers import ProblemManager
 from contest.models import Contest
+from core.models import AbstractBaseModel
 
 User = get_user_model()
 
@@ -20,7 +21,7 @@ class Language(models.Model):
         return self.name
 
 
-class Problem(models.Model):
+class Problem(AbstractBaseModel):
     name = models.CharField(max_length=100)
     statement = models.TextField()
     input_section = models.TextField()

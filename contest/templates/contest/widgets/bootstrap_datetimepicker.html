@@ -6,9 +6,10 @@
 </div>
 
 <script>
-  $(function () {
-    $("#{{ widget.datetimepicker_id }}").datetimepicker({
-      format: 'MM/DD/YYYY HH:mm',
+    $(function () {
+        $("#{{ widget.datetimepicker_id }}").datetimepicker({
+            format: 'MM/DD/YYYY HH:mm',
+            allowInputToggle: true,
+        });
     });
-  });
 </script>

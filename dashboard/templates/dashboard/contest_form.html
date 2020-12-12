@@ -1,14 +1,10 @@
-{% extends 'contest/base.html' %}
+{% extends 'dashboard/base.html' %}
 {% load crispy_forms_tags %}
 
 {% block content %}
-        {% comment %} Breadcrumb {% endcomment %}
-    <nav aria-label="breadcrumb" class="mb-4">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">Contests</li>
-            <li class="breadcrumb-item active" aria-current="page">{{ operation }}</li>
-        </ol>
-    </nav>
+    {% if operation == 'Update' %}
+        {% include 'dashboard/snippets/contest_update_tabs.html' %}
+    {% endif %}
 
     <div class="card">
         <div class="card-header text-center">

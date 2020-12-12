@@ -9,13 +9,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # C++ code compile
-def compile_cpp_submission(submission):
+def compile_c_cpp_submission(submission, language):
     solution_url = f"{BASE_DIR}{submission.solution.url}"
     result = 'AC'
 
+    command = 'g++' if language == 'C++' else 'gcc'
+
     # Create an executable file for the solution named todo_coder
     try:
-        subprocess.check_output(f'g++ -o {BASE_DIR}/media/c++/todo_coder {solution_url}', shell=True)
+        subprocess.check_output(f'{command} -o {BASE_DIR}/media/c++/todo_coder {solution_url}', shell=True)
     except (subprocess.CalledProcessError, Exception):
         result = 'CE'
 
@@ -96,8 +98,9 @@ def compile_python_submission(submission):
 def compile_submission(submission):
     language = submission.solution_language
 
-
     if language.name == 'Python':
         compile_python_submission(submission)
     elif language.name == 'C++':
-        compile_cpp_submission(submission)
+        compile_c_cpp_submission(submission, language)
+    elif language.name == 'C':
+        compile_c_cpp_submission(submission, language)

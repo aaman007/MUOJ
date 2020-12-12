@@ -1,0 +1,11 @@
+<ul class="nav nav-tabs nav-fill mb-4">
+    <li class="nav-item">
+        <a class="nav-link {{ contest_update_tab }}" href="{% url 'dashboard:contest-update' contest.id %}">Update Info</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {{ contest_problems_tab }}" href="{% url 'dashboard:contest-problems' contest.id %}">Problems</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {{ contest_authors_tab }}" href="{% url 'dashboard:contest-authors' contest.id %}">Authors</a>
+    </li>
+</ul>

@@ -1,0 +1,27 @@
+<!-- Add Problem Modal -->
+<div class="modal fade" id="id_add_problem_modal" tabindex="-1" role="dialog" aria-labelledby="addProblem" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="add_problem_modal_title">Add Problem</h5>
+                <button onclick="refreshAddModal();" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="add_problem_modal_body" class="modal-body">
+               <div class="row">
+                   <div class="col-sm-6">
+                       <input class="problem_id form-control" type="text" aria-label="Problem Id" placeholder="Problem Id" />
+                   </div>
+                   <div class="col-sm-6">
+                       <input class="problem_score form-control" type="number" min="1" max="100" aria-label="Problem Score" placeholder="Problem Score" />
+                   </div>
+               </div>
+            </div>
+            <div class="modal-footer">
+                <button onclick="refreshAddModal();" type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Cancel</button>
+                <button onclick="addProblem();" type="button" class="btn btn-sm btn-primary">Add</button>
+            </div>
+        </div>
+    </div>
+</div>

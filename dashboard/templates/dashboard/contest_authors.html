@@ -1,0 +1,47 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+    {% include 'dashboard/snippets/contest_update_tabs.html' %}
+    <div class="card">
+        <div class="card-body">
+            <a href="#" class="add-author btn btn-sm btn-primary float-right mr-0 mb-2">
+                <i class="fa fa-plus mr-1"></i> Add Author
+            </a>
+            <div class="table-responsive p-1">
+                <table id="id_author_list" class="table table-bordered table-striped">
+                    <thead class="text-center">
+                        <tr>
+                            <th width="8%"> # </th>
+                            <th>
+                                Handle
+                            </th>
+                            <th width="15%">
+                                Rating
+                            </th>
+                            <th width="15%"> Actions </th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="text-center">
+                        {% for author in authors %}
+                            <tr>
+                                <td> {{ forloop.counter }} </td>
+                                <td>
+                                    <a href="#"> {{ author.username }} </a>
+                                </td>
+                                <td>
+                                    {{ author.profile.rating }}
+                                </td>
+                                <td>
+                                    <a class="text-danger" href="#">
+                                        <i class="fa fa-times" title="Remove"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

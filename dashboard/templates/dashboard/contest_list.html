@@ -1,0 +1,57 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+    {% include 'dashboard/snippets/list_tabs.html' %}
+    <div class="card">
+        <div class="card-body">
+            <a href="{% url 'dashboard:contest-create' %}" class="add-contest btn btn-sm btn-primary float-right mr-0 mb-2">
+                <i class="fa fa-plus mr-1"></i> Add Contest
+            </a>
+            <div class="table-responsive p-1">
+                <table class="table table-hover text-center table-bordered">
+                    <thead >
+                        <tr>
+                            <th > #</th>
+                            <th width="45%"> Name</th>
+                            <th width="20%"> Start Time </th>
+                            <th width="19%"> Duration</th>
+                            <th width="12%"> Actions </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for contest in contests %}
+                            <tr>
+
+                                <td> {{ forloop.counter }} </td>
+                                <td>
+                                    <a href="#">
+                                        {{ contest.title }}
+                                        {% if contest.is_rated %}
+                                            <span class="ml-2 badge badge-info"> Rated </span>
+                                        {% endif %}
+                                    </a>
+                                </td>
+                                <td> {{ contest.start_time|date:"M/d/o H:i e" }} </td>
+                                <td>{{ contest.duration }}</td>
+                                <td>
+                                    <a class="text-info" href="{% url 'dashboard:contest-update' contest.id %}">
+                                        <i class="fa fa-edit" title="Update Info"></i>
+                                    </a>
+                                    <a class="ml-2 text-dark" href="{% url 'dashboard:contest-problems' contest.id %}">
+                                        <i class="fa fa-question-circle" title="Problems"></i>
+                                    </a>
+                                    <a class="ml-2 text-primary" href="{% url 'dashboard:contest-authors' contest.id %}">
+                                        <i class="fa fa-users" title="Authors"></i>
+                                    </a>
+                                    <a class="ml-2 text-danger" href="#">
+                                        <i class="fa fa-trash" title="Delete"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+    {% include 'dashboard/snippets/contest_update_tabs.html' %}
+    <div class="card">
+        <div class="card-body">
+            <a href="#" class="add-problem btn btn-sm btn-primary float-right mr-0 mb-2"
+               data-toggle="modal" data-target="#id_add_problem_modal">
+                <i class="fa fa-plus mr-1"></i> Add Problem
+            </a>
+            <div class="table-responsive p-1">
+                <table id="id_problem_list" class="table table-bordered table-striped">
+                    <thead class="text-center">
+                        <tr>
+                            <th width="8%"> # </th>
+                            <th>Name</th>
+                            <th width="15%">Score</th>
+                            <th width="15%"> Actions </th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="text-center">
+                        {% include 'dashboard/snippets/render_problems.html' %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    {% include 'dashboard/snippets/add_problem_modal.html' %}
+{% endblock %}
+
+{% block extra_body %}
+    {% include 'dashboard/snippets/render_problems_js.html' %}
+
+    <script>
+    </script>
+{% endblock %}

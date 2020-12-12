@@ -8,6 +8,7 @@ class ContestForm(forms.ModelForm):
     start_time = forms.DateTimeField(
         input_formats=['%m/%d/%Y %I:%M %p'],
         widget=BootstrapDateTimePickerInput(),
+        help_text='Format: MM/DD/YYYY HH:MM AM/PM',
         required=True
     )
 
@@ -20,3 +21,7 @@ class ContestForm(forms.ModelForm):
             'duration',
             'is_rated'
         ]
+        help_texts = {
+            'duration': 'Format: HH:MM:SS'
+        }
+

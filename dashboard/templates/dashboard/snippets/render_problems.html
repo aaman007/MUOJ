@@ -1,0 +1,19 @@
+{% for problem, score in problems %}
+    <tr>
+        <td> {{ forloop.counter }} </td>
+        <td>
+            <a href="{% url 'problemset:problem-details' problem.id %}">
+                {{ problem.name }}
+            </a>
+        </td>
+        <td> {{ score }} </td>
+        <td>
+            <a data-id="{{ problem.id }}" class="text-info edit-problem" href="#">
+                <i class="fa fa-edit" title="Edit"></i>
+            </a>
+            <a data-id="{{ problem.id }}" class="text-danger remove-problem ml-2" href="#">
+                <i class="fa fa-times" title="Remove"></i>
+            </a>
+        </td>
+    </tr>
+{% endfor %}

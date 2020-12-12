@@ -38,13 +38,16 @@ INSTALLED_APPS = [
     # 3rd Party Apps
     'ckeditor',
     'crispy_forms',
+    'rest_framework',
+
     # My Apps
     'accounts.apps.AccountsConfig',
     'blog.apps.BlogConfig',
     'contest.apps.ContestConfig',
     'core.apps.CoreConfig',
     'problemset.apps.ProblemsetConfig',
-    'training.apps.TrainingConfig'
+    'training.apps.TrainingConfig',
+    'dashboard.apps.DashboardConfig'
 ]
 
 MIDDLEWARE = [
