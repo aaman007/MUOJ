@@ -32,6 +32,8 @@ class Problem(models.Model):
     is_protected = models.BooleanField(default=0)
     time_limit = models.IntegerField(verbose_name=_('Time Limit'), default=1)
     memory_limit = models.PositiveIntegerField(verbose_name=_('Memory Limit'), default=256)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     objects = ProblemManager()
 

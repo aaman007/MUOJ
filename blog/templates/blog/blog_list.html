@@ -22,7 +22,7 @@
             <div class="card-body">
                 <h4> <a class="blog-title" href="{% url 'blog:blog-details' blog.id %}"> {{ blog.title }} </a>  </h4>
                 <p>
-                    {{ blog.truncated_content|safe|linebreaks }}
+                    {{ blog.truncated_content|safe|linebreaks }}zz
                 </p>
                 {% if blog.content|length > 500 %}
                     <a class="read-more" href="{% url 'blog:blog-details' blog.id %}"> Read More </a>

@@ -1,0 +1,33 @@
+{% extends 'accounts/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    {% include 'accounts/snippets/list_tabs_add_problem.html' %}
+
+    <div class="card">
+        <div class="card-header text-center">
+            <strong> {{ card_header }} </strong>
+        </div>
+
+        <div class="card-body">
+            <form method="POST" enctype="multipart/form-data" novalidate>
+                {% csrf_token %}
+                <fieldset>
+                    {{ form | crispy }}
+                    {{ form.media }}
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit"> {{ operation }} </button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_body %}
+    <script>
+         $(document).ready(function () {
+            $(".django-ckeditor-widget").css("display", "block")
+         });
+    </script>
+{% endblock %}

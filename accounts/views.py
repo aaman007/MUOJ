@@ -1,5 +1,8 @@
 from django.shortcuts import render, redirect
-from django.views.generic import ListView,DetailView
+from django.views.generic import (ListView,
+                                  DetailView,
+                                  CreateView,
+                                  UpdateView,)
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 from accounts.models import Profile
@@ -7,9 +10,10 @@ from problemset.models import Submission
 from accounts.forms import UserRegisterForm
 from blog.models import Blog
 from contest.models import Contest
-from django.db.models import F, ExpressionWrapper
-from django.utils import timezone
-from django.db import models
+from problemset.models import Problem,TestCase
+from accounts.forms import ProblemCreateForm,TestCreateForm
+from django.urls import reverse_lazy
+
 
 
 User = get_user_model()
@@ -102,18 +106,81 @@ class UserContestListView(ListView):
     ordering = ['-created_at']
 
     def get_queryset(self):
-        return super().get_queryset().annotate(
-            end_time=ExpressionWrapper(
-                F('start_time') + F('duration'),
-                output_field=models.DateTimeField()
-            )
-        ).filter(
-            end_time__lt=timezone.now()
-        )
+        return Contest.objects.past_contests()
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
             'dashboard_contest_tab': 'active'
         })
+        return context
 
+class USerProblemSettingListView(ListView):
+    model = Problem
+    context_object_name = 'user_problems'
+    template_name = 'accounts/user_problemsetting_list.html'
+    author = Problem.author
+
+    def get_queryset(self):
+        return Problem.objects.filter(author = self.request.user).order_by('-created_at')
+
+    def get_context_data(self, **kwargs):
+        contex = super().get_context_data(**kwargs)
+        contex.update({
+            'dashboard_problemsetting_tab': 'active'
+        })
+        return contex
+
+class ProblemCreateView(CreateView):
+    model = Problem
+    template_name = 'accounts/problem_create_form.html'
+    form_class = ProblemCreateForm
+    success_url = reverse_lazy('accounts:user-problems-list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'dashboard_ProblemStatement_tab': 'active',
+            'operation': 'Create'
+        })
+        return context
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+class ProblemUpdateView(UpdateView):
+    model = Problem
+    template_name = 'accounts/problem_create_form.html'
+    form_class = ProblemCreateForm
+    success_url = reverse_lazy('accounts:user-problems-list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'dashboard_ProblemStatement_tab': 'active',
+            'operation': 'Update'
+        })
+        return context
+
+    def test_func(self):
+        return self.request.user == self.get_object().user
+
+class TestCaseCreateView(CreateView):
+    model = TestCase
+    template_name = 'accounts/testcase_create_form.html'
+    form_class = TestCreateForm
+    success_url = reverse_lazy('accounts:user-problems-list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'dashboard_ProblemTests_tab': 'active',
+            'operation': 'Create'
+        })
+        return context
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
