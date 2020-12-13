@@ -2,5 +2,22 @@
 
 {% block content %}
     {% include 'dashboard/snippets/list_tabs.html' %}
-    Dashboard
+        <div class="d-flex flex-wrap">
+            <div class="card flex-fill text-center p-4 m-2">
+                <h1> {{ statistics.problems }}0 </h1>
+                <h4> Total Problems </h4>
+            </div>
+            <div class="card flex-fill text-center p-4 m-2">
+                <h1> {{ statistics.contests }}0 </h1>
+                <h4> Total Contests </h4>
+            </div>
+            <div class="card flex-fill text-center p-4 m-2">
+                <h1> {{ statistics.participants }}0 </h1>
+                <h4> Total Participants </h4>
+            </div>
+            <div class="card flex-fill text-center p-4 m-2">
+                <h1> {{ statistics.submissions }}0 </h1>
+                <h4> Total Submissions </h4>
+            </div>
+        </div>
 {% endblock %}

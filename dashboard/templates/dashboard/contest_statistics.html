@@ -2,5 +2,35 @@
 
 {% block content %}
     {% include 'dashboard/snippets/contest_info_tabs.html' %}
-    Statistics
+
+    <div class="d-flex flex-wrap">
+        <div class="card flex-fill text-center align-items-center justify-content-center py-4 px-5 m-2">
+            <h1> {{ statistics.state }} </h1>
+            <h4> Status </h4>
+        </div>
+        <div class="card flex-fill text-center py-4 px-5 m-2">
+            <h1> {{ statistics.problems }} </h1>
+            <h4> Problem{{ statistics.problems|pluralize }} </h4>
+        </div>
+        <div class="card flex-fill text-center py-4 px-5 m-2">
+            <h1> {{ statistics.authors }} </h1>
+            <h4> Author{{ statistics.authors|pluralize }} </h4>
+        </div>
+        <div class="card flex-fill text-center py-4 px-5 m-2">
+            <h1> {{ statistics.participants }} </h1>
+            <h4> Participant{{ statistics.participants|pluralize }} </h4>
+        </div>
+        <div class="card flex-fill text-center py-4 px-5 m-2">
+            <h1> {{ statistics.submissions }} </h1>
+            <h4> Submission{{ statistics.submissions|pluralize }} </h4>
+        </div>
+        <div class="card flex-fill text-center py-4 px-5 m-2">
+            <h1> {{ statistics.announcements }} </h1>
+            <h4> Announcement{{ statistics.announcements|pluralize }} </h4>
+        </div>
+        <div class="card flex-fill text-center py-4 px-5 m-2">
+            <h1> {{ statistics.clarifications }} </h1>
+            <h4> Clarification{{ statistics.clarifications|pluralize }} </h4>
+        </div>
+    </div>
 {% endblock %}

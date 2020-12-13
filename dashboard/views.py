@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
+from django.contrib.messages.views import SuccessMessageMixin
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
@@ -7,13 +8,14 @@ from django.views.generic import (
     ListView,
     CreateView,
     UpdateView,
+    DeleteView,
     TemplateView
 )
 from rest_framework import status
 
 from contest.forms import ContestForm
-from contest.models import Contest
-from problemset.models import Problem
+from contest.models import Contest, Clarification, Announcement
+from problemset.models import Problem, Submission
 from dashboard.mixins import ContestActionMixin
 
 
@@ -85,6 +87,18 @@ class ContestCreateView(PermissionRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+
+
+class ContestDeleteView(UserPassesTestMixin, SuccessMessageMixin, DeleteView):
+    model = Contest
+    success_url = reverse_lazy('dashboard:my-contests')
+    success_message = 'Contest deleted successfully'
+
+    def test_func(self):
+        return self.get_object().author == self.request.user
+
+    def get(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)
 
 
 class ContestUpdateView(UserPassesTestMixin, UpdateView):
@@ -245,8 +259,19 @@ class ContestStatisticsView(UserPassesTestMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
+        contest = self.get_object()
+        statistics = {
+            'state': contest.state,
+            'problems': len(contest.problem_ids),
+            'participants': 'N/A',
+            'clarifications': Clarification.objects.filter(contest=contest).count(),
+            'announcements': Announcement.objects.filter(contest=contest).count(),
+            'submissions': Submission.objects.filter(contest=contest).count(),
+            'authors': 1
+        }
         context.update({
-            'contest': self.get_object(),
-            'contest_statistics_tab': 'active'
+            'contest': contest,
+            'contest_statistics_tab': 'active',
+            'statistics': statistics
         })
         return context

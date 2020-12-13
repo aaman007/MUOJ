@@ -2,6 +2,52 @@
 
 {% block content %}
     {% include 'accounts/snippets/list_tabs.html' %}
-    User Profile
-    {{ user.username }}
+    <div class="card">
+       <div class="card-body">
+           <div class="row">
+               <div class="col-sm-8">
+                   <h5 class="m-2"> Unrated </h5>
+                   <h2 class="m-2"> {{ user.username }} </h2>
+                   <div class="fa fa-location-arrow m-2"> From {{ user.profile.location }} </div> <br/>
+                   <div class="fa fa-star m-2"> Rank : {{ user.profile.rank }} </div> <br/>
+                   <div class="fa fa-star m-2"> Contest Rating : {{ user.profile.rating }} </div> <br/>
+                   <div class="fa fa-user m-2"> {{ user.first_name }} {{ user.last_name }} </div> <br/>
+                   <div class="fa fa-envelope m-2"> {{ user.email }} </div> <br/>
+                   <div class="fa fa-group m-2"> {{ user.profile.institution }} </div> <br/>
+               </div>
+               <div class="col-sm-4">
+                   <img alt="Profile" src="{{ user.profile.profile_picture.url }}" />
+               </div>
+           </div>
+       </div>
+    </div>
+    <div class="card mt-4">
+        <div class="card-body">
+            <canvas id="rating-chart"></canvas>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_body %}
+    <script>
+        new Chart(document.getElementById("rating-chart"), {
+          type: 'line',
+          data: {
+            labels: [1, 2, 3, 4, 5, 6, 7, 8],
+            datasets: [{
+                data: [0, 100, 200, 500, 300, 100, 200],
+                label: "Contest Rating",
+                borderColor: "#3e95cd",
+                fill: true
+              }
+            ]
+          },
+          options: {
+            title: {
+              display: true,
+              text: '{{ user.username }}\'s Rating'
+            }
+          }
+        });
+    </script>
 {% endblock %}

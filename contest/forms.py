@@ -7,8 +7,8 @@ from contest.widgets import BootstrapDateTimePickerInput
 class ContestForm(forms.ModelForm):
     start_time = forms.DateTimeField(
         input_formats=['%m/%d/%Y %I:%M %p'],
-        widget=BootstrapDateTimePickerInput(),
         help_text='Format: MM/DD/YYYY HH:MM AM/PM',
+        widget=BootstrapDateTimePickerInput,
         required=True
     )
 

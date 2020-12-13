@@ -24,7 +24,7 @@
 
                                 <td> {{ forloop.counter }} </td>
                                 <td>
-                                    <a href="#">
+                                    <a href="{% url 'dashboard:contest-statistics' contest.id %}">
                                         {{ contest.title }}
                                         {% if contest.is_rated %}
                                             <span class="ml-2 badge badge-info"> Rated </span>
@@ -43,7 +43,7 @@
                                     <a class="ml-2 text-primary" href="{% url 'dashboard:contest-authors' contest.id %}">
                                         <i class="fa fa-users" title="Authors"></i>
                                     </a>
-                                    <a class="ml-2 text-danger" href="#">
+                                    <a data-id="{{ contest.id }}" class="ml-2 delete-contest text-danger" href="#">
                                         <i class="fa fa-trash" title="Delete"></i>
                                     </a>
                                 </td>
@@ -54,4 +54,35 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block extra_body %}
+    <script>
+        $(document).ready(function () {
+            $('.delete-contest').on('click', function (e) {
+                e.preventDefault();
+                const contest_id = $(this).data('id');
+
+                bootbox.confirm({
+                    title: 'Confirm Delete',
+                    message: 'Are you sure you want to delete this contest?',
+                    buttons: {
+                        cancel: {
+                            label: 'Cancel',
+                            className: 'btn btn-sm btn-secondary'
+                        },
+                        confirm: {
+                            label: 'Confirm',
+                            className: 'btn btn-sm btn-primary'
+                        }
+                    },
+                    callback: function (response) {
+                        if (response) {
+                            window.document.location = "{% url 'dashboard:contest-delete' 12345%}".replace('12345', contest_id.toString());
+                        }
+                    }
+                })
+            });
+        });
+    </script>
 {% endblock %}

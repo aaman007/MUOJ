@@ -34,6 +34,14 @@ class Contest(AbstractBaseModel):
     def __str__(self):
         return self.title
 
+    @property
+    def state(self):
+        if self in Contest.objects.running_contests():
+            return 'Running'
+        elif self in Contest.objects.past_contests():
+            return 'Finished'
+        return 'Upcoming'
+
 
 class Announcement(AbstractBaseModel):
     title = models.CharField(verbose_name=_('Title'), max_length=200)
