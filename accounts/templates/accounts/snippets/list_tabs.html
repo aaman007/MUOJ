@@ -1,6 +1,6 @@
 <ul class="nav nav-tabs nav-fill mb-4">
     <li class="nav-item">
-        <a class="nav-link {{ dashboard_profile_tab }}" href="#">Profile</a>
+        <a class="nav-link {{ dashboard_profile_tab }}" href="{% url 'accounts:user-profile' user.username %}">Profile</a>
     </li>
     <li class="nav-item">
         <a class="nav-link {{ dashboard_submissions_tab }}" href="{% url 'accounts:user-submission-list' %}">Submissions</a>

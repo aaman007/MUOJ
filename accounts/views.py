@@ -1,8 +1,10 @@
-from django.shortcuts import render, redirect
-from django.views.generic import (ListView,
-                                  DetailView,
-                                  CreateView,
-                                  UpdateView,)
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView
+)
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 from accounts.models import Profile
@@ -13,7 +15,6 @@ from contest.models import Contest
 from problemset.models import Problem,TestCase
 from accounts.forms import ProblemCreateForm,TestCreateForm
 from django.urls import reverse_lazy
-
 
 
 User = get_user_model()
@@ -33,8 +34,7 @@ def register(request):
 
 
 class UserListView(ListView):
-
-    model = Profile
+    model = User
     template_name = 'accounts/user_list.html'
     context_object_name = 'users'
 
@@ -43,20 +43,20 @@ class UserListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
         context.update({
             'users_nav': 'active'
         })
         return context
 
+
 class UserSubmissionListView(ListView):
-
     model = Submission
     template_name = 'accounts/user_submission_list.html'
     context_object_name = 'user_submissions'
     paginate_by = 10
+
     def get_queryset(self):
-       return Submission.objects.filter(user = self.request.user).order_by('-created_at')
+        return Submission.objects.filter(user=self.request.user).order_by('-created_at')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -65,21 +65,24 @@ class UserSubmissionListView(ListView):
         })
         return context
 
-class UserProfieView(DetailView):
 
-    model = Submission
-    template_name = 'accounts/user_submission_list.html'
-    context_object_name = 'user_submissions'
+class UserProfileView(DetailView):
+    model = User
+    template_name = 'accounts/user_profile.html'
+    context_object_name = 'user'
     paginate_by = 10
-    def get_queryset(self):
-       return Submission.objects.filter(user = self.request.user).order_by('-created_at')
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(User, username=self.kwargs.get('username'))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
-            'dashboard_submissions_tab': 'active'
+            'dashboard_profile_tab': 'active'
         })
         return context
+
+
 class UserBlogListView(ListView):
     model = Blog
     paginate_by = 5
@@ -88,7 +91,7 @@ class UserBlogListView(ListView):
     template_name = 'accounts/user_blogs_list.html'
 
     def get_queryset(self):
-       return Blog.objects.filter(user = self.request.user)
+        return Blog.objects.filter(user = self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -97,6 +100,7 @@ class UserBlogListView(ListView):
             'dashboard_blogs_tab': 'active'
         })
         return context
+
 
 class UserContestListView(ListView):
     model = Contest
@@ -108,7 +112,6 @@ class UserContestListView(ListView):
     def get_queryset(self):
         return Contest.objects.past_contests()
 
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
@@ -116,7 +119,8 @@ class UserContestListView(ListView):
         })
         return context
 
-class USerProblemSettingListView(ListView):
+
+class UserProblemSettingListView(ListView):
     model = Problem
     context_object_name = 'user_problems'
     template_name = 'accounts/user_problemsetting_list.html'
@@ -126,11 +130,12 @@ class USerProblemSettingListView(ListView):
         return Problem.objects.filter(author = self.request.user).order_by('-created_at')
 
     def get_context_data(self, **kwargs):
-        contex = super().get_context_data(**kwargs)
-        contex.update({
+        context = super().get_context_data(**kwargs)
+        context.update({
             'dashboard_problemsetting_tab': 'active'
         })
-        return contex
+        return context
+
 
 class ProblemCreateView(CreateView):
     model = Problem
@@ -150,6 +155,7 @@ class ProblemCreateView(CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
+
 class ProblemUpdateView(UpdateView):
     model = Problem
     template_name = 'accounts/problem_create_form.html'
@@ -166,6 +172,7 @@ class ProblemUpdateView(UpdateView):
 
     def test_func(self):
         return self.request.user == self.get_object().user
+
 
 class TestCaseCreateView(CreateView):
     model = TestCase

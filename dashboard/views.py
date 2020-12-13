@@ -5,9 +5,9 @@ from django.urls import reverse_lazy
 from django.contrib.auth import get_user_model
 from django.views.generic import (
     ListView,
-    TemplateView,
     CreateView,
-    UpdateView
+    UpdateView,
+    TemplateView
 )
 from rest_framework import status
 
@@ -232,3 +232,21 @@ class ContestAuthorListView(UserPassesTestMixin, ListView):
 
     def test_func(self):
         return self.get_object().author == self.request.user
+
+
+class ContestStatisticsView(UserPassesTestMixin, TemplateView):
+    template_name = 'dashboard/contest_statistics.html'
+
+    def get_object(self):
+        return get_object_or_404(Contest, pk=self.kwargs.get('pk'))
+
+    def test_func(self):
+        return self.get_object().author == self.request.user
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context.update({
+            'contest': self.get_object(),
+            'contest_statistics_tab': 'active'
+        })
+        return context

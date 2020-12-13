@@ -1,0 +1,7 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+    {% include 'accounts/snippets/list_tabs.html' %}
+    User Profile
+    {{ user.username }}
+{% endblock %}
