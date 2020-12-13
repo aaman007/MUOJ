@@ -2,14 +2,18 @@
     function refreshAddModal() {
         $('.problem_id').val('');
         $('.problem_score').val('');
+        $('.problem_id').prop('disabled', false);
+        $('#add_problem_modal_title').text("Add Problem");
+        $('#problem_add_confirm').text('Add');
     }
 
-    function addProblem() {
+    function addProblem(update=false) {
         const data = {
             csrfmiddlewaretoken: Cookies.get("csrftoken"),
             problem_id: $('.problem_id').val(),
             problem_score: $('.problem_score').val(),
-            contest_id:  "{{ contest.id }}"
+            contest_id:  "{{ contest.id }}",
+            is_update: update
         };
 
         $.ajax({
@@ -19,7 +23,11 @@
             traditional: true,
 
             success: function (data) {
-                toastr.success('Problem added successfully', 'Success!');
+                if (!update) {
+                    toastr.success('Problem added successfully', 'Success!');
+                } else {
+                    toastr.success('Problem updated successfully', 'Success!');
+                }
                 $('#id_add_problem_modal').modal('hide');
                 $('#id_problem_list > tbody').html(data);
                 refreshAddModal();
@@ -33,6 +41,15 @@
     }
 
     $(document).ready(function () {
+        $('#problem_add_confirm').on('click', function () {
+            if ($('#problem_add_confirm').text() === 'Update') {
+                addProblem(true);
+            }
+            else {
+                addProblem();
+            }
+        });
+
         $('#id_problem_list > tbody').on('click', '.remove-problem', function (e) {
             e.preventDefault();
             const data = {
@@ -56,6 +73,16 @@
                     toastr.error('Something went wrong', 'Error!')
                 },
             });
+        });
+
+        $('#id_problem_list > tbody').on('click', '.edit-problem', function (e) {
+            e.preventDefault();
+            $('#add_problem_modal_title').text("Update Problem");
+            $('#problem_add_confirm').text('Update');
+            $('.problem_id').val($(this).data('id'));
+            $('.problem_id').prop('disabled', true);
+            $('.problem_score').val($(this).data('score'));
+            $('#id_add_problem_modal').modal('show');
         });
     });
 </script>

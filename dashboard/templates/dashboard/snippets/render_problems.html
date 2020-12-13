@@ -1,4 +1,6 @@
-{% for problem, score in problems %}
+{% load custom_tags %}
+
+{% for problem in problems %}
     <tr>
         <td> {{ forloop.counter }} </td>
         <td>
@@ -6,9 +8,9 @@
                 {{ problem.name }}
             </a>
         </td>
-        <td> {{ score }} </td>
+        <td> {{ scores_obj|get_item:problem.id }} </td>
         <td>
-            <a data-id="{{ problem.id }}" class="text-info edit-problem" href="#">
+            <a data-id="{{ problem.id }}"  data-score={{ scores_obj|get_item:problem.id }} class="text-info edit-problem" href="#">
                 <i class="fa fa-edit" title="Edit"></i>
             </a>
             <a data-id="{{ problem.id }}" class="text-danger remove-problem ml-2" href="#">

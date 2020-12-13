@@ -7,14 +7,14 @@ from django.views.generic import (
     ListView,
     TemplateView,
     CreateView,
-    UpdateView,
-    View
+    UpdateView
 )
 from rest_framework import status
 
 from contest.forms import ContestForm
 from contest.models import Contest
 from problemset.models import Problem
+from dashboard.mixins import ContestActionMixin
 
 
 User = get_user_model()
@@ -116,14 +116,20 @@ class ContestProblemListView(UserPassesTestMixin, ListView):
         return get_object_or_404(Contest, pk=self.kwargs.get('pk'))
 
     def get_queryset(self):
-        return Problem.objects.filter(id__in=self.get_object().problem_ids)
+        return Problem.objects.filter_preserved_by_ids(self.get_object().problem_ids)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        contest = self.get_object()
+        problem_ids, problem_scores = contest.problem_ids, contest.problem_scores
+        scores_obj = {problem_id: problem_scores[index] for index, problem_id in enumerate(problem_ids)}
+
         context.update({
             'contest_problems_tab': 'active',
-            'contest': self.get_object(),
-            'problems': zip(context.get('problems', []), self.get_object().problem_scores)
+            'contest': contest,
+            'scores_obj': scores_obj,
+            'problems': context.get('problems', [])
         })
         return context
 
@@ -131,33 +137,31 @@ class ContestProblemListView(UserPassesTestMixin, ListView):
         return self.get_object().author == self.request.user
 
 
-class AddContestProblemAjaxView(UserPassesTestMixin, TemplateView):
-    template_name = 'dashboard/snippets/render_problems.html'
-
-    def get_object(self):
-        return Contest.objects.get(id=self.request.POST.get('contest_id'))
-
-    def test_func(self):
-        return self.get_object().author == self.request.user
+class AddContestProblemAjaxView(ContestActionMixin):
 
     def post(self, request, *args, **kwargs):
-        problem_id = request.POST.get('problem_id')
-        problem_score = request.POST.get('problem_score')
-
-        contest = self.get_object()
-
         try:
+            problem_id = int(request.POST.get('problem_id'))
+            problem_score = int(request.POST.get('problem_score'))
+            is_update = True if request.POST.get('is_update') == 'true' else False
+
+            contest = self.get_object()
             problem = Problem.objects.get(id=problem_id)
             problem_ids = contest.problem_ids
             problem_scores = contest.problem_scores
 
-            if problem_id in problem_ids:
-                return JsonResponse({
-                    'error_message': 'Problem already added'
-                }, status=status.HTTP_400_BAD_REQUEST)
+            if not is_update:
+                if problem_id in problem_ids:
+                    return JsonResponse({
+                        'error_message': 'Problem already added'
+                    }, status=status.HTTP_400_BAD_REQUEST)
 
-            problem_ids.append(int(problem_id))
-            problem_scores.append(int(problem_score))
+                problem_ids.append(problem_id)
+                problem_scores.append(problem_score)
+
+            else:
+                index = problem_ids.index(problem_id)
+                problem_scores[index] = problem_score
 
             Contest.objects.filter(id=contest.id).update(
                 problem_ids=problem_ids,
@@ -169,19 +173,15 @@ class AddContestProblemAjaxView(UserPassesTestMixin, TemplateView):
             }, status=status.HTTP_400_BAD_REQUEST)
 
         contest = self.get_object()
+        problem_ids, problem_scores = contest.problem_ids, contest.problem_scores
+        scores_obj = {problem_id: problem_scores[index] for index, problem_id in enumerate(problem_ids)}
         return self.render_to_response({
-            'problems': zip(Problem.objects.filter(id__in=contest.problem_ids), contest.problem_scores)
+            'scores_obj': scores_obj,
+            'problems': Problem.objects.filter_preserved_by_ids(problem_ids)
         })
 
 
-class RemoveContestProblemAjaxView(UserPassesTestMixin, TemplateView):
-    template_name = 'dashboard/snippets/render_problems.html'
-
-    def get_object(self):
-        return get_object_or_404(Contest, id=self.request.POST.get('contest_id'))
-
-    def test_func(self):
-        return self.get_object().author == self.request.user
+class RemoveContestProblemAjaxView(ContestActionMixin):
 
     def post(self, request, *args, **kwargs):
         try:
@@ -204,8 +204,10 @@ class RemoveContestProblemAjaxView(UserPassesTestMixin, TemplateView):
                 'error_message': 'Something went wrong'
             }, status=status.HTTP_400_BAD_REQUEST)
 
+        scores_obj = {problem_id: problem_scores[index] for index, problem_id in enumerate(problem_ids)}
         return self.render_to_response({
-            'problems': zip(Problem.objects.filter(id__in=problem_ids), problem_scores)
+            'scores_obj': scores_obj,
+            'problems': Problem.objects.filter_preserved_by_ids(problem_ids)
         })
 
 
