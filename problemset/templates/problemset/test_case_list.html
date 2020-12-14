@@ -1,0 +1,83 @@
+{% extends 'accounts/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <ul class="nav nav-tabs nav-fill mb-4">
+            <li class="nav-item">
+                <a class="nav-link {{ dashboard_ProblemStatement_tab }}" href="{% url 'problemset:problem-update' problem.id %}">Statement</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ dashboard_ProblemTests_tab }}" href="{% url 'problemset:testcase-list' problem.id%}">Tests</a>
+            </li>
+    </ul>
+
+    <div class="card">
+        <div class="card-body">
+            Problem : <b>{{ problem }}</b>
+            <button type="button" class="btn btn-primary float-right mr-0 mb-2" data-toggle="modal" data-target="#exampleModalCenter">
+                A test case
+            </button>
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Add test case</h5>
+                    </div>
+                        <div class="modal-body">
+                            <form method="POST" enctype="multipart/form-data" novalidate>
+                                {% csrf_token %}
+                                <fieldset>
+                                    {{ form_class | crispy }}
+                                    {{ form_class.media }}
+                                </fieldset>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <a href="{% url 'problemset:add-testcase' problem.id%}"><button class="btn btn-primary" type="submit"> Add </button></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive p-1">
+                <table id="id_problem_list" class="table table-bordered table-striped">
+                    <thead class="text-center">
+                        <tr>
+                            <th width="8%"> # </th>
+                            <th width="20%">Label</th>
+                            <th width="20%">Input </th>
+                            <th width="20%"> Output </th>
+                            <th width="20%"> Sample </th>
+                            <th width="20%"> </th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                    {% for testcase in testcases %}
+                        <tr>
+                            <td> {{ forloop.counter }} </td>
+                            <td> {{ testcase.label }} </td>
+                            <td><a href="">{{ testcase.input }}</a> </td>
+                            <td><a href="/home/farhan/MUOJ/media/{{ testcase.output }}">{{ testcase.output }}</a> </td>
+                            <td> {{ testcase.is_sample }} </td>
+                            <td>
+                                <a data-id="{{ contest.id }}" class="ml-2 delete-contest text-danger" href="#">
+                                    <i class="fa fa-trash" title="Delete"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extra_body %}
+    <script>
+         $(document).ready(function () {
+            $(".django-ckeditor-widget").css("display", "block")
+         });
+    </script>
+{% endblock %}

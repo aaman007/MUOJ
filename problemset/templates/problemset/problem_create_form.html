@@ -2,7 +2,24 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    {% include 'accounts/snippets/list_tabs_add_problem.html' %}
+
+    {% if key == 'update' %}
+        <ul class="nav nav-tabs nav-fill mb-4">
+            <li class="nav-item">
+                <a class="nav-link {{ dashboard_ProblemStatement_tab }}" href="{% url 'problemset:problem-update' problem.id%}">Statement</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ dashboard_ProblemTests_tab }}" href="{% url 'problemset:testcase-list' problem.id%}">Tests</a>
+            </li>
+        </ul>
+    {% else %}
+        <ul class="nav nav-tabs nav-fill mb-4">
+            <li class="nav-item">
+                <a class="nav-link {{ dashboard_ProblemStatement_tab }}" href="{% url 'problemset:add-problem' %}">Statement</a>
+            </li>
+        </ul>
+    {% endif %}
+
 
     <div class="card">
         <div class="card-header text-center">

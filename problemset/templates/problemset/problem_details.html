@@ -66,7 +66,7 @@
             </div>
             <br>
             {% if user == problem.author %}
-                <button class="btn btn-sm btn-primary float-right" onclick="location.href='{% url 'accounts:problem-update' problem.id%}'">Edit</button>
+                <button class="btn btn-sm btn-primary float-right" onclick="location.href='{% url 'problemset:problem-update' problem.id%}'">Edit</button>
             {% endif %}
         </div>
     </div>

@@ -2,7 +2,18 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    {% include 'accounts/snippets/list_tabs_add_problem.html' %}
+
+
+    <ul class="nav nav-tabs nav-fill mb-4">
+        <li class="nav-item">
+            <a class="nav-link {{ dashboard_ProblemStatement_tab }}" href="{% url 'problemset:problem-update' problem.id%}">Statement</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {{ dashboard_ProblemTests_tab }}" href="{% url 'problemset:testcase-list' problem.id%}">Tests</a>
+        </li>
+    </ul>
+
+
 
     <div class="card">
         <div class="card-header text-center">
@@ -17,7 +28,7 @@
                     {{ form.media }}
                 </fieldset>
                 <div class="form-group">
-                    <button class="btn btn-primary" type="submit"> {{ operation }} </button>
+                    <a href="{% url 'accounts:testcase-list' problem.id%}"><button class="btn btn-primary" type="submit"> {{ operation }} </button></a>
                 </div>
             </form>
         </div>
