@@ -169,7 +169,7 @@ class TestCaseListView(ListView):
     context_object_name = 'testcases'
 
     def get_queryset(self):
-        return TestCase.objects.filter(problem=Problem.objects.get(id=self.kwargs.get('pk')))
+        return TestCase.objects.filter(problem_id=self.kwargs.get('pk'))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -184,9 +184,10 @@ class TestCaseListView(ListView):
 class TestCaseCreateView(CreateView):
     model = TestCase
     form_class = TestCreateForm
-    success_url = reverse_lazy('problemset:user-problems-list')
+
+    def get_success_url(self):
+        return reverse_lazy('problemset:testcase-list', kwargs={'pk': self.kwargs.get('pk')})
 
     def form_valid(self, form):
-        form.instance.author = self.request.user
-        form.instance.problem_id = self.kwargs.get('pk')
+        form.instance.problem = get_object_or_404(Problem, id=self.kwargs.get('pk'))
         return super().form_valid(form)

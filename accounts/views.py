@@ -1,4 +1,3 @@
-import self
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import (
     ListView,
@@ -124,7 +123,7 @@ class UserProblemSettingListView(ListView):
     author = Problem.author
 
     def get_queryset(self):
-        return Problem.objects.filter(author = self.request.user).order_by('-created_at')
+        return Problem.objects.filter(author=self.request.user).order_by('-created_at')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
