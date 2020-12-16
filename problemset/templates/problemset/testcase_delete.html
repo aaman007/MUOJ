@@ -1,0 +1,28 @@
+{% extends 'problemset/base.html' %}
+
+{% block title %} Delete Testcase {% endblock %}
+
+{% block content %}
+    {% comment %} Breadcrumb {% endcomment %}
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Test Case</li>
+            <li class="breadcrumb-item active" aria-current="page">Delete</li>
+        </ol>
+    </nav>
+
+    <div class="card m-2">
+        <div class="card-header">
+            Delete Test Case
+        </div>
+        <div class="card-body">
+            <h4 class="mb-3"> Are you sure, you want to delete this case?</h4>
+
+            <form method="POST">
+                {% csrf_token %}
+                <a class="btn btn-secondary" href=""> Discard </a>
+                <button type="submit" class="btn btn-danger">Yes, Delete</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

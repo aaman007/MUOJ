@@ -6,7 +6,8 @@ from django.views.generic import (
     ListView,
     DetailView,
     CreateView,
-    UpdateView
+    UpdateView,
+    DeleteView
 )
 from problemset.forms import SubmissionForm
 from problemset.models import Problem, Submission, TestCase
@@ -191,3 +192,21 @@ class TestCaseCreateView(CreateView):
     def form_valid(self, form):
         form.instance.problem = get_object_or_404(Problem, id=self.kwargs.get('pk'))
         return super().form_valid(form)
+
+
+class TestCaseDeleteView(DeleteView):
+    model = TestCase
+    template_name = 'problemset/testcase_delete.html'
+
+    def get_success_url(self):
+        return reverse_lazy('problemset:testcase-list', kwargs={'pk': self.kwargs.get('pk')})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'dashboard_ProblemTests_tab': 'active',
+        })
+        return context
+
+    def test_func(self):
+        return self.request.user == self.get_object().user

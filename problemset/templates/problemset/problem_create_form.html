@@ -22,9 +22,17 @@
 
 
     <div class="card">
-        <div class="card-header text-center">
-            <strong> {{ card_header }} </strong>
-        </div>
+        {% if key == 'update' %}
+            <div class="card-header text-center">
+                <strong> Problem : <a href="{% url 'problemset:problem-details' problem.id %}"><b>{{ problem }}</b></a> </strong>
+            </div>
+        {% else %}
+            <div class="card-header text-center">
+                <strong><a href="{% url 'problemset:problem-details' problem.id %}"><b>Add a problem</b></a></strong>
+            </div>
+
+        {% endif %}
+
 
         <div class="card-body">
             <form method="POST" enctype="multipart/form-data" novalidate>

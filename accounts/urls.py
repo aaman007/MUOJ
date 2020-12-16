@@ -6,6 +6,7 @@ from accounts.views import (
     UserBlogListView,
     UserContestListView,
     UserProblemSettingListView,
+    ProfileUpdateView
 )
 
 app_name = 'accounts'
@@ -16,5 +17,7 @@ urlpatterns = [
     path('user-blog-list/', UserBlogListView.as_view(), name='user-blog-list'),
     path('user-contest-list/', UserContestListView.as_view(), name='user-contest-list'),
     path('user-problems-list/', UserProblemSettingListView.as_view(), name='user-problems-list'),
-    path('<str:username>', UserProfileView.as_view(), name='user-profile')
+    path('<str:username>', UserProfileView.as_view(), name='user-profile'),
+    path('update-profile/', ProfileUpdateView, name='update-profile'),
+
 ]

@@ -12,8 +12,10 @@
     </ul>
 
     <div class="card">
+        <div class="card-header text-center">
+                <strong>Problem : <a href="{% url 'problemset:problem-details' problem.id %}"><b>{{ problem }}</b></a></strong>
+        </div>
         <div class="card-body">
-            Problem : <b>{{ problem }}</b>
             <button type="button" class="btn btn-primary float-right mr-0 mb-2" data-toggle="modal" data-target="#exampleModalCenter">
                 A test case
             </button>
@@ -60,7 +62,7 @@
                             <td><a href="/home/farhan/MUOJ/media/{{ testcase.output }}">{{ testcase.output }}</a> </td>
                             <td> {{ testcase.is_sample }} </td>
                             <td>
-                                <a data-id="{{ contest.id }}" class="ml-2 delete-contest text-danger" href="#">
+                                <a class="ml-2 delete-contest text-danger" href="{% url 'problemset:delete-testcase' problem.id testcase.id%}">
                                     <i class="fa fa-trash" title="Delete"></i>
                                 </a>
                             </td>

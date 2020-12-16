@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 from django.contrib import messages
 from accounts.models import Profile
 from problemset.models import Submission
-from accounts.forms import UserRegisterForm
+from accounts.forms import UserRegisterForm,UserUpdateForm,ProfileUpdateForm
 from blog.models import Blog
 from contest.models import Contest
 from problemset.models import Problem
@@ -131,3 +131,31 @@ class UserProblemSettingListView(ListView):
             'dashboard_problemsetting_tab': 'active'
         })
         return context
+
+
+def ProfileUpdateView(request):
+    if request.method == 'POST':
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        p_form = ProfileUpdateForm(request.POST,
+                                   request.FILES,
+                                   instance=request.user.profile)
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, f'Your account has been updated!')
+            return redirect('accounts:update-profile')
+
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile)
+
+    context = {
+        'u_form': u_form,
+        'p_form': p_form
+    }
+
+    context.update({
+        'dashboard_settings_tab': 'active'
+    })
+
+    return render(request, 'accounts/profile_update.html', context)

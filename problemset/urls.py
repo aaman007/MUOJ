@@ -9,7 +9,8 @@ from problemset.views import (
     ProblemCreateView,
     ProblemUpdateView,
     TestCaseCreateView,
-    TestCaseListView
+    TestCaseListView,
+    TestCaseDeleteView
 )
 
 app_name = 'problemset'
@@ -22,6 +23,7 @@ urlpatterns = [
     path('problems/<int:pk>/problem-update/', ProblemUpdateView.as_view(), name='problem-update'),
     path('problems/<int:pk>/test-cases', TestCaseListView.as_view(), name='testcase-list'),
     path('problems/<int:pk>/Add-test-case', TestCaseCreateView.as_view(), name='add-testcase'),
+    path('problems/<int:pk>/test-cases/<int:ptk>/delete', TestCaseDeleteView.as_view(), name='delete-testcase'),
 
     # Submissions
     path('submissions/', SubmissionListView.as_view(), name='submission-list'),
