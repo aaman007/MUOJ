@@ -158,4 +158,4 @@ def ProfileUpdateView(request):
         'dashboard_settings_tab': 'active'
     })
 
-    return render(request, 'accounts/profile_update.html', context)
+    return render(request, 'accounts/user_settings.html', context)
