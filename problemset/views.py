@@ -136,7 +136,7 @@ class ProblemCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         context.update({
             'dashboard_ProblemStatement_tab': 'active',
-            'operation': 'Create'
+            'operation': 'Create',
         })
         return context
 
@@ -149,7 +149,7 @@ class ProblemUpdateView(UpdateView):
     model = Problem
     template_name = 'problemset/problem_create_form.html'
     form_class = ProblemCreateForm
-    success_url = reverse_lazy('problemset:user-problems-list')
+    success_url = reverse_lazy('accounts:user-problems-list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
