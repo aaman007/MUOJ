@@ -29,3 +29,46 @@ code {
 a:hover {
     text-decoration: none;
 }
+
+/** Rank Color Scheme **/
+.rank-text {
+    font-weight: bold;
+}
+
+.rank-text:hover {
+    background-color: transparent !important;
+    color: inherit !important;
+}
+
+.rank--10000 {
+    color: gray;
+}
+
+.rank-1200 {
+    color: green;
+}
+
+.rank-1400 {
+    color: #03A89E;
+}
+
+.rank-1600 {
+    color: #0000cc;
+}
+
+.rank-1900 {
+    color: #a0a;
+}
+
+.rank-2100 {
+    color: #FF8C00;
+}
+
+.rank-2300 {
+    color: #FF8C00;
+}
+
+.rank-2400 {
+    color: red;
+}
+

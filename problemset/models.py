@@ -96,6 +96,31 @@ class Submission(models.Model):
         default='Running',
         max_length=200
     )
+    """
+    Submission Details format:
+    {
+        "final_verdict": "WA",
+        "result": [
+            {
+                testcase: 1,
+                verdict: "AC"
+            },
+            {
+                testcase: 2,
+                verdict: "WA"
+            },
+            {
+                testcase: 3,
+                verdict: "Skipped
+            }
+        ]
+    }
+    """
+    submission_details = models.TextField(
+        verbose_name=_('Submission Details'),
+        default=dict,
+        blank=True
+    )
 
     contest = models.ForeignKey(
         verbose_name=_('Contest'),

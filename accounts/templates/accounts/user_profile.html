@@ -6,17 +6,33 @@
        <div class="card-body">
            <div class="row">
                <div class="col-sm-8">
-                   <h5 class="m-2"> Unrated </h5>
-                   <h2 class="m-2"> {{ user.username }} </h2>
-                   <div class="fa fa-location-arrow m-2"> From {{ user.profile.location }} </div> <br/>
-                   <div class="fa fa-star m-2"> Rank : {{ user.profile.rank }} </div> <br/>
-                   <div class="fa fa-star m-2"> Contest Rating : {{ user.profile.rating }} </div> <br/>
-                   <div class="fa fa-user m-2"> {{ user.first_name }} {{ user.last_name }} </div> <br/>
-                   <div class="fa fa-envelope m-2"> {{ user.email }} </div> <br/>
-                   <div class="fa fa-group m-2"> {{ user.profile.institution }} </div> <br/>
+                   <h5 class="m-2 rank-{{ v_user.profile.rank }}"> {{ v_user.profile.rank_label }} </h5>
+                   <h2 class="m-2 rank-{{ v_user.profile.rank }}"> {{ v_user.username }} </h2>
+                   <div class="fa fa-location-arrow m-2"> From {{ v_user.profile.location }} </div> <br/>
+                   <div class="fa fa-star m-2">
+                       Contest Rating : <span class="rank-text rank-{{ v_user.profile.rank }}"> {{ v_user.profile.rating }} </span>
+                   </div> <br/>
+                   <div class="fa fa-user m-2">
+                       {% if not v_user.first_name and not v_user.last_name %}
+                           Not Provided
+                       {% endif %}
+                       {{ v_user.first_name }} {{ v_user.last_name }}
+                   </div> <br/>
+                   <div class="fa fa-envelope m-2">
+                       {% if not v_user.email %}
+                           Not Provided
+                       {% endif %}
+                       {{ v_user.email }}
+                   </div> <br/>
+                   <div class="fa fa-group m-2">
+                       {% if not v_user.profile.institution %}
+                           Not Provided
+                       {% endif %}
+                       {{ v_user.profile.institution }}
+                   </div> <br/>
                </div>
                <div class="col-sm-4">
-                   <img alt="Profile" src="{{ user.profile.profile_picture.url }}" />
+                   <img alt="Profile" src="{{ v_user.profile.profile_picture.url }}" />
                </div>
            </div>
        </div>
@@ -45,7 +61,7 @@
           options: {
             title: {
               display: true,
-              text: '{{ user.username }}\'s Rating'
+              text: '{{ v_user.username }}\'s Rating'
             }
           }
         });

@@ -2,7 +2,7 @@
 
 {% block content %}
     {% include 'accounts/snippets/list_tabs.html' %}
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated and user == v_user %}
         <div class="mb-4 d-flex">
             <div class="w-100">
                 <a href="{% url 'problemset:add-problem' %}" class="add-blog btn btn-sm btn-primary float-right mr-0">

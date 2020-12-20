@@ -28,6 +28,12 @@ class Contest(AbstractBaseModel):
         on_delete=models.SET_NULL,
         null=True
     )
+    contestants = models.ManyToManyField(
+        verbose_name=_('Contestants'),
+        to=User,
+        related_name='contestants',
+        blank=True
+    )
 
     objects = ContestManager()
 

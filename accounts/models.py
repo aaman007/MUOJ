@@ -1,6 +1,18 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.translation import gettext_lazy as _
 from PIL import Image
+
+
+class RankChoices(models.IntegerChoices):
+    NEWBIE = -10000, _('Newbie')
+    PUPIL = 1200, _('Pupil')
+    SPECIALIST = 1400, _('Specialist')
+    EXPERT = 1600, _('Expert')
+    CANDIDATE_MASTER = 1900, _('Candidate Master')
+    MASTER = 2100, _('Master')
+    INTERNATIONAL_MASTER = 2300, 'International Master'
+    GRANDMASTER = 2400, _('Grandmaster')
 
 
 class Profile(models.Model):
@@ -9,7 +21,7 @@ class Profile(models.Model):
     institution = models.CharField(max_length=100)
     location = models.CharField(max_length=200)
     rating = models.IntegerField(default=0)
-    rank = models.CharField(max_length=100)
+    rank = models.IntegerField(choices=RankChoices.choices, default=RankChoices.NEWBIE)
 
     def __str__(self):
         return f'{self.user.username} Profile'
@@ -23,3 +35,9 @@ class Profile(models.Model):
             output_size = (300, 300)
             img.thumbnail(output_size)
             img.save(self.profile_picture.path)
+
+    @property
+    def rank_label(self):
+        for choice in RankChoices.choices:
+            if choice[0] == self.rank:
+                return choice[1]

@@ -11,7 +11,7 @@
     <div class="card">
         <div class="card-body">
             <div class="table-responsive p-1">
-                <table class="table table-hover table-bordered text-center table-striped">
+                <table class="table table-hover table-bordered text-center">
                     <thead >
                         <tr>
                             <th > #</th>
@@ -23,7 +23,11 @@
                         {% for user in users %}
                             <tr>
                                 <td> {{ forloop.counter }} </td>
-                                <td><a href="#">{{ user.user }}</a></td>
+                                <td>
+                                    <a href="{% url 'accounts:user-profile' user.user.username %}" class="rank-text rank-{{ user.rank }}">
+                                        {{ user.user }}
+                                    </a>
+                                </td>
                                 <td> {{ user.rating }} </td>
                             </tr>
                         {% endfor %}
