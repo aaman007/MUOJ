@@ -79,7 +79,6 @@ class UserProfileView(DetailView):
         context.update({
             'dashboard_profile_tab': 'active'
         })
-        print(context)
         return context
 
 
@@ -132,7 +131,6 @@ class UserProblemSettingListView(ListView):
     model = Problem
     context_object_name = 'user_problems'
     template_name = 'accounts/user_problems_list.html'
-    author = Problem.author
 
     def get_user(self):
         return get_object_or_404(User, username=self.kwargs.get('username'))
@@ -157,7 +155,7 @@ def profile_update_view(request, username):
             u_form.save()
             p_form.save()
             messages.success(request, f'Your account has been updated!')
-            return redirect('accounts:update-profile')
+            return redirect('accounts:update-profile', username)
 
     else:
         u_form = UserUpdateForm(instance=request.user)

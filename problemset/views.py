@@ -88,7 +88,9 @@ class SubmissionListView(ListView):
 class SubmissionCreateView(CreateView):
     model = Submission
     form_class = SubmissionForm
-    success_url = reverse_lazy('problemset:submission-list')
+
+    def get_success_url(self):
+        reverse_lazy('problemset:submission-list', kwargs={'username': self.request.user.username})
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -130,7 +132,9 @@ class ProblemCreateView(CreateView):
     model = Problem
     template_name = 'problemset/problem_create_form.html'
     form_class = ProblemCreateForm
-    success_url = reverse_lazy('accounts:user-problems-list')
+
+    def get_success_url(self):
+        return reverse_lazy('accounts:user-problems-list', kwargs={'username': self.request.user.username})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -149,7 +153,9 @@ class ProblemUpdateView(UpdateView):
     model = Problem
     template_name = 'problemset/problem_create_form.html'
     form_class = ProblemCreateForm
-    success_url = reverse_lazy('accounts:user-problems-list')
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('accounts:user-problems-list', kwargs={'username': self.request.user.username})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
