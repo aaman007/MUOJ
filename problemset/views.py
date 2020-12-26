@@ -90,7 +90,7 @@ class SubmissionCreateView(CreateView):
     form_class = SubmissionForm
 
     def get_success_url(self):
-        reverse_lazy('problemset:submission-list', kwargs={'username': self.request.user.username})
+        return reverse_lazy('problemset:submission-list', kwargs={'username': self.request.user.username})
 
     def form_valid(self, form):
         form.instance.user = self.request.user
