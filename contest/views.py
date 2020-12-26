@@ -63,9 +63,13 @@ class PastContestListView(ListView):
 class ContestProblemListView(ListView):
     model = Problem
     template_name = 'contest/contest_problems.html'
+    context_object_name = 'problems'
 
     def get_contest(self):
         return get_object_or_404(Contest, id=self.kwargs.get('contest_id'))
+
+    def get_queryset(self):
+        return Problem.objects.filter_preserved_by_ids(self.get_contest().problem_ids)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
