@@ -3,5 +3,30 @@
 {% block content %}
     <h2 class="text-center"> {{ contest.title }} </h2>
     {% include 'contest/snippets/detail_tabs.html' %}
-    Standings
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive p-1">
+                <table id="id_standing_list" class="table table-bordered table-hover">
+                    <thead class="text-center">
+                        <tr>
+                            <th width="8%"> # </th>
+                            <th> Handle </th>
+                            <th width="25%"> Score </th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="text-center">
+                        {% for user in users %}
+                            <tr>
+                                <td> {{ forloop.counter }} </td>
+                                <td> <a href="{% url 'accounts:user-profile' user.username %}" class="rank-text rank-{{ user.profile.rank }}"> {{ user.username }} </a></td>
+                                <td> {{ user.solve_count }} </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 {% endblock %}

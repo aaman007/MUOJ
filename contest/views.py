@@ -80,9 +80,13 @@ class ContestProblemListView(ListView):
 class ContestMySubmissionListView(ListView):
     model = Submission
     template_name = 'contest/contest_my_submissions.html'
+    context_object_name = 'submissions'
 
     def get_contest(self):
         return get_object_or_404(Contest, id=self.kwargs.get('contest_id'))
+
+    def get_queryset(self):
+        return Submission.objects.filter(contest=self.get_contest(), user=self.request.user).order_by('-created_at')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -97,6 +101,7 @@ class ContestMySubmissionListView(ListView):
 class ContestStandingsListView(ListView):
     model = User
     template_name = 'contest/contest_standings.html'
+    context_object_name = 'users'
 
     def get_contest(self):
         return get_object_or_404(Contest, id=self.kwargs.get('contest_id'))
