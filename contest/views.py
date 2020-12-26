@@ -1,6 +1,12 @@
+from django.shortcuts import get_object_or_404
 from django.views.generic import ListView
+from django.contrib.auth import get_user_model
 
 from contest.models import Contest
+from problemset.models import Problem, Submission
+
+
+User = get_user_model()
 
 
 class RunningContestListView(ListView):
@@ -50,5 +56,56 @@ class PastContestListView(ListView):
         context.update({
             'contest_past_tab': 'active',
             'contest_nav': 'active'
+        })
+        return context
+
+
+class ContestProblemListView(ListView):
+    model = Problem
+    template_name = 'contest/contest_problems.html'
+
+    def get_contest(self):
+        return get_object_or_404(Contest, id=self.kwargs.get('contest_id'))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'contest': self.get_contest(),
+            'contest_nav': 'active',
+            'contest_problems_tab': 'active'
+        })
+        return context
+
+
+class ContestMySubmissionListView(ListView):
+    model = Submission
+    template_name = 'contest/contest_my_submissions.html'
+
+    def get_contest(self):
+        return get_object_or_404(Contest, id=self.kwargs.get('contest_id'))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'contest': self.get_contest(),
+            'contest_nav': 'active',
+            'contest_my_submissions_tab': 'active'
+        })
+        return context
+
+
+class ContestStandingsListView(ListView):
+    model = User
+    template_name = 'contest/contest_standings.html'
+
+    def get_contest(self):
+        return get_object_or_404(Contest, id=self.kwargs.get('contest_id'))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'contest': self.get_contest(),
+            'contest_nav': 'active',
+            'contest_standings_tab': 'active'
         })
         return context
