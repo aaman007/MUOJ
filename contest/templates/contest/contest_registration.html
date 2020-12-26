@@ -1,0 +1,15 @@
+{% extends 'contest/base.html' %}
+
+{% block content %}
+    Contest Registration
+    <h1> {{ contest.title }} </h1>
+    <div class="card my-4">
+        <div class="card-body">
+            {{ contest.description }}
+        </div>
+    </div>
+    <form action="{% url 'contest:contest-registration' contest.id %}" method="POST">
+        {% csrf_token %}
+        <button class="btn btn-primary" type="submit"> Register </button>
+    </form>
+{% endblock %}

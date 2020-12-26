@@ -20,11 +20,11 @@
                         <tr>
 
                             <td> {{ forloop.counter }} </td>
-                            <td> <a href="#"> {{ contest.title }}</a> </td>
+                            <td> <a href="{% url 'contest:contest-problems' contest.id %}"> {{ contest.title }}</a> </td>
                             <td> <a href="#"> {{ contest.author }}</a> </td>
                             <td> {{ contest.start_time|date:"H:i e | M/d/o" }} </td>
                             <td>{{ contest.duration }}</td>
-                            <td><a href="#">{{ "Final Standings" }}</a></td>
+                            <td><a href="{% url 'contest:contest-standings' contest.id %}">{{ "Final Standings" }}</a></td>
                         </tr>
                     {% endfor %}
                 </tbody>

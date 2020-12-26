@@ -107,16 +107,14 @@ class UserBlogListView(ListView):
 
 class UserContestListView(ListView):
     model = Contest
-    paginate_by = 10
-    context_object_name = 'user_contest'
+    context_object_name = 'user_contests'
     template_name = 'accounts/user_contest_list.html'
-    ordering = ['-created_at']
 
     def get_user(self):
         return get_object_or_404(User, username=self.kwargs.get('username'))
 
     def get_queryset(self):
-        return Contest.objects.past_contests()
+        return Contest.objects.user_participation(self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

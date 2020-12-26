@@ -22,9 +22,11 @@
 
                             <td> {{ forloop.counter }} </td>
                             <td>
-                                <a href="#"> {{ contest.title }}</a>
+                                <a href="{% url 'contest:contest-standings' contest.id %}"> {{ contest.title }}</a>
                                 <br>
-                                <a href="{% url 'contest:contest-problems' contest.id %}" class="btn btn-sm btn-primary">Enter</a>
+                                {% if contest.is_registered %}
+                                    <a href="{% url 'contest:contest-problems' contest.id %}" class="btn btn-sm btn-primary">Enter</a>
+                                {% endif %}
                             </td>
                             <td><a href="#">  {{ contest.author }}</a> </td>
                             <td> {{ contest.start_time|date:"M/d/o H:i e" }} </td>

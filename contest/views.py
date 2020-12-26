@@ -1,5 +1,7 @@
-from django.shortcuts import get_object_or_404
-from django.views.generic import ListView
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.shortcuts import get_object_or_404, redirect
+from django.views.generic import ListView, TemplateView
 from django.contrib.auth import get_user_model
 
 from contest.models import Contest
@@ -15,7 +17,7 @@ class RunningContestListView(ListView):
     template_name = 'contest/running_contest_list.html'
 
     def get_queryset(self):
-        return Contest.objects.running_contests()
+        return Contest.objects.running_contests(self.request.user.username)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -32,7 +34,7 @@ class UpcomingContestListView(ListView):
     template_name = 'contest/upcoming_contest_list.html'
 
     def get_queryset(self):
-        return Contest.objects.upcoming_contests()
+        return Contest.objects.upcoming_contests(self.request.user.username)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -60,13 +62,18 @@ class PastContestListView(ListView):
         return context
 
 
-class ContestProblemListView(ListView):
+class ContestProblemListView(UserPassesTestMixin, ListView):
     model = Problem
     template_name = 'contest/contest_problems.html'
     context_object_name = 'problems'
 
     def get_contest(self):
         return get_object_or_404(Contest, id=self.kwargs.get('contest_id'))
+
+    def test_func(self):
+        contest = self.get_contest()
+        state = contest.state
+        return state == 'Finished' or (state == 'Running' and self.request.user in contest.contestants.all())
 
     def get_queryset(self):
         return Problem.objects.filter_preserved_by_ids(self.get_contest().problem_ids)
@@ -81,13 +88,16 @@ class ContestProblemListView(ListView):
         return context
 
 
-class ContestMySubmissionListView(ListView):
+class ContestMySubmissionListView(UserPassesTestMixin, ListView):
     model = Submission
     template_name = 'contest/contest_my_submissions.html'
     context_object_name = 'submissions'
 
     def get_contest(self):
         return get_object_or_404(Contest, id=self.kwargs.get('contest_id'))
+
+    def test_func(self):
+        return self.get_contest().state != 'Upcoming'
 
     def get_queryset(self):
         return Submission.objects.filter(contest=self.get_contest(), user=self.request.user).order_by('-created_at')
@@ -102,13 +112,19 @@ class ContestMySubmissionListView(ListView):
         return context
 
 
-class ContestStandingsListView(ListView):
+class ContestStandingsListView(UserPassesTestMixin, ListView):
     model = User
     template_name = 'contest/contest_standings.html'
     context_object_name = 'users'
 
     def get_contest(self):
         return get_object_or_404(Contest, id=self.kwargs.get('contest_id'))
+
+    def get_queryset(self):
+        return User.objects.filter(submissions__contest=self.get_contest())
+
+    def test_func(self):
+        return self.get_contest().state != 'Upcoming'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -118,3 +134,23 @@ class ContestStandingsListView(ListView):
             'contest_standings_tab': 'active'
         })
         return context
+
+
+class ContestRegistrationTemplateView(LoginRequiredMixin, TemplateView):
+    template_name = 'contest/contest_registration.html'
+
+    def get_contest(self):
+        return get_object_or_404(Contest, id=self.kwargs.get('contest_id'))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context.update({
+            'contest': self.get_contest(),
+            'contest_nav': 'active',
+        })
+        return context
+
+    def post(self, *args, **kwargs):
+        self.get_contest().contestants.add(self.request.user)
+        messages.add_message(self.request, messages.SUCCESS, 'Registration Successful!')
+        return redirect('contest:running-contest-list')
