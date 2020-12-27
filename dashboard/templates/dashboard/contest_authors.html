@@ -4,7 +4,7 @@
     {% include 'dashboard/snippets/contest_info_tabs.html' %}
     <div class="card">
         <div class="card-body">
-            <a href="#" class="add-author btn btn-sm btn-primary float-right mr-0 mb-2">
+            <a href="#" onclick="addAuthor(event)" class="add-author btn btn-sm btn-primary float-right mr-0 mb-2">
                 <i class="fa fa-plus mr-1"></i> Add Author
             </a>
             <div class="table-responsive p-1">
@@ -27,13 +27,15 @@
                             <tr>
                                 <td> {{ forloop.counter }} </td>
                                 <td>
-                                    <a href="#"> {{ author.username }} </a>
+                                    <a href="{% url 'accounts:user-profile' author.username %}" class="rank-text rank-{{ author.profile.rank }}">
+                                        {{ author.username }}
+                                    </a>
                                 </td>
                                 <td>
                                     {{ author.profile.rating }}
                                 </td>
                                 <td>
-                                    <a class="text-danger" href="#">
+                                    <a class="text-danger" onclick="removeAuthor(event, {{ author.id }})" href="#">
                                         <i class="fa fa-times" title="Remove"></i>
                                     </a>
                                 </td>
@@ -44,4 +46,21 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block extra_body %}
+    <script>
+        function removeAuthor(e, author_id) {
+            e.preventDefault();
+            if (author_id === parseInt("{{ user.id }}")) {
+                toastr.error('You can not remove yourself from author list', 'Forbidden Action');
+            }
+        }
+
+        function addAuthor(e) {
+            e.preventDefault();
+
+            toastr.info('Feature under development', 'Coming Soon');
+        }
+    </script>
 {% endblock %}

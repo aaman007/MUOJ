@@ -31,7 +31,7 @@
                             <td><a href="#">  {{ contest.author }}</a> </td>
                             <td> {{ contest.start_time|date:"M/d/o H:i e" }} </td>
                             <td>{{ contest.duration }}</td>
-                            <td> {{ 0 }} </td>
+                            <td data-end-time="{{ contest.end_time|date:'Y-m-d H:i:s' }}" class="countdown"> 00:00:00  </td>
                             <td><a href="#">Details</a></td>
                         </tr>
                     {% endfor %}
@@ -39,4 +39,8 @@
             </table>
         </div>
     </div>
+{% endblock %}
+
+{% block extra_body %}
+    {% include 'contest/snippets/list_countdown_timer_js.html' %}
 {% endblock %}

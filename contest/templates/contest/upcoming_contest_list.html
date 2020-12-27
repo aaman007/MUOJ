@@ -25,7 +25,7 @@
                             <td> <a href="#"> {{ contest.author }}</a> </td>
                             <td> {{ contest.start_time|date:"H:i e M/d/o" }} </td>
                             <td>{{ contest.duration }}</td>
-                            <td> {{ 0 }} </td>
+                            <td data-end-time="{{ contest.duration|add:contest.start_time|date:'Y-m-d H:i:s' }}" class="countdown"> 00:00:00  </td>
                             <td>
                                 {% if not contest.is_registered %}
                                     <a href="{% url 'contest:contest-registration' contest.id %}" class="btn btn-sm btn-primary">Register</a>
@@ -39,4 +39,8 @@
             </table>
         </div>
     </div>
+{% endblock %}
+
+{% block extra_body %}
+    {% include 'contest/snippets/list_countdown_timer_js.html' %}
 {% endblock %}

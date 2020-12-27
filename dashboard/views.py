@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
+from django.db.models import Count
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
@@ -27,8 +28,19 @@ class DashboardView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        contest_qs = Contest.objects.filter(author=self.request.user)
+        total_contestants = 0
+        for contest in contest_qs:
+            total_contestants += len(contest.standings)
+        statistics = {
+            'problems': Problem.objects.filter(author=self.request.user).count(),
+            'contests': contest_qs.count(),
+            'participants': total_contestants,
+            'submissions': Submission.objects.filter(contest__in=contest_qs).count()
+        }
         context.update({
-            'dashboard_tab': 'active'
+            'dashboard_tab': 'active',
+            'statistics': statistics
         })
         return context
 
@@ -263,7 +275,7 @@ class ContestStatisticsView(UserPassesTestMixin, TemplateView):
         statistics = {
             'state': contest.state,
             'problems': len(contest.problem_ids),
-            'participants': 'N/A',
+            'participants': len(contest.standings),
             'clarifications': Clarification.objects.filter(contest=contest).count(),
             'announcements': Announcement.objects.filter(contest=contest).count(),
             'submissions': Submission.objects.filter(contest=contest).count(),

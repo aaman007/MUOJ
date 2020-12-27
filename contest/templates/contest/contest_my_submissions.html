@@ -2,6 +2,7 @@
 
 {% block content %}
     <h2 class="text-center"> {{ contest.title }} </h2>
+    <h5 class="countdown text-center"> </h5>
     {% include 'contest/snippets/detail_tabs.html' %}
 
         <div class="card">
@@ -74,4 +75,8 @@
             </table>
         </div>
     </div>
+{% endblock %}
+
+{% block extra_body %}
+    {% include 'contest/snippets/countdown_timer_js.html' %}
 {% endblock %}

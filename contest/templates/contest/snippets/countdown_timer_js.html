@@ -1,0 +1,37 @@
+<script>
+    function convertSeconds(seconds) {
+        seconds = Math.max(seconds, 0);
+        const hours = Math.floor(seconds / 3600);
+        seconds %= 3600;
+        const minutes = Math.floor(seconds / 60);
+        seconds %= 60;
+        return `${hours <= 9 ? '0'+hours : hours}:${minutes <= 9 ? '0'+minutes : minutes}:${seconds <= 9 ? '0'+seconds : seconds}`;
+    }
+
+    $(document).ready(function () {
+        const end_time = new Date("{{ contest.duration|add:contest.start_time|date:'Y-m-d H:i:s' }}").getTime();
+        let remaining = Math.floor((end_time - new Date().getTime()) / 1000);
+
+        if (remaining > 0) {
+            console.log(remaining)
+            $('.countdown').html('Ends In : ' + convertSeconds(remaining));
+        }
+        else {
+            $('.countdown').html('Finished');
+        }
+
+        const interval = setInterval(() => {
+            if (remaining <= 0)
+                clearInterval(interval);
+            else
+                remaining -= 1;
+
+            if (remaining > 0) {
+                $('.countdown').html('Ends In : ' + convertSeconds(remaining));
+            }
+            else {
+                $('.countdown').html('Finished');
+            }
+        }, 1000);
+    });
+</script>

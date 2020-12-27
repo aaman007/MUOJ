@@ -1,0 +1,20 @@
+<script>
+    function convertSeconds(seconds) {
+        seconds = Math.max(seconds, 0);
+        const hours = Math.floor(seconds / 3600);
+        seconds %= 3600;
+        const minutes = Math.floor(seconds / 60);
+        seconds %= 60;
+        return `${hours <= 9 ? '0'+hours : hours}:${minutes <= 9 ? '0'+minutes : minutes}:${seconds <= 9 ? '0'+seconds : seconds}`;
+    }
+
+    $(document).ready(function () {
+        setInterval(() => {
+            $('.countdown').each(function (index, obj) {
+                const end_time = new Date($(obj).data('end-time')).getTime();
+                const remaining = Math.floor((end_time - new Date().getTime()) / 1000);
+                $(obj).html(convertSeconds(remaining));
+            });
+        }, 1000)
+    });
+</script>
