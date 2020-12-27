@@ -98,7 +98,6 @@ class UserBlogListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
-            'blog_nav': 'active',
             'dashboard_blogs_tab': 'active',
             'v_user': get_object_or_404(User, username=self.kwargs.get('username'))
         })

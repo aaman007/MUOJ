@@ -59,11 +59,9 @@ def update_standings(sender, instance, created, **kwargs):
             standings.append(current_data)
             standings = sorted(standings, key=lambda x: -x['total_score'])
             contest.standings = standings
-            print(standings)
             contest.save(update_fields=['standings', 'modified_at'])
 
         except IndexError:
-            print("Index Error")
             pass
 
 
