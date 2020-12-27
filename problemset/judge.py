@@ -82,7 +82,8 @@ def compile_c_cpp_submission(submission, language):
                 break
 
     # Update submission status
-    Submission.objects.filter(id=submission.id).update(status=result)
+    submission.status = result
+    submission.save(update_fields=['status'])
 
 
 # C++ code compile
@@ -127,7 +128,8 @@ def compile_python_submission(submission):
                 break
 
     # Update submission status
-    Submission.objects.filter(id=submission.id).update(status=result)
+    submission.status = result
+    submission.save(update_fields=['status'])
 
 
 # Execute submitted file

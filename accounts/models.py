@@ -41,3 +41,11 @@ class Profile(models.Model):
         for choice in RankChoices.choices:
             if choice[0] == self.rank:
                 return choice[1]
+
+    @staticmethod
+    def get_rank_from_rating(rating):
+        rank = -10000
+        for choice in RankChoices.choices:
+            if choice[0] <= rating:
+                rank = choice[0]
+        return rank

@@ -112,16 +112,11 @@ class ContestMySubmissionListView(UserPassesTestMixin, ListView):
         return context
 
 
-class ContestStandingsListView(UserPassesTestMixin, ListView):
-    model = User
+class ContestStandingsListView(UserPassesTestMixin, TemplateView):
     template_name = 'contest/contest_standings.html'
-    context_object_name = 'users'
 
     def get_contest(self):
         return get_object_or_404(Contest, id=self.kwargs.get('contest_id'))
-
-    def get_queryset(self):
-        return User.objects.filter(submissions__contest=self.get_contest())
 
     def test_func(self):
         return self.get_contest().state != 'Upcoming'

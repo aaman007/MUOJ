@@ -1,5 +1,7 @@
 {% extends 'contest/base.html' %}
 
+{% load custom_tags %}
+
 {% block content %}
     <h2 class="text-center"> {{ contest.title }} </h2>
     {% include 'contest/snippets/detail_tabs.html' %}
@@ -11,17 +13,33 @@
                     <thead class="text-center">
                         <tr>
                             <th width="8%"> # </th>
-                            <th> Handle </th>
-                            <th width="25%"> Score </th>
+                            <th width="20%"> Handle </th>
+                            {% for _ in contest.problem_ids %}
+                                <th> {{ forloop.counter0|num_to_alpha }} </th>
+                            {% endfor %}
+                            <th width="15%"> Total Score </th>
                         </tr>
                     </thead>
 
                     <tbody class="text-center">
-                        {% for user in users %}
+                        {% for user in contest.standings %}
                             <tr>
                                 <td> {{ forloop.counter }} </td>
-                                <td> <a href="{% url 'accounts:user-profile' user.username %}" class="rank-text rank-{{ user.profile.rank }}"> {{ user.username }} </a></td>
-                                <td> {{ 0 }} </td>
+                                <td>
+                                    <a href="{% url 'accounts:user-profile' user.username %}" class="rank-text rank-{{ user.rank }}">
+                                        {{ user.username }}
+                                    </a>
+                                </td>
+                                {% for score in user.scores_per_problem %}
+                                    <td>
+                                        {% if score %}
+                                            <span class="text-success" style="font-weight: bold;"> {{ score }} </span>
+                                        {% endif %}
+                                    </td>
+                                {% endfor %}
+                                <td>
+                                    <span class="text-success" style="font-weight: bold;"> {{ user.total_score }} </span>
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>

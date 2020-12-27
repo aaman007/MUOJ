@@ -20,6 +20,26 @@ class Contest(AbstractBaseModel):
 
     problem_ids = models.JSONField(verbose_name=_('Problem Ids'), default=list)
     problem_scores = models.JSONField(verbose_name=_('Problem Scores'), default=list)
+    """
+    Standings Format
+    [
+        {
+            'id': 23,
+            'username': 'Farhan_Meb',
+            'rank': 1400,
+            'total_score': 300,
+            'scores_per_problem': [100, 200]
+        },
+        {
+            'id': 24,
+            'username': 'Decayed',
+            'rank': 1200,
+            'total_score': 200,
+            'scores_per_problem': [0, 200]
+        }
+    ]
+    """
+    standings = models.JSONField(verbose_name=_('Standings'), default=list, blank=True)
 
     author = models.ForeignKey(
         verbose_name=_('Author'),
