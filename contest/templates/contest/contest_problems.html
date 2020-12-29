@@ -1,10 +1,146 @@
 {% extends 'contest/base.html' %}
-
+{% load crispy_forms_tags %}
 {% block content %}
     <h2 class="text-center"> {{ contest.title }} </h2>
     <h5 class="countdown text-center"> </h5>
     {% include 'contest/snippets/detail_tabs.html' %}
-    Contest Problems
+    <div class="card">
+
+        <div class="card-body">
+            <div class="table-responsive p-1">
+                <table id="id_problem_list" class="table  table-bordered table-hover table-striped">
+                    <thead class="text-center thead-dark">
+                        <tr>
+                            <th width="8%"> # </th>
+                            <th>
+                                Name
+                            </th>
+                            <th width="15%"> Solve Count </th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="text-center">
+                        {% for problem in problems %}
+                            <tr>
+                                <td> {{ forloop.counter }} </td>
+                                <td>
+                                    <a href="{% url 'contest:contest-problem-details' contest.id problem.id %}">
+                                        {{ problem.name }}
+                                        {% if problem.is_solved %}
+                                            <span class="fa fa-check text-success"> </span>
+                                        {% endif %}
+                                    </a>
+                                </td>
+                                <td> {{ problem.solve_count }} </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <br>
+
+    <button type="button" class="btn btn-info float-right mr-0 mb-2" data-toggle="modal" data-target="#exampleModalCenter">
+        Ask Question
+    </button>
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Ask Question</h5>
+                </div>
+                <form method="POST" action="{% url 'contest:ask-question' contest.id %}" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        {% csrf_token %}
+                        <fieldset>
+                            {{ form_class | crispy }}
+                            {{ form_class.media }}
+                        </fieldset>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button class="btn btn-primary" type="submit"> Add </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="card">
+
+        <div class="card-body">
+            <div class="table-responsive p-1">
+                <table  class="table  table-bordered table-hover table-striped">
+                    <thead class="text-center thead-dark">
+                        <tr>
+                            <th width="10%"> # </th>
+                            <th width="10%"> Who </th>
+                            <th width="10%">When</th>
+                            <th width="10%">Problem</th>
+                            <th width="30%"> Question </th>
+                            <th width="30%"> Reply </th>
+                            {% if user == contest.author %}
+                                <th width="10%">Actions</th>
+                            {% endif %}
+                        </tr>
+                    </thead>
+
+                    <tbody class="text-center">
+                        {% for clarification in clarifications %}
+                            <tr>
+                                <td> {{ forloop.counter }} </td>
+                                <td> {{ clarification.user }} </td>
+                                <td> {{ clarification.created_at|date:"H:i  d-n-Y" }} </td>
+                                <td>
+                                    <a href="{% url 'contest:contest-problem-details' contest.id clarification.problem.id %}">
+                                        {{ clarification.problem }}
+                                    </a>
+                                </td>
+                                <td>
+                                    {{ clarification.question }}
+                                </td>
+                                <td>
+                                    {{ clarification.answer }}
+                                </td>
+                                {% if user == contest.author %}
+                                <td>
+                                        {% if clarification.answer %}
+                                            <a class="text-info" href="" data-toggle="modal" data-target="#ModalReply" ><i class="fa fa-reply" aria-hidden="true" title="Edit Reply"></i></a>
+                                        {% else %}
+                                            <a class="text-info" href="" data-toggle="modal" data-target="#ModalReply" ><i class="fa fa-reply" aria-hidden="true" title="Reply"></i></a>
+                                        {% endif %}
+                                        <div class="modal fade" id="ModalReply" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="ModalTitle">Reply</h5>
+                                                </div>
+                                                    <form method="POST" action="{% url 'contest:reply-question' contest.id clarification.id %}" enctype="multipart/form-data">
+                                                    <div class="modal-body">
+                                                        {% csrf_token %}
+                                                    <fieldset>
+                                                        {{ form_reply | crispy }}
+                                                        {{ form_reply.media }}
+                                                </fieldset>
+                                             </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button class="btn btn-primary" type="submit"> Add </button>
+                                                </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block extra_body %}

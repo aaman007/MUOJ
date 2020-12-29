@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
-
 from core.models import AbstractBaseModel
 from contest.managers import ContestManager
 
@@ -70,8 +69,10 @@ class Contest(AbstractBaseModel):
 
 
 class Announcement(AbstractBaseModel):
-    title = models.CharField(verbose_name=_('Title'), max_length=200)
-    content = models.TextField(verbose_name=_('Content'))
+    title = models.CharField(verbose_name=_('Title'), max_length=200, default='')
+    question = models.TextField(verbose_name=_('Question'), default='')
+    answer = models.TextField(verbose_name=_('Answer'), default='', blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     user = models.ForeignKey(
         verbose_name=_('User'),
@@ -90,19 +91,3 @@ class Announcement(AbstractBaseModel):
         return self.title
 
 
-class Clarification(AbstractBaseModel):
-    content = models.TextField(verbose_name=_('Content'))
-
-    user = models.ForeignKey(
-        verbose_name=_('User'),
-        to=User,
-        related_name='clarifications',
-        on_delete=models.CASCADE
-    )
-    contest = models.ForeignKey(
-        verbose_name=_('Contest'),
-        to=Contest,
-        related_name='clarifications',
-        on_delete=models.CASCADE
-    )
-    problem_id = models.PositiveIntegerField(verbose_name=_('Problem Id'))

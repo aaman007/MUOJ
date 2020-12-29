@@ -15,8 +15,8 @@ from django.views.generic import (
 from rest_framework import status
 
 from contest.forms import ContestForm
-from contest.models import Contest, Clarification, Announcement
-from problemset.models import Problem, Submission
+from contest.models import Contest, Announcement
+from problemset.models import Problem, Submission, Clarification
 from dashboard.mixins import ContestActionMixin
 
 

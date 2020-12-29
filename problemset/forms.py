@@ -8,6 +8,7 @@ class SubmissionForm(forms.ModelForm):
         model = Submission
         fields = ['solution_language', 'solution']
 
+
 class ProblemCreateForm(forms.ModelForm):
     class Meta:
         model = Problem

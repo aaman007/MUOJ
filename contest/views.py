@@ -1,11 +1,24 @@
+import self
+from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+)
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView, TemplateView
 from django.contrib.auth import get_user_model
-
+from contest.forms import (
+    SubmissionForm,
+    ClarificationCreateForm,
+    ClarificationReplyForm
+)
 from contest.models import Contest
-from problemset.models import Problem, Submission
+from problemset.models import Problem, Submission,Clarification
 
 
 User = get_user_model()
@@ -83,9 +96,66 @@ class ContestProblemListView(UserPassesTestMixin, ListView):
         context.update({
             'contest': self.get_contest(),
             'contest_nav': 'active',
-            'contest_problems_tab': 'active'
+            'form_class': ClarificationCreateForm(contest_id=self.kwargs.get('contest_id')),
+            'form_reply': ClarificationReplyForm(),
+            'clarifications': Clarification.objects.filter(contest=self.kwargs.get('contest_id')),
+            'contest_problems_tab': 'active',
         })
         return context
+
+
+class ClarificationCreateView(CreateView):
+    model = Clarification
+    form_class = ClarificationCreateForm
+
+    def get_success_url(self):
+        return reverse_lazy('contest:contest-problems', kwargs={'contest_id': self.kwargs.get('contest_id')})
+
+    def form_valid(self, form):
+        form.instance.contest = get_object_or_404(Contest, id=self.kwargs.get('contest_id'))
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
+class ClarificationReplyView(UpdateView):
+    model = Clarification
+    form_class = ClarificationReplyForm
+
+    def get_success_url(self):
+        return reverse_lazy('contest:contest-problems', kwargs={'contest_id': self.kwargs.get('contest_id')})
+
+
+class ContestProblemDetails(DetailView):
+    model = Problem
+    template_name = 'contest/contest_problem_details.html'
+    context_object_name = 'problem'
+
+    def get_contest(self):
+        return get_object_or_404(Contest, id=self.kwargs.get('contest_id'))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'problemset_nav': 'active',
+            'contest': self.get_contest(),
+            'submission_form': SubmissionForm(),
+            'testcases': self.get_object().testcases.filter(is_sample=True)
+        })
+        return context
+
+
+class ContestSubmissionCreateView(CreateView):
+    model = Submission
+    form_class = SubmissionForm
+
+    def get_success_url(self):
+        return reverse_lazy('contest:contest-my-submissions', kwargs={'contest_id': self.kwargs.get('contest_id')})
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        form.instance.contest = get_object_or_404(Contest, pk=self.kwargs.get('contest_id'))
+        form.instance.problem = get_object_or_404(Problem, pk=self.kwargs.get('problem_id'))
+        return super().form_valid(form)
 
 
 class ContestMySubmissionListView(UserPassesTestMixin, ListView):
@@ -149,3 +219,4 @@ class ContestRegistrationTemplateView(LoginRequiredMixin, TemplateView):
         self.get_contest().contestants.add(self.request.user)
         messages.add_message(self.request, messages.SUCCESS, 'Registration Successful!')
         return redirect('contest:running-contest-list')
+

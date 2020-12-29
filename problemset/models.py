@@ -144,3 +144,28 @@ class Submission(models.Model):
     )
 
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class Clarification(AbstractBaseModel):
+    question = models.TextField(verbose_name=_('Question'), default='')
+    answer = models.TextField(verbose_name=_('Answer'), default='', blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    user = models.ForeignKey(
+        verbose_name=_('User'),
+        to=User,
+        related_name='clarifications',
+        on_delete=models.CASCADE
+    )
+    contest = models.ForeignKey(
+        verbose_name=_('Contest'),
+        to=Contest,
+        related_name='clarifications',
+        on_delete=models.CASCADE
+    )
+    problem = models.ForeignKey(
+        to=Problem,
+        verbose_name=_('Problem'),
+        on_delete=models.CASCADE,
+        related_name='clarifications'
+    )

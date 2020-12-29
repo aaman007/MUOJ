@@ -1,0 +1,75 @@
+{% extends 'contest/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <h2 class="text-center"> {{ contest.title }} </h2>
+    <div class="row">
+        <div class="col-sm-9">
+            <div class="card">
+                <div class="card-body">
+                    <h3> {{ problem.name }} </h3>
+                    <br />
+                    <p>
+                        <span class="text-muted"> Limits </span> {{ problem.time_limit }}s, {{ problem.memory_limit }}MB
+                    </p>
+                    <br />
+                    <p> {{ problem.statement|safe|linebreaks }} </p>
+                    <br />
+                    <h4> Input </h4>
+                    <p> {{ problem.input_section|safe|linebreaks }} </p>
+                    <br />
+                    <h4> Output </h4>
+                    <p> {{ problem.output_section|safe|linebreaks }} </p>
+                    <br />
+                    <h4> Sample </h4>
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr style="border-bottom: 1px solid grey">
+                                <th width="50%"> Input </th>
+                                <th width="50%"> Output </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for testcase in testcases %}
+                                <tr>
+                                    <td> {{ testcase.input_text|safe|linebreaks }} </td>
+                                    <td> {{ testcase.output_text|safe|linebreaks }} </td>
+                                </tr>
+                                <br />
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% for testcase in testcases %}
+                        {% if testcase.notes %}
+                            {{ testcase.notes|safe|linebreaks }}
+                        {% endif %}
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="card">
+                <div class="card-body">
+                    <h4> Submit </h4>
+                    <br />
+                    <form method="POST" action="{% url 'contest:contest-submission' contest.id problem.id %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ submission_form|crispy }}
+                        {% if user.is_authenticated %}
+                            <div class="form-group">
+                                <button class="btn btn-sm btn-primary" type="submit"> Submit </button>
+                            </div>
+                        {% else %}
+                            <a href="{% url 'login' %}"> Login </a> to submit
+                        {% endif %}
+                        <br>
+                    </form>
+                </div>
+            </div>
+            <br>
+            {% if user == problem.author %}
+                <button class="btn btn-sm btn-primary float-right" onclick="location.href='{% url 'problemset:problem-update' problem.id%}'">Edit</button>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

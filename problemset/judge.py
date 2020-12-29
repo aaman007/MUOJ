@@ -21,7 +21,7 @@ def compile_c_cpp_submission(submission, language):
     solution_url = f"{BASE_DIR}{submission.solution.url}"
     result = 'AC'
 
-    command = 'g++' if language == 'C++' else 'gcc'
+    command = 'g++'
     executable_file_loc = f"{BASE_DIR}/media/userfiles/todo_coder"
 
     """

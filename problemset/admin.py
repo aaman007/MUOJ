@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from problemset.models import Language, Problem, TestCase, Submission
+from problemset.models import Language, Problem, TestCase, Submission, Clarification
 
 
 @admin.register(Language)
@@ -20,4 +20,9 @@ class TestCaseAdmin(admin.ModelAdmin):
 
 @admin.register(Submission)
 class SubmissionAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Clarification)
+class ClarificationAdmin(admin.ModelAdmin):
     pass

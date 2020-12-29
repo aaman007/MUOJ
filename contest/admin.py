@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from contest.models import Contest, Announcement, Clarification
+from contest.models import Contest, Announcement
 
 
 @admin.register(Contest)
@@ -13,6 +13,3 @@ class AnnouncementAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(Clarification)
-class ClarificationAdmin(admin.ModelAdmin):
-    pass

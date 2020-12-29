@@ -4,6 +4,13 @@ from django import forms
 
 from contest.models import Contest
 from contest.widgets import BootstrapDateTimePickerInput
+from problemset.models import Submission,Clarification,Problem
+
+
+class SubmissionForm(forms.ModelForm):
+    class Meta:
+        model = Submission
+        fields = ['solution_language', 'solution']
 
 
 class ContestForm(forms.ModelForm):
@@ -40,3 +47,21 @@ class ContestForm(forms.ModelForm):
             'duration': 'Format: HH:MM:SS'
         }
 
+
+class ClarificationCreateForm(forms.ModelForm):
+    def __init__(self,contest_id=None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if contest_id:
+            contest = Contest.objects.get(id=contest_id)
+            self.fields['problem'].queryset = Problem.objects.filter_preserved_by_ids(contest.problem_ids)
+
+    class Meta:
+        model = Clarification
+        fields = ['problem', 'question']
+
+
+class ClarificationReplyForm(forms.ModelForm):
+
+    class Meta:
+        model = Clarification
+        fields = ['answer']
