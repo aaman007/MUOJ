@@ -34,12 +34,12 @@
                                 {% for score in user.scores_per_problem %}
                                     <td>
                                         {% if score %}
-                                            <span class="text-success fa fa-check text-success" style="font-weight: bold;"> {{ score }} </span>
+                                            <span class="text-success fa fa-check" style="font-weight: bold;"> {{ score }} </span>
                                         {% endif %}
                                     </td>
                                 {% endfor %}
                                 <td>
-                                    <span class="text-success" style="font-weight: bold;"> {{ user.total_score }} </span>
+                                    <span class="text-success" style="font-weight: bold; font-size:18px;"> {{ user.total_score }} </span>
                                 </td>
                             </tr>
                         {% endfor %}

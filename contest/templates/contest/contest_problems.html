@@ -106,7 +106,7 @@
                                 {% if user == contest.author %}
                                 <td>
                                         {% if clarification.answer %}
-                                            <a class="text-info" href="" data-toggle="modal" data-target="#ModalReply" ><i class="fa fa-reply" aria-hidden="true" title="Edit Reply"></i></a>
+                                            <a class="text-info" onclick="updateReply('{{clarification.answer}}');" href="" data-toggle="modal" data-target="#ModalReply" ><i class="fa fa-reply" aria-hidden="true" title="Edit"></i></a>
                                         {% else %}
                                             <a class="text-info" href="" data-toggle="modal" data-target="#ModalReply" ><i class="fa fa-reply" aria-hidden="true" title="Reply"></i></a>
                                         {% endif %}
@@ -145,4 +145,9 @@
 
 {% block extra_body %}
     {% include 'contest/snippets/countdown_timer_js.html' %}
+    <script>
+        function updateReply(answer){
+            $('#id_answer').text(answer);
+        }
+    </script>
 {% endblock %}
