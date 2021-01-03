@@ -46,24 +46,29 @@
 
 {% block extra_body %}
     <script>
-        new Chart(document.getElementById("rating-chart"), {
-          type: 'line',
-          data: {
-            labels: [1, 2, 3, 4, 5, 6, 7, 8],
-            datasets: [{
-                data: [0, 100, 200, 500, 300, 100, 200],
-                label: "Contest Rating",
-                borderColor: "#3e95cd",
-                fill: true
+        $(document).ready(function () {
+            const rated_contests = {{ rated_contests }};
+            const ratings = {{ ratings }};
+
+            new Chart(document.getElementById("rating-chart"), {
+              type: 'line',
+              data: {
+                labels: rated_contests,
+                datasets: [{
+                    data: ratings,
+                    label: "Contest Rating",
+                    borderColor: "#3e95cd",
+                    fill: true
+                  }
+                ]
+              },
+              options: {
+                title: {
+                  display: true,
+                  text: '{{ v_user.username }}\'s Rating'
+                }
               }
-            ]
-          },
-          options: {
-            title: {
-              display: true,
-              text: '{{ v_user.username }}\'s Rating'
-            }
-          }
-        });
+            });
+        })
     </script>
 {% endblock %}

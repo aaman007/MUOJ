@@ -76,8 +76,14 @@ class UserProfileView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        history = self.get_object().profile.rating_history
+        rated_contests = [idx for idx in range(len(history)+1)]
+        ratings = [0]
+        ratings.extend([contest.get('new_rating') for contest in history])
         context.update({
-            'dashboard_profile_tab': 'active'
+            'dashboard_profile_tab': 'active',
+            "rated_contests": rated_contests,
+            "ratings": ratings
         })
         return context
 
