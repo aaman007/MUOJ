@@ -1,14 +1,12 @@
 from django.contrib.messages.views import SuccessMessageMixin
-from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import (
-    ListView,
     DetailView,
     CreateView,
     UpdateView, DeleteView,
 )
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView, TemplateView
 from django.contrib.auth import get_user_model
@@ -89,7 +87,10 @@ class ContestProblemListView(UserPassesTestMixin, ListView):
         return state == 'Finished' or (state == 'Running' and self.request.user in contest.contestants.all())
 
     def get_queryset(self):
-        return Problem.objects.filter_preserved_by_ids(self.get_contest().problem_ids)
+        return Problem.objects.filter_preserved_by_ids_with_count(
+            self.get_contest().problem_ids,
+            self.kwargs.get('contest_id')
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -104,9 +105,16 @@ class ContestProblemListView(UserPassesTestMixin, ListView):
         return context
 
 
-class ClarificationCreateView(CreateView):
+class ClarificationCreateView(UserPassesTestMixin, CreateView):
     model = Clarification
     form_class = ClarificationCreateForm
+
+    def get_contest(self):
+        return get_object_or_404(Contest, id=self.kwargs.get('contest_id'))
+
+    def test_func(self):
+        contest = self.get_contest()
+        return contest.state == 'Running' and self.request.user in contest.contestants.all()
 
     def get_success_url(self):
         return reverse_lazy('contest:contest-problems', kwargs={'contest_id': self.kwargs.get('contest_id')})

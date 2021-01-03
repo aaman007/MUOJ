@@ -10,7 +10,7 @@ class LanguageAdmin(admin.ModelAdmin):
 
 @admin.register(Problem)
 class ProblemAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['name', 'author', 'created_at']
 
 
 @admin.register(TestCase)
@@ -20,7 +20,7 @@ class TestCaseAdmin(admin.ModelAdmin):
 
 @admin.register(Submission)
 class SubmissionAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['problem', 'contest', 'user', 'status', 'created_at']
 
 
 @admin.register(Clarification)
