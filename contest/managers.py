@@ -10,7 +10,7 @@ class ContestManager(models.Manager):
         Returns all running contests of Contest Model
         """
 
-        return super().get_queryset().annotate(
+        return self.annotate(
             end_time=ExpressionWrapper(
                 F('start_time') + F('duration'),
                 output_field=models.DateTimeField()
@@ -29,7 +29,7 @@ class ContestManager(models.Manager):
         Returns all upcoming contests of Contest Model
         """
 
-        return super().get_queryset().filter(
+        return self.filter(
             start_time__gt=timezone.now()
         ).annotate(
             is_registered=Count(
@@ -43,7 +43,7 @@ class ContestManager(models.Manager):
         Returns all past contests of Contest Model
         """
 
-        return super().get_queryset().annotate(
+        return self.annotate(
             end_time=ExpressionWrapper(
                 F('start_time') + F('duration'),
                 output_field=models.DateTimeField()
@@ -58,7 +58,7 @@ class ContestManager(models.Manager):
         All returned contests are among past contests and rated
         """
 
-        return self.get_queryset().annotate(
+        return self.annotate(
             end_time=ExpressionWrapper(
                 F('start_time') + F('duration'),
                 output_field=models.DateTimeField()

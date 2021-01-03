@@ -22,6 +22,19 @@ class Profile(models.Model):
     location = models.CharField(max_length=200)
     rating = models.IntegerField(default=0)
     rank = models.IntegerField(choices=RankChoices.choices, default=RankChoices.NEWBIE)
+    """
+    Rating History Format:
+    [
+        {
+            'contest_id': 1,
+            'contest_title': 'MU Contest 1',
+            'rank': 27,
+            'previous_rating': 1387,
+            'new_rating': 1456
+        }
+    ]
+    """
+    rating_history = models.JSONField(verbose_name=_('Rating History'), default=list, blank=True)
 
     def __str__(self):
         return f'{self.user.username} Profile'

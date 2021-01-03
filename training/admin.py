@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from training.models import Tutorial
+
+
+@admin.register(Tutorial)
+class TutorialAdmin(admin.ModelAdmin):
+    pass

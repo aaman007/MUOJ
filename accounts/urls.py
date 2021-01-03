@@ -18,5 +18,5 @@ urlpatterns = [
     path('<str:username>/user-contest-list/', UserContestListView.as_view(), name='user-contest-list'),
     path('<str:username>/user-problems-list/', UserProblemSettingListView.as_view(), name='user-problems-list'),
     path('<str:username>/update-profile/', profile_update_view, name='update-profile'),
-    path('<str:username>', UserProfileView.as_view(), name='user-profile'),
+    path('<str:username>/', UserProfileView.as_view(), name='user-profile'),
 ]
