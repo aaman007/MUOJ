@@ -1,0 +1,152 @@
+{% extends 'contest/base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <h2 class="text-center"> {{ contest.title }} </h2>
+    <h5 class="countdown text-center"> </h5>
+    {% include 'contest/snippets/detail_tabs.html' %}
+
+    <div class="card">
+        <div class="card-body">
+            {% if contest.author == user %}
+                {% comment %} Add Announcement Modal {% endcomment %}
+                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Add Announcement</h5>
+                            </div>
+                            <form method="POST" action="{% url 'contest:announcement-create' contest.id %}" enctype="multipart/form-data">
+                                <div class="modal-body">
+                                    {% csrf_token %}
+                                    <fieldset>
+                                        {{ announcement_form | crispy }}
+                                    </fieldset>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+                                    <button class="btn btn-sm btn-primary" type="submit"> Add </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                {% comment %} Update Announcement Modal {% endcomment %}
+                <div class="modal fade" id="announcementUpdateModal" tabindex="-1" role="dialog" aria-labelledby="announcementUpdateModal" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Update Announcement</h5>
+                            </div>
+                            <form method="POST" action="{% url 'contest:announcement-update' contest.id %}">
+                                <div class="modal-body">
+                                    {% csrf_token %}
+                                    <fieldset>
+                                        <div class="form-group">
+                                            <input name="announcement_id" id="announcement-id" type="text" aria-label="Id" hidden />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="updated-title"> Title* </label>
+                                            <input name="title" type="text" class="form-control" id="updated-title" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="updated-contest"> Content* </label>
+                                            <textarea name="content" class="form-control" rows="6" aria-label="content" id="updated-content"> </textarea>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+                                    <button class="btn btn-sm btn-primary" type="submit"> Update </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-sm btn-primary float-right mr-0 mb-2" data-toggle="modal" data-target="#exampleModalCenter">
+                    Add Announcement
+                </button>
+            {% endif %}
+            <table id="announcementTable" class="table table-responsive table-hover table-bordered text-center table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th width="5%"> # </th>
+                        <th width="20%"> Title </th>
+                        <th width="{% if contest.author != user %} 65% {% endif %}"> Description </th>
+                        <th width="20%"> Time </th>
+                        {% if contest.author == user %}
+                            <th width="5%"> Actions </th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for announcement in announcements %}
+                        <tr>
+                            <td> {{ forloop.counter }} </td>
+                            <td> {{ announcement.title }} </td>
+                            <td> {{ announcement.content }} </td>
+                            <td> {{ announcement.created_at|date:"H:i:s  d-m-Y" }} </td>
+                            {% if contest.author == user  %}
+                                <td data-id="{{ announcement.id }}">
+                                    <a class="text-info" onclick="updateAnnouncement($(this));" style="cursor: pointer;" data-toggle="modal" data-target="#announcementUpdateModal">
+                                        <i class="fa fa-edit" title="Update"></i>
+                                    </a>
+                                    <a data-id="{{ announcement.id }}" class="ml-2 delete-announcement text-danger" href="#">
+                                        <i class="fa fa-trash" title="Delete"></i>
+                                    </a>
+                                </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_body %}
+    {% include 'contest/snippets/countdown_timer_js.html' %}
+
+    <script>
+        function updateAnnouncement(elem) {
+            const title = $(elem).parent().siblings()[1].innerHTML.trim();
+            const content = $(elem).parent().siblings()[2].innerHTML.trim();
+            $('#updated-title').val(title);
+            $('#updated-content').text(content);
+            $('#announcement-id').val($(elem).parent().data('id'))
+        }
+
+        $(document).ready(function () {
+            $('#announcementTable').on('click', '.delete-announcement', function (e) {
+                e.preventDefault();
+
+                const announcement_id = $(this).data('id');
+
+                bootbox.confirm({
+                    title: 'Confirm Delete',
+                    message: 'Are you sure you want to delete this announcement?',
+                    buttons: {
+                        cancel: {
+                            label: 'Cancel',
+                            className: 'btn btn-sm btn-secondary'
+                        },
+                        confirm: {
+                            label: 'Confirm',
+                            className: 'btn btn-sm btn-primary'
+                        }
+                    },
+                    callback: function (response) {
+                        if (response) {
+                            window.document.location = "{% url 'contest:announcement-delete' 23456 12345%}"
+                                                        .replace('23456', "{{ contest.id }}")
+                                                        .replace('12345', announcement_id.toString());
+                        }
+                    }
+                })
+            })
+        })
+    </script>
+{% endblock %}

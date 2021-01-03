@@ -1,11 +1,11 @@
-import self
+from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import (
     ListView,
     DetailView,
     CreateView,
-    UpdateView,
+    UpdateView, DeleteView,
 )
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -15,9 +15,9 @@ from django.contrib.auth import get_user_model
 from contest.forms import (
     SubmissionForm,
     ClarificationCreateForm,
-    ClarificationReplyForm
+    ClarificationReplyForm, AnnouncementForm
 )
-from contest.models import Contest
+from contest.models import Contest, Announcement
 from problemset.models import Problem, Submission,Clarification
 
 
@@ -167,7 +167,7 @@ class ContestMySubmissionListView(UserPassesTestMixin, ListView):
         return get_object_or_404(Contest, id=self.kwargs.get('contest_id'))
 
     def test_func(self):
-        return self.get_contest().state != 'Upcoming'
+        return self.request.user.is_authenticated and self.get_contest().state != 'Upcoming'
 
     def get_queryset(self):
         return Submission.objects.filter(contest=self.get_contest(), user=self.request.user).order_by('-created_at')
@@ -201,11 +201,107 @@ class ContestStandingsListView(UserPassesTestMixin, TemplateView):
         return context
 
 
-class ContestRegistrationTemplateView(LoginRequiredMixin, TemplateView):
+class ContestAnnouncementsListView(UserPassesTestMixin, ListView):
+    model = Announcement
+    template_name = 'contest/contest_announcements.html'
+    context_object_name = 'announcements'
+
+    def get_contest(self):
+        return get_object_or_404(Contest, id=self.kwargs.get('contest_id'))
+
+    def test_func(self):
+        return self.get_contest().state != 'Upcoming'
+
+    def get_queryset(self):
+        return Announcement.objects.filter(contest=self.get_contest()).order_by('-created_at')
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context.update({
+            'contest': self.get_contest(),
+            'contest_nav': 'active',
+            'contest_announcements_tab': 'active',
+            'announcement_form': AnnouncementForm()
+        })
+        return context
+
+
+class ContestAnnouncementCreateView(UserPassesTestMixin, CreateView):
+    model = Announcement
+    form_class = AnnouncementForm
+
+    def get_success_url(self):
+        return reverse_lazy('contest:contest-announcements', kwargs={'contest_id': self.kwargs.get('contest_id')})
+
+    def get_contest(self):
+        return get_object_or_404(Contest, id=self.kwargs.get('contest_id'))
+
+    def test_func(self):
+        return self.get_contest().author == self.request.user
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        form.instance.contest = self.get_contest()
+        return super().form_valid(form)
+
+
+class ContestAnnouncementTemplateView(UserPassesTestMixin, TemplateView):
+    model = Announcement
+    template_name = 'contest/contest_announcements.html'
+
+    def get_contest(self):
+        return get_object_or_404(Contest, id=self.kwargs.get('contest_id'))
+
+    def test_func(self):
+        return self.get_contest().author == self.request.user
+
+    def post(self, request, *args, **kwargs):
+        try:
+            announcement_id = request.POST.get('announcement_id')
+            title = request.POST.get('title')
+            content = request.POST.get('content')
+
+            Announcement.objects.filter(id=announcement_id).update(
+                title=title,
+                content=content
+            )
+
+        except (ValueError, Exception):
+            messages.add_message(request, messages.ERROR, 'Invalid fields')
+
+        return redirect(
+            reverse_lazy(
+                'contest:contest-announcements',
+                kwargs={'contest_id': self.kwargs.get('contest_id')}
+            )
+        )
+
+
+class ContestAnnouncementDeleteView(UserPassesTestMixin, SuccessMessageMixin, DeleteView):
+    model = Announcement
+    success_message = 'Announcement deleted successfully'
+
+    def get_success_url(self):
+        return reverse_lazy('contest:contest-announcements', kwargs={'contest_id': self.kwargs.get('contest_id')})
+
+    def get_contest(self):
+        return get_object_or_404(Contest, id=self.kwargs.get('contest_id'))
+
+    def test_func(self):
+        return self.get_contest().author == self.request.user
+
+    def get(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)
+
+
+class ContestRegistrationTemplateView(UserPassesTestMixin, TemplateView):
     template_name = 'contest/contest_registration.html'
 
     def get_contest(self):
         return get_object_or_404(Contest, id=self.kwargs.get('contest_id'))
+
+    def test_func(self):
+        return self.request.user and self.get_contest().state == 'upcoming'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()

@@ -8,4 +8,7 @@
     <li class="nav-item">
         <a class="nav-link {{ contest_standings_tab }}" href="{% url 'contest:contest-standings' contest.id %}">Standings</a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link {{ contest_announcements_tab }}" href="{% url 'contest:contest-announcements' contest.id %}">Announcements</a>
+    </li>
 </ul>

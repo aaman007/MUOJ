@@ -70,9 +70,7 @@ class Contest(AbstractBaseModel):
 
 class Announcement(AbstractBaseModel):
     title = models.CharField(verbose_name=_('Title'), max_length=200, default='')
-    question = models.TextField(verbose_name=_('Question'), default='')
-    answer = models.TextField(verbose_name=_('Answer'), default='', blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    content = models.TextField(verbose_name=_('Content'), default='')
 
     user = models.ForeignKey(
         verbose_name=_('User'),

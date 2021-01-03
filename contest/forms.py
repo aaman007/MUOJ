@@ -2,9 +2,9 @@ import datetime
 
 from django import forms
 
-from contest.models import Contest
+from contest.models import Contest, Announcement
 from contest.widgets import BootstrapDateTimePickerInput
-from problemset.models import Submission,Clarification,Problem
+from problemset.models import Submission, Clarification, Problem
 
 
 class SubmissionForm(forms.ModelForm):
@@ -48,8 +48,14 @@ class ContestForm(forms.ModelForm):
         }
 
 
+class AnnouncementForm(forms.ModelForm):
+    class Meta:
+        model = Announcement
+        fields = ['title', 'content']
+
+
 class ClarificationCreateForm(forms.ModelForm):
-    def __init__(self,contest_id=None, *args, **kwargs):
+    def __init__(self, contest_id=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if contest_id:
             contest = Contest.objects.get(id=contest_id)
