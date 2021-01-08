@@ -72,3 +72,14 @@ a:hover {
     color: red;
 }
 
+
+/** Read More **/
+.read-more {
+    text-decoration: dotted underline;
+    text-underline-position: under;
+}
+
+.read-more:hover {
+    text-decoration: dotted underline;
+    text-underline-position: under;
+}

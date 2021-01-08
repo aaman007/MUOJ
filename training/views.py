@@ -1,11 +1,14 @@
-from django.views.generic import TemplateView
-from django.template.response import TemplateResponse
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic import ListView, DetailView
 
-from blog.models import Blog
+from problemset.models import Problem
+from training.models import Tutorial
 
 
-class TrainingTemplateView(TemplateView):
-    template_name = 'training/training_list.html'
+class TutorialListView(LoginRequiredMixin, ListView):
+    model = Tutorial
+    template_name = 'training/tutorial_list.html'
+    context_object_name = 'tutorials'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -15,24 +18,23 @@ class TrainingTemplateView(TemplateView):
         return context
 
 
-class TrainingDetailView(TemplateView):
-    template_name = 'training/training_details.html'
+class TutorialDetailView(UserPassesTestMixin, DetailView):
+    model = Tutorial
+    template_name = 'training/tutorial_details.html'
+    context_object_name = 'tutorial'
+
+    def test_func(self):
+        user = self.request.user
+        return user.is_authenticated and user.profile.levels_completed >= self.get_object().level
+
+    def get_problems(self):
+        return Problem.objects.filter(id__in=self.get_object().problem_ids)
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data()
+        context = super().get_context_data(**kwargs)
         context.update({
             'training_nav': 'active',
-            'blog': Blog.objects.get(pk=kwargs.get('pk'))
+            'problems': self.get_problems()
         })
         return context
-
-    def post(self, *args, **kwargs):
-
-        context = self.get_context_data(**kwargs)
-        context.update({
-            'code': self.request.POST.get('code'),
-            'input': self.request.POST.get('input'),
-            'output': self.request.POST.get('code') + self.request.POST.get('input')
-        })
-        return TemplateResponse(self.request, self.template_name, context)
 

@@ -1,8 +1,10 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+from accounts.models import Profile
 from problemset.judge import compile_submission
 from problemset.models import Submission
+from training.models import Tutorial
 
 
 @receiver(post_save, sender=Submission)
@@ -65,4 +67,23 @@ def update_standings(sender, instance, created, **kwargs):
             pass
 
 
+@receiver(post_save, sender=Submission)
+def update_user_level(sender, instance, created, **kwargs):
+    if instance.status == 'AC':
+        """
+        Updates user level for training based on solved problems
+        """
+        user = instance.user
+        solved_ids = {
+            submission.problem.id
+            for submission in Submission.objects.filter(user=user, status='AC')
+        }
 
+        updated_level = user.profile.levels_completed
+        for tutorial in Tutorial.objects.filter(level__gte=user.profile.levels_completed):
+            common = solved_ids.intersection(set(tutorial.problem_ids))
+            if len(common) != len(tutorial.problem_ids):
+                break
+            updated_level += 1
+
+        Profile.objects.filter(id=user.id).update(levels_completed=updated_level)

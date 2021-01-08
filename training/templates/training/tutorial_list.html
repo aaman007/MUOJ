@@ -1,0 +1,26 @@
+{% extends 'training/base.html' %}
+
+{% block content %}
+    {% comment %} Breadcrumb {% endcomment %}
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">Training</li>
+        </ol>
+    </nav>
+
+    {% for tutorial in tutorials %}
+        <div class="card my-2" style="border-left: 6px solid #3f63a7;">
+            <div class="card-body text-dark">
+                {% if user.is_authenticated and user.profile.levels_completed >= tutorial.level %}
+                    <h4> <a href="{% url 'training:tutorial-details' tutorial.id %}">{{ tutorial.title }} </a>  </h4>
+                    <p> {{ tutorial.truncated_content|safe }} </p>
+                    <a class="read-more" href="{% url 'training:tutorial-details' tutorial.id %}"> Read More </a>
+                {% else %}
+                    <div class="text-center" style="font-size: 30px;">
+                        <i class="fa fa-lock text-danger"></i> <strong>Locked</strong>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

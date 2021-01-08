@@ -7,13 +7,3 @@
     text-decoration: none;
     opacity: 1;
 }
-
-.read-more {
-    text-decoration: dotted underline;
-    text-underline-position: under;
-}
-
-.read-more:hover {
-    text-decoration: dotted underline;
-    text-underline-position: under;
-}

@@ -1,0 +1,27 @@
+{% extends 'training/base.html' %}
+
+{% block content %}
+    {% comment %} Breadcrumb {% endcomment %}
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">Training</li>
+            <li class="breadcrumb-item active" aria-current="page">Details</li>
+        </ol>
+    </nav>
+
+    <div class="card">
+        <div class="card-body text-dark">
+            <h2> {{ tutorial.title }} </h2>
+            <p> {{ tutorial.content|safe }} </p>
+
+            <div class="text-light bg-primary p-2 mb-2"> Solve these problems to clear this level </div>
+            <ul>
+                {% for problem in problems %}
+                    <li>
+                        <a href="{% url 'problemset:problem-details' problem.id %}"> {{ problem.name }} </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

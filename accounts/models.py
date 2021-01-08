@@ -35,7 +35,7 @@ class Profile(models.Model):
     ]
     """
     rating_history = models.JSONField(verbose_name=_('Rating History'), default=list, blank=True)
-    levels_completed = models.PositiveIntegerField(verbose_name=_("Level's Completed"), default=0)
+    levels_completed = models.PositiveIntegerField(verbose_name=_("Level's Completed"), default=1)
 
     def __str__(self):
         return f'{self.user.username} Profile'
