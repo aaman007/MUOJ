@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'ckeditor',
     'crispy_forms',
     'rest_framework',
+    'django_celery_results',
+    'django_celery_beat',
+    'debug_toolbar',
 
     # My Apps
     'accounts.apps.AccountsConfig',
@@ -59,6 +62,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'muoj.urls'
@@ -111,6 +115,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+INTERNAL_IPS = [
+    '127.0.0.1'
+]
+
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
@@ -142,6 +151,14 @@ MESSAGE_TAGS = {
     message_constants.ERROR: 'danger',
 }
 
+# Celery Configuration Options
+CELERY_TIMEZONE = "Asia/Dhaka"
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_CACHE_BACKEND = 'django-cache'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
 
 
 # Static files (CSS, JavaScript, Images)

@@ -1,6 +1,5 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.db.models import Count
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
@@ -19,6 +18,7 @@ from contest.models import Contest, Announcement
 from problemset.models import Problem, Submission, Clarification
 from dashboard.mixins import ContestActionMixin
 
+from problemset.tasks import task_print_hello
 
 User = get_user_model()
 
