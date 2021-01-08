@@ -59,14 +59,40 @@
                         </fieldset>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button class="btn btn-primary" type="submit"> Add </button>
+                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+                        <button class="btn btn-sm btn-primary" type="submit"> Add </button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
     <br><br>
+
+    {% comment %} Reply Modal {% endcomment %}
+    <div class="modal fade" id="ModalReply" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalTitle">Reply</h5>
+            </div>
+                <form method="POST" class="reply_form">
+                <div class="modal-body">
+                    {% csrf_token %}
+                <fieldset>
+                    <input aria-label="clarification id" class="clarification_id" type="text" hidden />
+                    {{ form_reply | crispy }}
+                    {{ form_reply.media }}
+            </fieldset>
+         </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+                <button class="btn btn-sm btn-primary reply" type="submit"> Add </button>
+            </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div class="card">
         <div class="card-body">
             <div class="table-responsive p-1">
@@ -103,34 +129,26 @@
                                     {{ clarification.answer }}
                                 </td>
                                 {% if user == contest.author %}
-                                <td>
-                                        {% if clarification.answer %}
-                                            <a class="text-info" onclick="updateReply('{{clarification.answer}}');" href="" data-toggle="modal" data-target="#ModalReply" ><i class="fa fa-reply" aria-hidden="true" title="Edit"></i></a>
-                                        {% else %}
-                                            <a class="text-info" href="" data-toggle="modal" data-target="#ModalReply" ><i class="fa fa-reply" aria-hidden="true" title="Reply"></i></a>
-                                        {% endif %}
-                                        <div class="modal fade" id="ModalReply" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                                <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="ModalTitle">Reply</h5>
-                                                </div>
-                                                    <form method="POST" action="{% url 'contest:reply-question' contest.id clarification.id %}" enctype="multipart/form-data">
-                                                    <div class="modal-body">
-                                                        {% csrf_token %}
-                                                    <fieldset>
-                                                        {{ form_reply | crispy }}
-                                                        {{ form_reply.media }}
-                                                </fieldset>
-                                             </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                    <button class="btn btn-primary" type="submit"> Add </button>
-                                                </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
+                                <td data-c-id="{{ clarification.id }}">
+                                    {% if clarification.answer %}
+                                        <a
+                                                class="text-info"
+                                                onclick="updateReply('{{clarification.answer}}', this);"
+                                                href="#"
+                                                data-toggle="modal"
+                                                data-target="#ModalReply" >
+                                            <i class="fa fa-reply" aria-hidden="true" title="Edit"></i>
+                                        </a>
+                                    {% else %}
+                                        <a
+                                                class="text-info"
+                                                onclick="reply(this)"
+                                                href="#"
+                                                data-toggle="modal"
+                                                data-target="#ModalReply" >
+                                            <i class="fa fa-reply" aria-hidden="true" title="Reply"></i>
+                                        </a>
+                                    {% endif %}
                                 </td>
                                 {% endif %}
                             </tr>
@@ -145,8 +163,23 @@
 {% block extra_body %}
     {% include 'contest/snippets/countdown_timer_js.html' %}
     <script>
-        function updateReply(answer){
-            $('#id_answer').text(answer);
+        function reply(that) {
+            $('.clarification_id').val($(that).parent().data('c-id'));
         }
+
+        function updateReply(answer, that){
+            $('#id_answer').text(answer);
+            $('.clarification_id').val($(that).parent().data('c-id'));
+        }
+
+        $('.reply').on('click', function (e) {
+            e.preventDefault();
+            const c_id = $('.clarification_id').val();
+            const url = "{% url 'contest:reply-question' 1234 2345 %}"
+                        .replace('1234', '{{ contest.id }}')
+                        .replace('2345', c_id);
+            $('.reply_form')[0].action = url;
+            $('.reply_form')[0].submit();
+        })
     </script>
 {% endblock %}

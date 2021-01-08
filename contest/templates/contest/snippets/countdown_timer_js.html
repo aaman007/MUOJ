@@ -13,7 +13,6 @@
         let remaining = Math.floor((end_time - new Date().getTime()) / 1000);
 
         if (remaining > 0) {
-            console.log(remaining)
             $('.countdown').html('Ends In : ' + convertSeconds(remaining));
         }
         else {
