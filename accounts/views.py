@@ -130,26 +130,6 @@ class UserContestListView(ListView):
         return context
 
 
-class UserProblemSettingListView(ListView):
-    model = Problem
-    context_object_name = 'user_problems'
-    template_name = 'accounts/user_problems_list.html'
-
-    def get_user(self):
-        return get_object_or_404(User, username=self.kwargs.get('username'))
-
-    def get_queryset(self):
-        return Problem.objects.filter(author=self.get_user()).order_by('-created_at')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context.update({
-            'dashboard_problemsetting_tab': 'active',
-            'v_user': get_object_or_404(User, username=self.kwargs.get('username'))
-        })
-        return context
-
-
 def profile_update_view(request, username):
     if request.method == 'POST':
         u_form = UserUpdateForm(request.POST, instance=request.user)

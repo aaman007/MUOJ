@@ -6,6 +6,6 @@
         <a class="nav-link {{ my_contests_tab }}" href="{% url 'dashboard:my-contests' %}">My Contests</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link {{ my_problems_tab }}" href="{% url 'dashboard:my-problems' %}">My Problems</a>
+        <a class="nav-link {{ my_problems_tab }}" href="{% url 'dashboard:user-problems-list' user.username %}">My Problems</a>
     </li>
 </ul>

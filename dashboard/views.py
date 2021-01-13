@@ -46,19 +46,22 @@ class DashboardView(TemplateView):
 
 
 # Problem_set Related Dashboard Views
-class MyProblemListView(PermissionRequiredMixin, ListView):
+class UserProblemSettingListView(ListView):
     model = Problem
-    template_name = 'dashboard/problem_list.html'
-    context_object_name = 'problems'
-    permission_required = []
+    context_object_name = 'user_problems'
+    template_name = 'dashboard/user_problems_list.html'
+
+    def get_user(self):
+        return get_object_or_404(User, username=self.kwargs.get('username'))
 
     def get_queryset(self):
-        return Problem.objects.filter(author=self.request.user).order_by('-created_at')
+        return Problem.objects.filter(author=self.get_user()).order_by('-created_at')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
-            'my_problems_tab': 'active'
+            'my_problems_tab': 'active',
+            'v_user': get_object_or_404(User, username=self.kwargs.get('username'))
         })
         return context
 
