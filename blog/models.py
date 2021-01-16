@@ -23,6 +23,6 @@ class Blog(models.Model):
     def truncated_content(self):
         try:
             index = self.content[500:].index(' ')
-        except ValueError:
+        except (ValueError, Exception):
             index = len(self[500:])
         return self.content if len(self.content) <= 500 else f"{self.content[:500+index]}....."
