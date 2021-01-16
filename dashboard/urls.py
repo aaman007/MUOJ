@@ -20,7 +20,7 @@ urlpatterns = [
     path('', DashboardView.as_view(), name='dashboard'),
 
     # Problemset
-    path('<str:username>/user-problems-list/', UserProblemSettingListView.as_view(), name='user-problems-list'),
+    path('problemsetting/', UserProblemSettingListView.as_view(), name='user-problems-list'),
 
     # Contest
     path('contests/', MyContestListView.as_view(), name='my-contests'),

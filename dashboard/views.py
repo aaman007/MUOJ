@@ -51,17 +51,13 @@ class UserProblemSettingListView(ListView):
     context_object_name = 'user_problems'
     template_name = 'dashboard/user_problems_list.html'
 
-    def get_user(self):
-        return get_object_or_404(User, username=self.kwargs.get('username'))
-
     def get_queryset(self):
-        return Problem.objects.filter(author=self.get_user()).order_by('-created_at')
+        return Problem.objects.filter(author=self.request.user).order_by('-created_at')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
-            'my_problems_tab': 'active',
-            'v_user': get_object_or_404(User, username=self.kwargs.get('username'))
+            'my_problems_tab': 'active'
         })
         return context
 

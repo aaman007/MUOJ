@@ -134,7 +134,7 @@ class ProblemCreateView(CreateView):
     form_class = ProblemCreateForm
 
     def get_success_url(self):
-        return reverse_lazy('accounts:user-problems-list', kwargs={'username': self.request.user.username})
+        return reverse_lazy('dashboard:user-problems-list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -155,7 +155,7 @@ class ProblemUpdateView(UpdateView):
     form_class = ProblemCreateForm
 
     def get_success_url(self, **kwargs):
-        return reverse_lazy('accounts:user-problems-list', kwargs={'username': self.request.user.username})
+        return reverse_lazy('dashboard:user-problems-list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

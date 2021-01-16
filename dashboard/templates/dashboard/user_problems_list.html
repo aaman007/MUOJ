@@ -2,17 +2,12 @@
 
 {% block content %}
     {% include 'dashboard/snippets/list_tabs.html' %}
-    {% if user.is_authenticated and user == v_user %}
-        <div class="mb-4 d-flex">
-            <div class="w-100">
-                <a href="{% url 'problemset:add-problem' %}" class="add-blog btn btn-sm btn-primary float-right mr-0">
-                    <i class="fa fa-plus mr-1"></i> Add Problem
-                </a>
-            </div>
-        </div>
-    {% endif %}
+
     <div class="card">
         <div class="card-body">
+            <a href="{% url 'problemset:add-problem' %}" class="add-contest btn btn-sm btn-primary float-right mr-0 mb-2">
+                <i class="fa fa-plus mr-1"></i> Add Problem
+            </a>
             <div class="table-responsive p-1">
                 <table id="id_problem_list" class="table  table-bordered table-hover table-striped">
                     <thead class="text-center thead-dark">
