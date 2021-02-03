@@ -30,6 +30,7 @@
 <body onload="func()" class="d-flex flex-column h-100 bg-light-blue">
     <header>
         <!-- Fixed navbar -->
+
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark-blue">
             <a class="navbar-brand" href="/">MU Online Judge</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
@@ -77,9 +78,11 @@
                         <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
 	          		    <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
                     {% endif %}
+
                 </ul>
             </div>
         </nav>
+
     </header>
 
     <!-- Begin page content -->
