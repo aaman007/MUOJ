@@ -23,10 +23,10 @@ from django.views.generic import TemplateView
 
 from django.contrib.auth import views as auth_views
 from accounts import views as account_views
-
+from blog.views import HomeView
 
 urlpatterns = [
-    path('', TemplateView.as_view(
+    path('', HomeView.as_view(
         template_name='base.html', extra_context={'home': 'active'}
     ), name='home'),
     path('admin/', admin.site.urls),

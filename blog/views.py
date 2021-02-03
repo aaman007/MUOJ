@@ -5,7 +5,8 @@ from django.views.generic import (
     DeleteView,
     CreateView,
     UpdateView,
-    DetailView
+    DetailView,
+    TemplateView
 )
 
 from blog.forms import BlogForm
@@ -23,6 +24,24 @@ class BlogListView(ListView):
         context = super().get_context_data(**kwargs)
         context.update({
             'blog_nav': 'active'
+        })
+        return context
+
+
+class HomeView(ListView):
+    model = Blog
+    paginate_by = 5
+    context_object_name = 'blogs'
+    ordering = ['-created_at']
+    template_name = 'base.html'
+
+    def get_queryset(self):
+        return Blog.objects.filter(preference=True)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'home_nav': 'active'
         })
         return context
 

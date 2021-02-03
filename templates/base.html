@@ -94,15 +94,25 @@
             {% block content %}
                 <div class="row">
                     <div class="col-sm-8">
-                        <h1>Welcome to MUOJ</h1>
+                        {% for blog in blogs %}
+                            <div class="card mt-2 mb-2">
+                                <div class="card-body">
+                                    <h4> <a class="blog-title" href="{% url 'blog:blog-details' blog.id %}"> {{ blog.title }} </a>  </h4>
+                                    <h6>by <a class="blog-title" href="{% url 'accounts:user-profile' blog.user.username %}"> {{ blog.user.username }} </a>  </h6>
+                                    <p>
+                                        {{ blog.content|safe }}
+                                    </p>
+                                    {% if blog.content|length > 500 %}
+                                        <a class="read-more" href="{% url 'blog:blog-details' blog.id %}"> Read More </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
                     </div>
-                    <div class="col-sm-4">
-                        <div class="container-fluid" style="padding: 20px">
-                            <h4>Upcoming Contests</h4>
-                                <ul style="margin-top: 20px" id="contests" class="list-group"></ul>
-                                <hr>
-                            <h5 style="margin-top: 20px">Text Format <button class="btn btn-secondary btn-sm" onclick="copyFunc()" id="copy-btn">Copy</button></h5>
-                            <div class="card card-body" id="text">Upcoming Contests in Next 24 Hours<br><br></div>
+                    <div class="col-sm-4 mt-1">
+                        <div class="container-fluid card mt-2" style="padding: 20px">
+                            <h4 class="card-title">Upcoming Contests in next 24 hours (Other Judges)</h4>
+                                <ul style="margin-top: 20px" id="contests" class="list-group card-body"></ul>
 		                </div>
                     </div>
                 </div>
@@ -180,8 +190,8 @@ function func() {
 	  	});
 	  	for (var i = 0; i < response.length; i++) {
 	  		let diff = (new Date(response[i].start_time) - new Date()) / (1000 * 3600);
-	  		if (diff <= 24.00 && new Date() < new Date(new Date(response[i].start_time))) {
-		  		let li = createNode('li');
+            if (diff <= 24.00 && new Date() < new Date(new Date(response[i].start_time))) {
+		  	    let li = createNode('li');
 		  		let h5 = createNode('h5');
 		  		let bold = createNode('b');
 		  		append(h5, bold);
@@ -201,13 +211,11 @@ function func() {
 
 		  		let p = document.createTextNode(contestName);
 
-		  		txt.innerHTML += ">> " + contestName;
-		  		txt.innerHTML += "<br>Start Time: " + new Date(response[i].start_time);
 
 		  		append(h5, p);
 		  		append(li, h5);
 
-		  		let div = document.createElement('h5');
+		  		let div = document.createElement('h7');
 		  		div.innerHTML += "Start Time: " + new Date(response[i].start_time);
 		  		append(li, div);
 
@@ -215,28 +223,23 @@ function func() {
 
 		  		if (Math.floor(response[i].duration/(3600)) > 1) {
 		  			div.innerHTML += "Duration: " + Math.floor(response[i].duration/ 3600) + " Hours";
-		  			txt.innerHTML += "<br>Duration: " + Math.floor(response[i].duration/ 3600) + " Hours";
 
 		  			if (parseInt(response[i].duration) % 3600 != 0) {
 		  				div.innerHTML += " " + Math.floor((parseInt(response[i].duration) % 3600) / 60) + " Minutes";
-		  				txt.innerHTML += " " + Math.floor((parseInt(response[i].duration) % 3600) / 60) + " Minutes";
 		  			}
 
 		  			append(li, div);
 		  		} else if (Math.floor(response[i].duration/(3600)) > 0) {
 		  			div.innerHTML += "Duration: " + Math.floor(response[i].duration/ 3600) + " Hour";
-		  			txt.innerHTML += "<br>Duration: " + Math.floor(response[i].duration/ 3600) + " Hour";
 
 		  			if (parseInt(response[i].duration) % 3600 != 0) {
 		  				div.innerHTML += " " + Math.floor((parseInt(response[i].duration) % 3600) / 60) + " Minutes";
-		  				txt.innerHTML += " " + Math.floor((parseInt(response[i].duration) % 3600) / 60) + " Minutes";
 		  			}
 
 		  			append(li, div);
 		  		} else {
 		  			if (parseInt(response[i].duration) % 3600 != 0) {
 		  				div.innerHTML += "Duration: " + Math.floor(response[i].duration / 60) + " Minutes";
-		  				txt.innerHTML += "<br>Duration: " + Math.floor(response[i].duration / 60) + " Minutes";
 		  			}
 
 		  			append(li, div);
@@ -244,8 +247,6 @@ function func() {
 
 		  		p = document.createTextNode('Contest Link');
 		  		let a = document.createElement('a');
-
-		  		txt.innerHTML += "<br>Contest Link: " + response[i].url;
 
 		  		a.href = response[i].url;
 		  		a.setAttribute('role', 'button');
@@ -257,10 +258,8 @@ function func() {
 		  		append(a, p);
 		  		append(li, a);
 		  		append(ul, li);
-
-
-		  		txt.innerHTML += "<br><br>"
 		  	}
+		  	
 	  	}
 	  	txt.innerHTML += 'Generated by - ContestR<br>';
 	  })
