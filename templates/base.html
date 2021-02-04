@@ -30,7 +30,6 @@
 <body onload="func()" class="d-flex flex-column h-100 bg-light-blue">
     <header>
         <!-- Fixed navbar -->
-
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark-blue">
             <a class="navbar-brand" href="/">MU Online Judge</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
@@ -40,22 +39,22 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item {{ home }}">
-                        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/"><i class="fa fa-home" aria-hidden="true"></i> Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item {{ contest_nav }}">
-                        <a class="nav-link" href="{% url 'contest:running-contest-list' %}">Contests</a>
+                        <a class="nav-link" href="{% url 'contest:running-contest-list' %}"><i class="fa fa-trophy" aria-hidden="true"></i> Contests</a>
                     </li>
                     <li class="nav-item {{ problemset_nav }}">
-                        <a class="nav-link" href="{% url 'problemset:problem-list' %}">Problemset</a>
+                        <a class="nav-link" href="{% url 'problemset:problem-list' %}"><i class="fa fa-list-alt" aria-hidden="true"></i> Problemset</a>
                     </li>
                     <li class="nav-item {{ users_nav }}">
-                        <a class="nav-link" href="{% url 'accounts:user-list' %}">Users</a>
+                        <a class="nav-link" href="{% url 'accounts:user-list' %}"><i class="fa fa-users" aria-hidden="true"></i> Users</a>
                     </li>
                     <li class="nav-item {{ blog_nav }}">
-                        <a class="nav-link" href="{% url 'blog:blog-list' %}">Blogs</a>
+                        <a class="nav-link" href="{% url 'blog:blog-list' %}"><i class="fa fa-newspaper-o" aria-hidden="true"></i> Blogs</a>
                     </li>
                     <li class="nav-item {{ training_nav }}">
-                        <a class="nav-link" href="{% url 'training:tutorial-list' %}">Training</a>
+                        <a class="nav-link" href="{% url 'training:tutorial-list' %}"><i class="fa fa-graduation-cap" aria-hidden="true"></i> Training</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ml-auto">
@@ -64,7 +63,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {{ user.username }}
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <div class="dropdown-menu dropdown-menu-right" style="color:#444954;" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{% url 'accounts:user-profile' user.username %}">Profile</a>
 
                                 {% if user.is_superuser %}
@@ -98,10 +97,11 @@
                 <div class="row">
                     <div class="col-sm-8">
                         {% for blog in blogs %}
-                            <div class="card mt-2 mb-2">
+                            <div class="card mt-2 mb-2 border-0">
                                 <div class="card-body">
                                     <h4> <a class="blog-title" href="{% url 'blog:blog-details' blog.id %}"> {{ blog.title }} </a>  </h4>
                                     <h6>by <a class="blog-title" href="{% url 'accounts:user-profile' blog.user.username %}"> {{ blog.user.username }} </a>, <small>{{blog.created_at}}</small></h6>
+                                    <hr>
                                     <p>
                                         {{ blog.content|safe }}
                                     </p>
@@ -113,9 +113,8 @@
                         {% endfor %}
                     </div>
                     <div class="col-sm-4 mt-1">
-                        <div class="container-fluid card mt-1" style="padding: 20px">
+                        <div class="container-fluid card mt-1 border-0" style="padding: 20px">
                             <h5 class="card-title"><strong>Upcoming Contests [Next 24 hours - MUOJ]</strong></h5>
-                            <hr>
                             {% for contest in upcoming_contest %}
                                 <ul class="list-group">
                                     <li class="card-body">
@@ -139,7 +138,7 @@
                                 </ul>
                             {% endfor %}
 		                </div>
-                        <div class="container-fluid card mt-1" style="padding: 20px">
+                        <div class="container-fluid card mt-2 border-0" style="padding: 20px">
                             <h5 class="card-title"><strong>Upcoming Contests [Next 24 hours - Other judges]</strong></h5>
                             <ul style="margin-top: 5px" id="contests" class="list-group card-body"></ul>
 		                </div>
@@ -276,7 +275,6 @@ function func() {
 
 		  		p = document.createTextNode('Contest Link');
 		  		let a = document.createElement('a');
-
 		  		a.href = response[i].url;
 		  		a.setAttribute('role', 'button');
 		  		a.setAttribute('target', '_blank');

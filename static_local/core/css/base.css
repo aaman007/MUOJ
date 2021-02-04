@@ -79,10 +79,15 @@ a:hover {
 .dropdown-toggle::after {
    transition: transform 0.15s linear;
 }
-
+nav ul {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
 .show.dropdown .dropdown-toggle::after {
   transform: translateY(3px);
 }
+/**dropdown**/
 
 /** Read More **/
 .read-more {
