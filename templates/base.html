@@ -114,7 +114,33 @@
                     </div>
                     <div class="col-sm-4 mt-1">
                         <div class="container-fluid card mt-1" style="padding: 20px">
-                            <h5 class="card-title"><strong>Upcoming Contests [Next 24 hours]</strong></h5>
+                            <h5 class="card-title"><strong>Upcoming Contests [Next 24 hours - MUOJ]</strong></h5>
+                            <hr>
+                            {% for contest in upcoming_contest %}
+                                <ul class="list-group">
+                                    <li class="card-body">
+                                        <h7><strong>{{contest.title}}</strong></h7>
+                                        {% if contest.is_rated %}
+                                            [<h7 style="color:#6f3ef7;"><strong>Rated</strong></h7>]
+                                        {% else %}
+                                            [<h7 style="color:#00ba8c;"><strong>Unrated</strong></h7>]
+                                        {% endif %}
+                                        <br>
+                                        <h7>Start time : {{contest.start_time|date:"M/d/o, H:i e"}}</h7>
+                                        <br>
+                                        <h7>Duration : {{ contest.duration }}</h7>
+                                        <br>
+                                        {% if not contest.is_registered %}
+                                            <a href="{% url 'contest:contest-registration' contest.id %}" class="btn btn-sm btn-primary">Register</a>
+                                        {% else %}
+                                            <a class="btn btn-primary btn-sm" role="button" target="_blank" href="{% url 'contest:contest-standings' contest.id %}">Contest Link</a>
+                                        {% endif %}
+                                    </li>
+                                </ul>
+                            {% endfor %}
+		                </div>
+                        <div class="container-fluid card mt-1" style="padding: 20px">
+                            <h5 class="card-title"><strong>Upcoming Contests [Next 24 hours - Other judges]</strong></h5>
                             <ul style="margin-top: 5px" id="contests" class="list-group card-body"></ul>
 		                </div>
                     </div>

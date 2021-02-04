@@ -73,7 +73,7 @@ a:hover {
 }
 /** nabvar styles**/
 .navbar .nav-item:not(:last-child) {
-  margin-right: 35px;
+  margin-right: 10px;
 }
 
 .dropdown-toggle::after {

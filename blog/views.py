@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.urls import reverse_lazy
+from contest.models import Contest
 from django.views.generic import (
     ListView,
     DeleteView,
@@ -41,7 +42,8 @@ class HomeView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
-            'home_nav': 'active'
+            'home_nav': 'active',
+            'upcoming_contest': Contest.objects.upcoming_contests(self.request.user.username)
         })
         return context
 
