@@ -22,7 +22,14 @@
 
                             <td> {{ forloop.counter }} </td>
                             <td> <a href="{% url 'contest:contest-standings' contest.id %}"> {{ contest.title }}</a> </td>
-                            <td> <a href="#"> {{ contest.author }}</a> </td>
+                            <td>
+                                <a
+                                        href="{% url 'accounts:user-profile' contest.author.username %}"
+                                        class="rank-text rank-{{ contest.author.profile.rank }}"
+                                >
+                                    {{ contest.author }}
+                                </a>
+                            </td>
                             <td> {{ contest.start_time|date:"H:i e M/d/o" }} </td>
                             <td>{{ contest.duration }}</td>
                             <td data-end-time="{{ contest.duration|add:contest.start_time|date:'Y-m-d H:i:s' }}" class="countdown"> 00:00:00  </td>

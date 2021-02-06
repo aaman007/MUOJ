@@ -100,7 +100,12 @@
                             <div class="card mt-2 mb-2 border-0">
                                 <div class="card-body">
                                     <h4> <a class="blog-title" href="{% url 'blog:blog-details' blog.id %}"> {{ blog.title }} </a>  </h4>
-                                    <h6>by <a class="blog-title" href="{% url 'accounts:user-profile' blog.user.username %}"> {{ blog.user.username }} </a>, <small>{{blog.created_at}}</small></h6>
+                                    <h6>
+                                        by
+                                        <a class="rank-text rank-{{ blog.user.profile.rank }}" href="{% url 'accounts:user-profile' blog.user.username %}">
+                                            {{ blog.user.username }}
+                                        </a>, <small>{{blog.created_at}}</small>
+                                    </h6>
                                     <hr>
                                     <p>
                                         {{ blog.content|safe }}

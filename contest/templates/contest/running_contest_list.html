@@ -28,7 +28,14 @@
                                     <span><a href="{% url 'contest:contest-problems' contest.id %}" class="btn btn-sm" style="background:#0275d8;color:white;padding:2px;border-radius:5px;">Enter</a></span>
                                 {% endif %}
                             </td>
-                            <td><a href="#">  {{ contest.author }}</a> </td>
+                            <td>
+                                <a
+                                        href="{% url 'accounts:user-profile' contest.author.username %}"
+                                        class="rank-text rank-{{ contest.author.profile.rank }}"
+                                >
+                                    {{ contest.author }}
+                                </a>
+                            </td>
                             <td> {{ contest.start_time|date:"M/d/o H:i e" }} </td>
                             <td>{{ contest.duration }}</td>
                             <td data-end-time="{{ contest.end_time|date:'Y-m-d H:i:s' }}" class="countdown"> 00:00:00  </td>
