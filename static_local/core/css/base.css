@@ -1,5 +1,14 @@
 /* Custom page CSS */
 
+main {
+    background-color: #eaeeef;
+    min-height: 100vh;
+}
+
+.breadcrumb {
+    background-color: #d3dae0;
+}
+
 main > .container {
     padding: 70px 15px 15px;
 }
