@@ -1,7 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db.models import Count, Q
 from django.shortcuts import get_object_or_404
-from django.urls import reverse_lazy
 from django.views.generic import (
     ListView,
     DetailView,
@@ -9,6 +8,8 @@ from django.views.generic import (
     UpdateView,
     DeleteView
 )
+from rest_framework.reverse import reverse
+
 from problemset.forms import SubmissionForm
 from problemset.models import Problem, Submission, TestCase
 from problemset.forms import ProblemCreateForm,TestCreateForm
@@ -90,7 +91,7 @@ class SubmissionCreateView(CreateView):
     form_class = SubmissionForm
 
     def get_success_url(self):
-        return reverse_lazy('problemset:submission-list')
+        return reverse('problemset:submission-list')
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -134,7 +135,7 @@ class ProblemCreateView(CreateView):
     form_class = ProblemCreateForm
 
     def get_success_url(self):
-        return reverse_lazy('dashboard:user-problems-list')
+        return reverse('dashboard:user-problems-list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -155,7 +156,7 @@ class ProblemUpdateView(UpdateView):
     form_class = ProblemCreateForm
 
     def get_success_url(self, **kwargs):
-        return reverse_lazy('dashboard:user-problems-list')
+        return reverse('dashboard:user-problems-list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -193,7 +194,7 @@ class TestCaseCreateView(CreateView):
     form_class = TestCreateForm
 
     def get_success_url(self):
-        return reverse_lazy('problemset:testcase-list', kwargs={'pk': self.kwargs.get('pk')})
+        return reverse('problemset:testcase-list', kwargs={'pk': self.kwargs.get('pk')})
 
     def form_valid(self, form):
         form.instance.problem = get_object_or_404(Problem, id=self.kwargs.get('pk'))
@@ -205,7 +206,7 @@ class TestCaseDeleteView(DeleteView):
     template_name = 'problemset/testcase_delete.html'
 
     def get_success_url(self):
-        return reverse_lazy('problemset:testcase-list', kwargs={'pk': self.kwargs.get('pk')})
+        return reverse('problemset:testcase-list', kwargs={'pk': self.kwargs.get('pk')})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

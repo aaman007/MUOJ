@@ -1,5 +1,4 @@
 from django.contrib.messages.views import SuccessMessageMixin
-from django.urls import reverse_lazy
 from django.views.generic import (
     DetailView,
     CreateView,
@@ -10,6 +9,8 @@ from django.contrib.auth.mixins import UserPassesTestMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView, TemplateView
 from django.contrib.auth import get_user_model
+from rest_framework.reverse import reverse
+
 from contest.forms import (
     SubmissionForm,
     ClarificationCreateForm,
@@ -117,7 +118,7 @@ class ClarificationCreateView(UserPassesTestMixin, CreateView):
         return contest.state == 'Running' and self.request.user in contest.contestants.all()
 
     def get_success_url(self):
-        return reverse_lazy('contest:contest-problems', kwargs={'contest_id': self.kwargs.get('contest_id')})
+        return reverse('contest:contest-problems', kwargs={'contest_id': self.kwargs.get('contest_id')})
 
     def form_valid(self, form):
         form.instance.contest = get_object_or_404(Contest, id=self.kwargs.get('contest_id'))
@@ -130,7 +131,7 @@ class ClarificationReplyView(UpdateView):
     form_class = ClarificationReplyForm
 
     def get_success_url(self):
-        return reverse_lazy('contest:contest-problems', kwargs={'contest_id': self.kwargs.get('contest_id')})
+        return reverse('contest:contest-problems', kwargs={'contest_id': self.kwargs.get('contest_id')})
 
 
 class ContestProblemDetails(DetailView):
@@ -157,7 +158,7 @@ class ContestSubmissionCreateView(CreateView):
     form_class = SubmissionForm
 
     def get_success_url(self):
-        return reverse_lazy('contest:contest-my-submissions', kwargs={'contest_id': self.kwargs.get('contest_id')})
+        return reverse('contest:contest-my-submissions', kwargs={'contest_id': self.kwargs.get('contest_id')})
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -239,7 +240,7 @@ class ContestAnnouncementCreateView(UserPassesTestMixin, CreateView):
     form_class = AnnouncementForm
 
     def get_success_url(self):
-        return reverse_lazy('contest:contest-announcements', kwargs={'contest_id': self.kwargs.get('contest_id')})
+        return reverse('contest:contest-announcements', kwargs={'contest_id': self.kwargs.get('contest_id')})
 
     def get_contest(self):
         return get_object_or_404(Contest, id=self.kwargs.get('contest_id'))
@@ -278,7 +279,7 @@ class ContestAnnouncementTemplateView(UserPassesTestMixin, TemplateView):
             messages.add_message(request, messages.ERROR, 'Invalid fields')
 
         return redirect(
-            reverse_lazy(
+            reverse(
                 'contest:contest-announcements',
                 kwargs={'contest_id': self.kwargs.get('contest_id')}
             )
@@ -290,7 +291,7 @@ class ContestAnnouncementDeleteView(UserPassesTestMixin, SuccessMessageMixin, De
     success_message = 'Announcement deleted successfully'
 
     def get_success_url(self):
-        return reverse_lazy('contest:contest-announcements', kwargs={'contest_id': self.kwargs.get('contest_id')})
+        return reverse('contest:contest-announcements', kwargs={'contest_id': self.kwargs.get('contest_id')})
 
     def get_contest(self):
         return get_object_or_404(Contest, id=self.kwargs.get('contest_id'))
