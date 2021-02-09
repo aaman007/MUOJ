@@ -87,6 +87,9 @@ a:hover {
 .navbar .nav-item:not(:last-child) {
   margin-right: 10px;
 }
+.dropdown:hover>.dropdown-menu{
+    display:block;
+}
 
 .dropdown-toggle::after {
    transition: transform 0.15s linear;
