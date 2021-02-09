@@ -1,8 +1,11 @@
 /* Custom page CSS */
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,600&display=swap');
 
-main {
-    background-color: #eaeeef;
-    min-height: 100vh;
+*{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
 }
 
 .breadcrumb {
@@ -96,7 +99,8 @@ nav ul {
 .show.dropdown .dropdown-toggle::after {
   transform: translateY(3px);
 }
-/**dropdown**/
+/**table**/
+
 
 /** Read More **/
 .read-more {
@@ -107,4 +111,85 @@ nav ul {
 .read-more:hover {
     text-decoration: dotted underline;
     text-underline-position: under;
+}
+
+/** tabs **/
+.wrapper{
+	width: 1000px;
+	margin: 150px auto;
+}
+
+.tabs ul{
+	display: flex;
+	background: #fbfbfb;
+	border: 1px solid #dddddd;
+	border-radius: 5px;
+	margin-bottom: 25px;
+}
+
+.tabs ul li{
+	width: 35%;
+	padding: 10px;
+	border-right: 1px solid #dddddd;
+	text-align: center;
+	color: #3b3b3b;
+	text-transform: uppercase;
+	font-size: 14px;
+	font-weight: 600;
+	letter-spacing: 3px;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	position: relative;
+}
+
+.tabs ul li .icon{
+	font-size: 20px;
+	margin-right: 5px;
+	vertical-align: middle;
+}
+
+.tabs ul li:last-child{
+	border-right: 0px;
+}
+
+.tabs ul li:before{
+	content: "";
+	position: absolute;
+	bottom: -1px;
+	left: 0;
+	width: 100%;
+	height: 2px;
+	background: #028f68;
+	opacity: 0;
+	transition: all 0.2s ease;
+}
+
+.tabs ul li:hover,
+.tabs ul li.active{
+	background: #e8f5f1;
+	color: #028f68;
+}
+
+.tabs ul li:hover:before,
+.tabs ul li.active:before{
+	opacity: 1;
+}
+
+.content{
+	background: #fbfbfb;
+	border: 1px solid #dddddd;
+	border-radius: 5px;
+	padding: 20px;
+}
+
+.tab_wrap .title{
+	font-size: 20px;
+	margin-bottom: 15px;
+	font-weight: 600;
+}
+
+.tab_wrap .tab_content p{
+	font-size: 14px;
+	line-height: 22px;
+	margin-bottom: 10px;
 }

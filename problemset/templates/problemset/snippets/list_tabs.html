@@ -1,11 +1,8 @@
-<ul class="nav nav-tabs nav-fill mb-4">
-    <li class="nav-item">
-        <a class="nav-link {{ problemset_problems_tab }}" href="{% url 'problemset:problem-list' %}">Problems</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link {{ problemset_submissions_tab }}" href="{% url 'problemset:submission-list' %}">Submissions</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link {{ problemset_standings_tab }}" href="{% url 'problemset:standings' %}">Standings</a>
-    </li>
-</ul>
+
+<div class="tabs">
+		<ul>
+			<li class="{{ problemset_problems_tab }}"><a href="{% url 'problemset:problem-list' %}">Problems</a></li>
+            <li class="{{ problemset_submissions_tab }}"><a href="{% url 'problemset:submission-list' %}">Submissions</a></li>
+            <li class="{{ problemset_standings_tab }}"><a href="{% url 'problemset:standings' %}">Standings</a></li>
+		</ul>
+</div>

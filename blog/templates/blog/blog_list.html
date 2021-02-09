@@ -2,11 +2,7 @@
 
 {% block content %}
     {% comment %} Breadcrumb {% endcomment %}
-    <nav aria-label="breadcrumb" class="mb-4">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item active" aria-current="page">Blogs</li>
-        </ol>
-    </nav>
+
     {% if user.is_authenticated %}
         <div class="mb-4 d-flex">
             <div class="w-100">
