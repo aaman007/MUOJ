@@ -200,3 +200,9 @@ nav ul {
 	line-height: 22px;
 	margin-bottom: 10px;
 }
+
+/**extra**/
+
+.CardHeadCol{
+    color:#3f4d63;
+}

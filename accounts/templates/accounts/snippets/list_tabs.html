@@ -2,6 +2,7 @@
 <div class="tabs">
 		<ul>
 			<li class="{{ dashboard_profile_tab }}"><a class="urlBlackColor btn" href="{% url 'accounts:user-profile' v_user.username %}">Profile</a></li>
+			<li class="{{ dashboard_submissions_tab }}"><a class="urlBlackColor btn" href="{% url 'accounts:user-submission-list' v_user.username %}">Submission</a></li>
             <li class="{{ dashboard_contest_tab }}"><a class="urlBlackColor btn" href="{% url 'accounts:user-contest-list' v_user.username %}">Contests</a></li>
             <li class="{{ dashboard_blogs_tab }}"><a class="urlBlackColor btn" href="{% url 'accounts:user-blog-list' v_user.username %}">Blogs</a></li>
             {% if user == v_user %}
