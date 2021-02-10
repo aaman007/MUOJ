@@ -75,7 +75,9 @@ class SubmissionListView(ListView):
     template_name = 'problemset/submission_list.html'
 
     def get_queryset(self):
-        return Submission.objects.all().order_by('-created_at')
+        return Submission.objects.all().order_by('-created_at').select_related(
+            'user', 'user__profile', 'problem', 'problem__solution_language'
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
