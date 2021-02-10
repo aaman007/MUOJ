@@ -1,7 +1,7 @@
 <div class="tabs">
 		<ul>
-			<li class="{{ contest_running_tab }}"><a href="{% url 'contest:running-contest-list' %}">Running</a></li>
-            <li class="{{ contest_upcoming_tab }}"><a href="{% url 'contest:upcoming-contest-list' %}">Upcoming</a></li>
-            <li class="{{ contest_past_tab }}"><a href="{% url 'contest:past-contest-list' %}">Past Contests</a></li>
+			<li class="{{ contest_running_tab }}"><a class="urlBlackColor btn" href="{% url 'contest:running-contest-list' %}">Running</a></li>
+            <li class="{{ contest_upcoming_tab }}"><a class="urlBlackColor btn" href="{% url 'contest:upcoming-contest-list' %}">Upcoming</a></li>
+            <li class="{{ contest_past_tab }}"><a class="urlBlackColor btn" href="{% url 'contest:past-contest-list' %}">Past Contests</a></li>
 		</ul>
 </div>

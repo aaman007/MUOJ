@@ -42,6 +42,10 @@ a:hover {
     text-decoration: none;
 }
 
+.urlBlackColor{
+    color:black;
+}
+
 /** Rank Color Scheme **/
 .rank-text {
     font-weight: bold;
@@ -170,7 +174,7 @@ nav ul {
 .tabs ul li:hover,
 .tabs ul li.active{
 	background: #e8f5f1;
-	color: #028f68;
+	color: #0a944f;
 }
 
 .tabs ul li:hover:before,
