@@ -1,14 +1,21 @@
-<ul class="nav nav-tabs nav-fill mb-4">
-    <li class="nav-item">
-        <a class="nav-link {{ contest_problems_tab }}" href="{% url 'contest:contest-problems' contest.id %}">Problems</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link {{ contest_my_submissions_tab }}" href="{% url 'contest:contest-my-submissions' contest.id %}">My Submissions</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link {{ contest_standings_tab }}" href="{% url 'contest:contest-standings' contest.id %}">Standings</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link {{ contest_announcements_tab }}" href="{% url 'contest:contest-announcements' contest.id %}">Announcements</a>
-    </li>
-</ul>
+<div class="tabs">
+    <ul>
+        {% if user in contest.contestants.all or contest.status != 'Running' %}
+            <li class="tab-li {{ contest_problems_tab }}">
+                <a class="urlBlackColor btn" href="{% url 'contest:contest-problems' contest.id %}">Problems</a>
+            </li>
+        {% endif %}
+        <li class="tab-li {{ contest_my_submissions_tab }}">
+            <a class="urlBlackColor btn" href="{% url 'contest:contest-my-submissions' contest.id %}">My Submissions</a>
+        </li>
+        <li class="tab-li {{ contest_standings_tab }}">
+            <a class="urlBlackColor btn" href="{% url 'contest:contest-standings' contest.id %}">Standings</a>
+        </li>
+        {% if user in contest.contestants.all or contest.status != 'Running' %}
+            <li class="tab-li {{ contest_announcements_tab }}">
+                <a class="urlBlackColor btn" href="{% url 'contest:contest-announcements' contest.id %}">Announcements</a>
+            </li>
+        {% endif %}
+
+    </ul>
+</div>

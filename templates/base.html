@@ -204,6 +204,9 @@
             else if (alert_type === "danger")
                 toastr.error(message);
         });
+        $('.tab-li').on('click', function(e) {
+            window.location = $(this).children('a').prop('href')
+        });
     </script>
 
 {% block extra_body %} {% endblock %}

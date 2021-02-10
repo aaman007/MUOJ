@@ -219,6 +219,8 @@ class ContestAnnouncementsListView(UserPassesTestMixin, ListView):
         return get_object_or_404(Contest, id=self.kwargs.get('contest_id'))
 
     def test_func(self):
+        if self.get_contest().state == 'Finished':
+            return True
         return self.request.user in self.get_contest().contestants.all() and self.get_contest().state != 'Upcoming'
 
     def get_queryset(self):
