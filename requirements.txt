@@ -12,7 +12,9 @@ django-celery-results==2.0.0
 django-ckeditor==6.0.0
 django-crispy-forms==1.10.0
 django-debug-toolbar==3.2
+django-environ==0.4.5
 django-js-asset==1.2.2
+django-materializecss-form==1.1.17
 django-timezone-field==4.1.1
 djangorestframework==3.12.2
 importlib-metadata==3.3.0

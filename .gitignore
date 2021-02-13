@@ -258,7 +258,7 @@ modules.xml
 # Virtualenv
 # http://iamzed.com/2009/05/07/a-primer-on-virtualenv/
 pyvenv.cfg
-.env
+# .env
 .venv
 env/
 venv/

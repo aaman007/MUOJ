@@ -57,6 +57,11 @@ class Contest(AbstractBaseModel):
 
     objects = ContestManager()
 
+    class Meta:
+        verbose_name = _('Contest')
+        verbose_name_plural = _('Contests')
+        ordering = ['id']
+
     def __str__(self):
         return self.title
 
@@ -85,6 +90,11 @@ class Announcement(AbstractBaseModel):
         related_name='announcements',
         on_delete=models.CASCADE
     )
+
+    class Meta:
+        verbose_name = _('Announcement')
+        verbose_name_plural = _('Announcements')
+        ordering = ['id']
 
     def __str__(self):
         return self.title

@@ -1,17 +1,23 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 
 from ckeditor.fields import RichTextField
 
+from core.models import AbstractBaseModel
 
-class Blog(models.Model):
+
+class Blog(AbstractBaseModel):
     title = models.CharField(max_length=100)
     content = RichTextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     preference = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    modified_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = _('Blog')
+        verbose_name_plural = _('Blogs')
+        ordering = ['id']
 
     def __str__(self):
         return self.title

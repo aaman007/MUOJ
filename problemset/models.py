@@ -17,6 +17,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 class Language(models.Model):
     name = models.CharField(verbose_name=_('Language'), max_length=200)
 
+    class Meta:
+        verbose_name = _('Language')
+        verbose_name_plural = _('Languages')
+        ordering = ['id']
+
     def __str__(self):
         return self.name
 
@@ -33,13 +38,16 @@ class Problem(AbstractBaseModel):
     is_protected = models.BooleanField(default=0)
     time_limit = models.IntegerField(verbose_name=_('Time Limit'), default=1)
     memory_limit = models.PositiveIntegerField(verbose_name=_('Memory Limit'), default=256)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
     objects = ProblemManager()
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = _('Problem')
+        verbose_name_plural = _('Problems')
+        ordering = ['id']
 
 
 class TestCase(models.Model):
@@ -55,6 +63,11 @@ class TestCase(models.Model):
         related_name='testcases',
         on_delete=models.CASCADE
     )
+
+    class Meta:
+        verbose_name = _('TestCase')
+        verbose_name_plural = _('TestCases')
+        ordering = ['id']
 
     @property
     def input_text(self):
@@ -73,7 +86,7 @@ class TestCase(models.Model):
             return 'Not Available'
 
 
-class Submission(models.Model):
+class Submission(AbstractBaseModel):
     STATUS_CHOICES = (
         ('Running', 'Running'),
         ('AC', 'Accepted'),
@@ -143,7 +156,10 @@ class Submission(models.Model):
         on_delete=models.CASCADE
     )
 
-    created_at = models.DateTimeField(auto_now_add=True)
+    class Meta:
+        verbose_name = _('Submission')
+        verbose_name_plural = _('Submissions')
+        ordering = ['id']
 
 
 class Clarification(AbstractBaseModel):
@@ -169,3 +185,8 @@ class Clarification(AbstractBaseModel):
         on_delete=models.CASCADE,
         related_name='clarifications'
     )
+
+    class Meta:
+        verbose_name = _('Clarification')
+        verbose_name_plural = _('Clarifications')
+        ordering = ['id']
