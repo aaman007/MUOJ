@@ -45,3 +45,32 @@
         </div>
     </div>
 {% endblock %}
+
+{% block extra_body %}
+    <script>
+        $(document).ready(function () {
+            $('.apply-rating').click(function () {
+                const data = {
+                    csrfmiddlewaretoken: Cookies.get("csrftoken"),
+                    contest_id:  "{{ contest.id }}",
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'contest-api:contest-api-base:apply-rating' %}",
+                    data: data,
+                    traditional: true,
+
+                    success: function (data) {
+                        toastr.success(data['detail'], 'Success!')
+                    },
+
+                    error: function (error) {
+                        const response = error['responseJSON'];
+                        toastr.error(response["detail"], 'Error!')
+                    },
+                });
+            });
+        });
+    </script>
+{% endblock %}
