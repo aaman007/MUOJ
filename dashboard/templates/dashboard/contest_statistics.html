@@ -3,6 +3,14 @@
 {% block content %}
     {% include 'dashboard/snippets/contest_info_tabs.html' %}
 
+    {% if contest.is_rated and contest.state == 'Finished' %}
+        {% if user.is_superuser or user == contest.author %}
+            {% if not contest.rating_applied %}
+                <a class="apply-rating btn btn-primary text-light ml-2"> Apply Rating </a>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+
     <div class="d-flex flex-wrap">
         <div
                 class="card flex-fill text-center align-items-center justify-content-center py-4 px-5 m-2"

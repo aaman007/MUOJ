@@ -16,6 +16,7 @@ class Contest(AbstractBaseModel):
 
     openness = models.BooleanField(verbose_name=_('Openness'), default=False)
     is_rated = models.BooleanField(verbose_name=_('Is Rated'), default=False)
+    rating_applied = models.BooleanField(verbose_name=_('Rating Applied?'), default=False)
 
     problem_ids = models.JSONField(verbose_name=_('Problem Ids'), default=list)
     problem_scores = models.JSONField(verbose_name=_('Problem Scores'), default=list)
