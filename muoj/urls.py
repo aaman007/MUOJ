@@ -19,16 +19,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path, include
 
-from django.views.generic import TemplateView
-
 from django.contrib.auth import views as auth_views
 from accounts import views as account_views
-from blog.views import HomeView
 
 urlpatterns = [
-    path('', HomeView.as_view(
-        template_name='base.html', extra_context={'home': 'active'}
-    ), name='home'),
+    path('', include('core.urls')),
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
     path('blog/', include('blog.urls')),
