@@ -151,6 +151,21 @@ CKEDITOR_CONFIGS = {
     'default': {
         'height': '300',
         'width': '100%',
+        'toolbarCanCollapse': True,
+        'toolbar_Basic': [
+            ['Source', '-', 'Bold', 'Italic']
+        ],
+        'toolbar': [
+            ["Format", "Preview", "Bold", "Italic", "Underline", "Strike", "SpellChecker"],
+            ['NumberedList', 'BulletedList', "Indent", "Outdent", 'JustifyLeft', 'JustifyCenter',
+             'JustifyRight', 'JustifyBlock'],
+            ["Image", "Table", "Link", "Unlink", "Anchor", "SectionLink", "Subscript", "Superscript"],
+            ['Undo', 'Redo'],
+            ['Styles', 'Font', 'FontSize'],
+            ['TextColor', 'BGColor'],
+            ["Source"],
+            ["Maximize"]
+        ],
     },
 }
 
