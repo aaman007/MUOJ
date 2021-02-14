@@ -1,7 +1,19 @@
 {% extends 'accounts/base.html' %}
+{% load static %}
 
 {% block content %}
     {% include 'accounts/snippets/list_tabs.html' %}
+
+    {% if not user_blogs.count %}
+        <div class="d-flex flex-column justify-content-center align-items-center">
+            <img
+                    style="width: 40%; height: 40%; min-height: 250px; min-width: 250px;"
+                    alt="No Data"
+                    src="{% static 'images/svg/no_data.svg' %}"
+            />
+        <h4> No Blogs Available! </h4>
+        </div>
+    {% endif %}
 
     {% for blog in user_blogs %}
         <div class="card mt-2 mb-2">

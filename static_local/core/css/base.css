@@ -17,7 +17,7 @@ main > .container {
 }
 
 .footer {
-    background-color: #f5f5f5;
+    background-color: #e1e3e8;
 }
 
 .footer > .container {
@@ -205,4 +205,15 @@ nav ul {
 
 .CardHeadCol{
     color:#3f4d63;
+}
+
+@media screen and (max-width: 930px) {
+	.tabs ul {
+		flex-direction: column;
+	}
+
+	.tabs ul li {
+		border: 1px solid #e7e1e1;
+		width: 100%;
+	}
 }

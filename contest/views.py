@@ -312,7 +312,7 @@ class ContestRegistrationTemplateView(UserPassesTestMixin, TemplateView):
         return get_object_or_404(Contest, id=self.kwargs.get('contest_id'))
 
     def test_func(self):
-        return self.request.user and self.get_contest().state == 'Upcoming'
+        return self.request.user.is_authenticated and self.request.user and self.get_contest().state == 'Upcoming'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()

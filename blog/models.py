@@ -27,9 +27,10 @@ class Blog(AbstractBaseModel):
 
     @property
     def truncated_content(self):
+        if len(self.content) <= 500:
+            return self.content
         try:
             index = self.content[500:].index(' ')
-            #index = 500
         except (ValueError, Exception):
             index = len(self[500:])
-        return self.content if len(self.content) <= 500 else f"{self.content[:500+index]}....."
+        return f"{self.content[:500+index]}....."
