@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from contest.api.base.serializers import ApplyRatingSerializer
 from contest.models import Contest
 from contest.tasks import task_apply_contest_rating
-from core.api.permissions import IsObjectOwner
+from core.api.base.permissions import IsObjectOwner
 
 
 class ApplyRatingGenericAPIView(GenericAPIView):

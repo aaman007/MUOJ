@@ -17,6 +17,11 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
 
 
+@app.on_after_configure.connect
+def setup_periodic_tasks(sender, **kwargs):
+    pass
+
+
 @app.task(bind=True)
 def debug_task(self):
     print(f'Request: {self.request!r}')

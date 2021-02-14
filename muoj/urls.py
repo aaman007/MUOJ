@@ -40,6 +40,7 @@ urlpatterns = [
 
     # API Endpoints
     path('api/contest/', include('contest.api.urls')),
+    path('api/core/', include('core.api.urls'))
 ]
 
 if settings.DEBUG:
