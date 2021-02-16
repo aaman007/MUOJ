@@ -38,7 +38,7 @@
                             <td> {{ contest.start_time|date:"M/d/o H:i e" }} </td>
                             <td>{{ contest.duration }}</td>
                             <td data-end-time="{{ contest.end_time|date:'Y-m-d H:i:s' }}" class="countdown"> 00:00:00  </td>
-                            <td><a href="#">Details</a></td>
+                            <td><a href="{% url 'contest:contest-details' contest.id %}">Details</a></td>
                         </tr>
                     {% endfor %}
                 </tbody>

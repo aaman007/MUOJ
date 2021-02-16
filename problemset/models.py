@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
 from pathlib import Path
-
+from django.utils import timezone
 from problemset.utils import input_directory_path, output_directory_path, submission_directory_path
 from problemset.managers import ProblemManager
 from contest.models import Contest
@@ -165,7 +165,7 @@ class Submission(AbstractBaseModel):
 class Clarification(AbstractBaseModel):
     question = models.TextField(verbose_name=_('Question'), default='')
     answer = models.TextField(verbose_name=_('Answer'), default='', blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=timezone.now())
 
     user = models.ForeignKey(
         verbose_name=_('User'),

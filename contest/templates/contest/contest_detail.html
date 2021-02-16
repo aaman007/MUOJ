@@ -1,0 +1,75 @@
+{% extends 'contest/base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-sm-9">
+            <div class="card border-0">
+                 <div class="header">
+                     <div class="d-flex flex-column justify-content-center align-items-center">
+                        <img
+                                style="width: 40%; height: 40%; min-height: 250px; min-width: 250px;"
+                                alt="No Data"
+                                src="{% static 'images/png/header.png' %}"
+                        />
+                     </div>
+                     <div>
+                         <!--buttons!-->
+                     </div>
+                 </div>
+                <hr>
+
+                <h1 class="mt-4 ml-4" style="color:#314963;">{{ contest.title }}</h1>
+
+                <h3 class="mt-4 ml-4">Schedule</h3>
+                <p class="ml-4 mt-2">
+                    The contest will start on <strong>{{contest.start_time}}</strong> and will run for <strong>{{ contest.duration }}</strong>.
+                </p>
+                <a class="btn btn-outline-info ml-4 btn-sm" style="width:150px;" href="#" role="button">How do i participate?</a>
+
+                <h3 class="mt-4 ml-4">Rating</h3>
+                {% if contest.is_rated == True%}
+                    <p class="ml-4 mt-2">
+                        This contest is rated for all participants. MUOJ uses it's own rating system.
+                    </p>
+                {% else %}
+                    <p class="ml-4 mt-2">
+                        This contest is unrated for all participants. MUOJ uses it's own rating system.
+                    </p>
+                {% endif %}
+
+                <h3 class="mt-4 ml-4">Rules</h3>
+                <p class="ml-4 mt-2">
+                    This contest is formatted as per the official rules of ICPC Regional Programming Contests. <a
+                        href="">See details...</a>
+                </p>
+                <p class="ml-4 mt-2">
+                    You can use C, C++ and Python languages in this contest for now.
+                </p>
+                <p class="ml-4 mt-2">
+                    Be fair, be honest. Plagiarism will result in disqualification. Judges’ decisions will be final.
+                </p>
+
+            </div>
+
+
+        </div>
+        <div class="col-sm-3">
+            <div class="card">
+                <h4 class="text-center mt-4">Time counter dimu!</h4>
+                <h6 class="text-center mt-1">00:00:00 left!</h6>
+                <p class="ml-4 mt-3">
+                    Reg buttons etc..
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}
+
+{% block extra_body %}
+    {% include 'contest/snippets/list_countdown_timer_js.html' %}
+{% endblock %}

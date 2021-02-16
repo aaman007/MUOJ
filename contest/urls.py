@@ -15,7 +15,8 @@ from contest.views import (
     ContestAnnouncementCreateView,
     ContestAnnouncementTemplateView,
     ContestAnnouncementDeleteView,
-    ClarificationReplyView
+    ClarificationReplyView,
+    ContestDetailView
 )
 
 app_name = 'contest'
@@ -24,7 +25,7 @@ urlpatterns = [
     path('running/', RunningContestListView.as_view(), name='running-contest-list'),
     path('upcoming/', UpcomingContestListView.as_view(), name='upcoming-contest-list'),
     path('past-contests/', PastContestListView.as_view(), name='past-contest-list'),
-
+    path('contests/<int:pk>', ContestDetailView.as_view(), name='contest-details'),
     path('<int:contest_id>/problems/', ContestProblemListView.as_view(), name='contest-problems'),
     path('<int:contest_id>/problems/<int:pk>', ContestProblemDetails.as_view(), name='contest-problem-details'),
     path('<int:contest_id>/problems/<int:problem_id>/submit/', ContestSubmissionCreateView.as_view(),

@@ -217,3 +217,12 @@ nav ul {
 		width: 100%;
 	}
 }
+
+/** header **/
+.header {
+  padding: 60px;
+  text-align: center;
+  background: #1abc9c;
+  color: white;
+  font-size: 30px;
+}

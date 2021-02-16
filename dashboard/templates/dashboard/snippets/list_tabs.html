@@ -1,9 +1,9 @@
 
 <div class="tabs">
 		<ul>
-			<li class="{{ dashboard_tab }}"><a class="urlBlackColor btn" href="{% url 'dashboard:dashboard' %}">Dashboard</a></li>
-            <li class="{{ my_contests_tab }}"><a class="urlBlackColor btn" href="{% url 'dashboard:my-contests' %}">My Contests</a></li>
-            <li class="{{ my_problems_tab }}"><a class="urlBlackColor btn" href="{% url 'dashboard:user-problems-list' %}">Problemsetting</a></li>
+			<li class="tab-li {{ dashboard_tab }}"><a class="urlBlackColor btn" href="{% url 'dashboard:dashboard' %}">Dashboard</a></li>
+            <li class="tab-li {{ my_contests_tab }}"><a class="urlBlackColor btn" href="{% url 'dashboard:my-contests' %}">My Contests</a></li>
+            <li class="tab-li {{ my_problems_tab }}"><a class="urlBlackColor btn" href="{% url 'dashboard:user-problems-list' %}">Problemsetting</a></li>
 
 		</ul>
 </div>

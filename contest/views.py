@@ -327,3 +327,12 @@ class ContestRegistrationTemplateView(UserPassesTestMixin, TemplateView):
         messages.add_message(self.request, messages.SUCCESS, 'Registration Successful!')
         return redirect('contest:running-contest-list')
 
+
+class ContestDetailView(DetailView):
+    template_name = 'contest/contest_detail.html'
+    model = Contest
+    context_object_name = 'contest'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
