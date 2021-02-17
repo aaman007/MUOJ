@@ -226,3 +226,19 @@ nav ul {
   color: white;
   font-size: 30px;
 }
+
+.typinganimationtext {
+    animation : type 2s steps(7);
+    overflow: hidden;
+    white-space: nowrap;
+    margin-left: 80px;
+    font-family: 'Brush Script MT', cursive;
+}
+@keyframes type {
+    0% {
+        width:0ch;
+    }
+    100% {
+        width:7ch;
+    }
+}
