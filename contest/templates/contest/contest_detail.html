@@ -57,10 +57,27 @@
         </div>
         <div class="col-sm-3">
             <div class="card">
-                <h4 class="text-center mt-4">Time counter dimu!</h4>
+                {% if started and not finished %}
+                    <h4 class="text-center mt-4">Running</h4>
+                {% elif started and finished %}
+                    <h4 class="text-center mt-4">Finished</h4>
+                {% else %}
+                    <h4 class="text-center mt-4">Has not started yet</h4>
+                {% endif %}
                 <h6 class="text-center mt-1">00:00:00 left!</h6>
-                <p class="ml-4 mt-3">
-                    Reg buttons etc..
+                <p class="mt-3 text-center">
+                    {% if started and finished %}
+                        <a href="{% url 'contest:contest-standings' contest.id %}" class="btn btn-outline-info btn-sm">Final Standings</a>
+                    {% elif started and not finished %}
+                        <a href="{% url 'contest:contest-standings' contest.id %}" class="btn btn-outline-info btn-sm">Enter</a>
+                    {% else %}
+                        {% if not contest.is_registered %}
+                            <a href="{% url 'contest:contest-registration' contest.id %}" class="btn btn-outline-info btn-sm">Register</a>
+                        {% else %}
+                            <h6 style="font-size: 14px; color: green;"> Registration completed  </h6>
+                        {% endif %}
+                    {% endif %}
+
                 </p>
             </div>
         </div>

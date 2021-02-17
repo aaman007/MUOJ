@@ -18,7 +18,7 @@ from contest.forms import (
 )
 from contest.models import Contest, Announcement
 from problemset.models import Problem, Submission,Clarification
-
+from django.utils import timezone
 
 User = get_user_model()
 
@@ -335,4 +335,18 @@ class ContestDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        current_time = timezone.now()
+        contest_time = context['contest'].start_time
+        context['finished'] = context['contest'].start_time + context['contest'].duration
+
+        if current_time > contest_time:
+            context['started'] = True
+        else:
+            context['started'] = False
+
+        if context['finished'] < current_time:
+            context['finished'] = True
+        else:
+            context['finished'] = False
+
         return context
