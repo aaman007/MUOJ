@@ -1,6 +1,7 @@
 import json
+
 from django.contrib.auth import get_user_model
-from channels.consumer import AsyncConsumer
+from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 
 from channel.models import Channel
@@ -8,46 +9,36 @@ from channel.models import Channel
 User = get_user_model()
 
 
-class MessageConsumer(AsyncConsumer):
+class MessageConsumer(AsyncWebsocketConsumer):
     def __init__(self):
         super().__init__()
         self.channel = None
         self.group_name = None
 
-    async def websocket_connect(self, event):
+    async def connect(self):
         self.channel = await self.get_channel()
         self.group_name = f"group_{self.channel.id}"
-        self.channel_layer.group_add(
-            self.group_name,
-            self.channel_name
-        )
-        await self.send({
-            "type": "websocket.accept"
-        })
+        await self.channel_layer.group_add(self.group_name, self.channel_name)
+        await self.accept()
 
-    async def websocket_receive(self, event):
-        text = json.loads(event.get('text', '{}'))
-        message = text.get('message')
-        user = self.scope.get('user')
-        if message:
-            # broadcasts message event
-            await self.channel_layer.group_send(self.group_name, {
+    async def receive(self, text_data=None, bytes_data=None):
+        text_data = json.loads(text_data)
+        await self.channel_layer.group_send(
+            self.group_name,
+            {
                 "type": "channel.message",
                 "text": json.dumps({
-                    "username": user.username,
-                    "message": message
-                })
-            })
+                    'message': text_data.get('message'),
+                    'username': self.scope.get('user').username
+                }),
+            }
+        )
 
     async def channel_message(self, event):
-        print(event)
-        await self.send({
-            "type": "websocket.send",
-            "text": event["text"]
-        })
+        await self.send(event["text"])
 
-    async def websocket_disconnect(self, event):
-        print("disconnected", event)
+    async def disconnect(self, close_code):
+        await self.channel_layer.group_discard(self.group_name, self.channel_name)
 
     @database_sync_to_async
     def get_channel(self, channel_slug=''):
