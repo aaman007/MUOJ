@@ -26,10 +26,10 @@ urlpatterns = [
     path('', include('core.urls')),
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
-    path('blog/', include('blog.urls')),
-    path('contest/', include('contest.urls')),
+    path('blogs/', include('blog.urls')),
+    path('contests/', include('contest.urls')),
     path('problemset/', include('problemset.urls')),
-    path('training/', include('training.urls')),
+    path('trainings/', include('training.urls')),
     path('core/', include('core.urls')),
     path('dashboard/', include('dashboard.urls')),
 

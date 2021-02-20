@@ -277,16 +277,12 @@ class ContestDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         current_time = timezone.now()
         contest_time = context['contest'].start_time
-        context['finished'] = context['contest'].start_time + context['contest'].duration
+        end_time = context['contest'].start_time + context['contest'].duration
 
-        if current_time > contest_time:
-            context['started'] = True
-        else:
-            context['started'] = False
-
-        if context['finished'] < current_time:
-            context['finished'] = True
-        else:
-            context['finished'] = False
+        context.update({
+            'contest_nav': 'active',
+            'started': current_time >= contest_time,
+            'finished': end_time < current_time
+        })
 
         return context

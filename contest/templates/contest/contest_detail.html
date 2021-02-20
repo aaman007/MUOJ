@@ -72,10 +72,12 @@
                     {% elif started and not finished %}
                         <a href="{% url 'contest:contest-standings' contest.id %}" class="btn btn-outline-info btn-sm">Enter</a>
                     {% else %}
-                        {% if not contest.is_registered %}
+                        {% if not user in contest.contestants.all %}
                             <a href="{% url 'contest:contest-registration' contest.id %}" class="btn btn-outline-info btn-sm">Register</a>
                         {% else %}
-                            <h6 style="font-size: 14px; color: green;"> Registration completed  </h6>
+                            <h6 class="text-center" style="font-size: 14px; color: green;">
+                                Registration completed
+                            </h6>
                         {% endif %}
                     {% endif %}
 
