@@ -1,8 +1,7 @@
-{% extends 'accounts/base.html' %}
+{% extends 'problemset/base.html' %}
 {% load crispy_forms_tags %}
 
 {% block content %}
-
 
     <ul class="nav nav-tabs nav-fill mb-4">
         <li class="nav-item">
@@ -12,8 +11,6 @@
             <a class="nav-link {{ dashboard_ProblemTests_tab }}" href="{% url 'problemset:testcase-list' problem.id%}">Tests</a>
         </li>
     </ul>
-
-
 
     <div class="card">
         <div class="card-header text-center">
@@ -28,7 +25,7 @@
                     {{ form.media }}
                 </fieldset>
                 <div class="form-group">
-                    <a href="{% url 'accounts:testcase-list' problem.id%}"><button class="btn btn-primary" type="submit"> {{ operation }} </button></a>
+                    <a href="{% url 'accounts:testcase-list' problem.id%}"><button class="btn btn-sm btn-primary" type="submit"> {{ operation }} </button></a>
                 </div>
             </form>
         </div>

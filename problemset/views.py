@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import Count, Q
 from django.shortcuts import get_object_or_404
 from django.views.generic import (
@@ -10,6 +11,7 @@ from django.views.generic import (
 )
 from rest_framework.reverse import reverse
 
+from dashboard.mixins import IsAdminUserMixin
 from problemset.forms import SubmissionForm
 from problemset.models import Problem, Submission, TestCase
 from problemset.forms import ProblemCreateForm,TestCreateForm
@@ -88,7 +90,7 @@ class SubmissionListView(ListView):
         return context
 
 
-class SubmissionCreateView(CreateView):
+class SubmissionCreateView(LoginRequiredMixin, CreateView):
     model = Submission
     form_class = SubmissionForm
 
@@ -131,7 +133,7 @@ class StandingsListView(ListView):
         return context
 
 
-class ProblemCreateView(CreateView):
+class ProblemCreateView(IsAdminUserMixin, CreateView):
     model = Problem
     template_name = 'problemset/problem_create_form.html'
     form_class = ProblemCreateForm
@@ -152,7 +154,7 @@ class ProblemCreateView(CreateView):
         return super().form_valid(form)
 
 
-class ProblemUpdateView(UpdateView):
+class ProblemUpdateView(UserPassesTestMixin, UpdateView):
     model = Problem
     template_name = 'problemset/problem_create_form.html'
     form_class = ProblemCreateForm
@@ -170,10 +172,10 @@ class ProblemUpdateView(UpdateView):
         return context
 
     def test_func(self):
-        return self.request.user == self.get_object().user
+        return self.request.user == self.get_object().author
 
 
-class TestCaseListView(ListView):
+class TestCaseListView(IsAdminUserMixin, ListView):
     model = TestCase
     template_name = 'problemset/test_case_list.html'
     context_object_name = 'testcases'
@@ -191,9 +193,12 @@ class TestCaseListView(ListView):
         return context
 
 
-class TestCaseCreateView(CreateView):
+class TestCaseCreateView(UserPassesTestMixin, CreateView):
     model = TestCase
     form_class = TestCreateForm
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Problem, pk=self.kwargs.get('pk'))
 
     def get_success_url(self):
         return reverse('problemset:testcase-list', kwargs={'pk': self.kwargs.get('pk')})
@@ -202,13 +207,19 @@ class TestCaseCreateView(CreateView):
         form.instance.problem = get_object_or_404(Problem, id=self.kwargs.get('pk'))
         return super().form_valid(form)
 
+    def test_func(self):
+        return self.request.user == self.get_object().author
 
-class TestCaseDeleteView(DeleteView):
+
+class TestCaseDeleteView(UserPassesTestMixin, DeleteView):
     model = TestCase
     template_name = 'problemset/testcase_delete.html'
 
+    def get_problem(self):
+        return get_object_or_404(Problem, pk=self.kwargs.get('problem_id'))
+
     def get_success_url(self):
-        return reverse('problemset:testcase-list', kwargs={'pk': self.kwargs.get('pk')})
+        return reverse('problemset:testcase-list', kwargs={'pk': self.kwargs.get('problem_id')})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -218,4 +229,4 @@ class TestCaseDeleteView(DeleteView):
         return context
 
     def test_func(self):
-        return self.request.user == self.get_object().user
+        return self.request.user == self.get_problem().author

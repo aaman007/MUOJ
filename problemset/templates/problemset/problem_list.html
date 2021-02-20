@@ -3,34 +3,34 @@
 {% block content %}
     {% include 'problemset/snippets/list_tabs.html' %}
 
-            <div class="table-responsive p-1">
-                <table id="id_problem_list" class="table text-center table-bordered table-hover table-striped">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th width="8%"> # </th>
-                            <th>
-                                Name
-                            </th>
-                            <th width="15%"> Solve Count </th>
-                        </tr>
-                    </thead>
+    <div class="table-responsive p-1">
+        <table id="id_problem_list" class="table text-center table-bordered table-hover table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th width="8%"> # </th>
+                    <th>
+                        Name
+                    </th>
+                    <th width="15%"> Solve Count </th>
+                </tr>
+            </thead>
 
-                    <tbody class="text-center">
-                        {% for problem in problems %}
-                            <tr>
-                                <td> {{ forloop.counter }} </td>
-                                <td>
-                                    <a href="{% url 'problemset:problem-details' problem.id %}">
-                                        {{ problem.name }}
-                                        {% if problem.is_solved %}
-                                            <span class="fa fa-check text-success"> </span>
-                                        {% endif %}
-                                    </a>
-                                </td>
-                                <td> {{ problem.solve_count }} </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+            <tbody class="text-center">
+                {% for problem in problems %}
+                    <tr>
+                        <td> {{ forloop.counter }} </td>
+                        <td>
+                            <a href="{% url 'problemset:problem-details' problem.id %}">
+                                {{ problem.name }}
+                                {% if problem.is_solved %}
+                                    <span class="fa fa-check text-success"> </span>
+                                {% endif %}
+                            </a>
+                        </td>
+                        <td> {{ problem.solve_count }} </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

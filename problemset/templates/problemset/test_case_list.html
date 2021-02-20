@@ -1,4 +1,4 @@
-{% extends 'accounts/base.html' %}
+{% extends 'problemset/base.html' %}
 {% load crispy_forms_tags %}
 
 {% block content %}
@@ -16,7 +16,7 @@
                 <strong>Problem : <a href="{% url 'problemset:problem-details' problem.id %}"><b>{{ problem }}</b></a></strong>
         </div>
         <div class="card-body">
-            <button type="button" class="btn btn-primary float-right mr-0 mb-2" data-toggle="modal" data-target="#exampleModalCenter">
+            <button type="button" class="btn btn-sm btn-primary float-right mr-0 mb-2" data-toggle="modal" data-target="#exampleModalCenter">
                 Add test case
             </button>
             <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -34,8 +34,8 @@
                                 </fieldset>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button class="btn btn-primary" type="submit"> Add </button>
+                                <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+                                <button class="btn btn-sm btn-primary" type="submit"> Add </button>
                             </div>
                         </form>
                     </div>
@@ -58,8 +58,8 @@
                         <tr>
                             <td> {{ forloop.counter }} </td>
                             <td> {{ testcase.label }} </td>
-                            <td><a href="">{{ testcase.input }}</a> </td>
-                            <td><a href="/home/farhan/MUOJ/media/{{ testcase.output }}">{{ testcase.output }}</a> </td>
+                            <td><a href="#">{{ testcase.input }}</a> </td>
+                            <td><a href="#">{{ testcase.output }}</a> </td>
                             <td> {{ testcase.is_sample }} </td>
                             <td>
                                 <a class="ml-2 delete-contest text-danger" href="{% url 'problemset:delete-testcase' problem.id testcase.id%}">

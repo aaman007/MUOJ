@@ -10,6 +10,6 @@
     </div>
     <form action="{% url 'contest:contest-registration' contest.id %}" method="POST">
         {% csrf_token %}
-        <button class="btn btn-primary" type="submit"> Register </button>
+        <button class="btn btn-sm btn-primary" type="submit"> Register </button>
     </form>
 {% endblock %}

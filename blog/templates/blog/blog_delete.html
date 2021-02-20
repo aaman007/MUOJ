@@ -20,8 +20,8 @@
 
             <form method="POST">
                 {% csrf_token %}
-                <a class="btn btn-secondary" href="{% url 'blog:blog-list' %}"> Discard </a>
-                <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                <a class="btn btn-sm btn-secondary" href="{% url 'blog:blog-list' %}"> Discard </a>
+                <button type="submit" class="btn btn-sm btn-danger">Yes, Delete</button>
             </form>
         </div>
     </div>

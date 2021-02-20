@@ -12,3 +12,8 @@ class ContestActionMixin(UserPassesTestMixin, TemplateView):
 
     def test_func(self):
         return self.get_object().author == self.request.user
+
+
+class IsAdminUserMixin(UserPassesTestMixin):
+    def test_func(self):
+        return getattr(self, 'request').user.is_superuser

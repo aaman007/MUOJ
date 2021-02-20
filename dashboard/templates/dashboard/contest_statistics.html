@@ -6,7 +6,7 @@
     {% if contest.is_rated and contest.state == 'Finished' %}
         {% if user.is_superuser or user == contest.author %}
             {% if not contest.rating_applied %}
-                <a class="apply-rating btn btn-primary text-light ml-2"> Apply Rating </a>
+                <a class="apply-rating btn btn-sm btn-primary text-light ml-2"> Apply Rating </a>
             {% endif %}
         {% endif %}
     {% endif %}

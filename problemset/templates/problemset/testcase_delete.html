@@ -3,14 +3,6 @@
 {% block title %} Delete Testcase {% endblock %}
 
 {% block content %}
-    {% comment %} Breadcrumb {% endcomment %}
-    <nav aria-label="breadcrumb" class="mb-4">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">Test Case</li>
-            <li class="breadcrumb-item active" aria-current="page">Delete</li>
-        </ol>
-    </nav>
-
     <div class="card m-2">
         <div class="card-header">
             Delete Test Case
@@ -20,8 +12,8 @@
 
             <form method="POST">
                 {% csrf_token %}
-                <a class="btn btn-secondary" href=""> Discard </a>
-                <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                <a class="btn btn-sm btn-secondary" href=""> Discard </a>
+                <button type="submit" class="btn btn-sm btn-danger">Yes, Delete</button>
             </form>
         </div>
     </div>

@@ -22,8 +22,8 @@ urlpatterns = [
     path('problems/new/', ProblemCreateView.as_view(), name='add-problem'),
     path('problems/<int:pk>/problem-update/', ProblemUpdateView.as_view(), name='problem-update'),
     path('problems/<int:pk>/test-cases', TestCaseListView.as_view(), name='testcase-list'),
-    path('problems/<int:pk>/Add-test-case', TestCaseCreateView.as_view(), name='add-testcase'),
-    path('problems/<int:pk>/test-cases/<int:ptk>/delete', TestCaseDeleteView.as_view(), name='delete-testcase'),
+    path('problems/<int:pk>/add-test-case', TestCaseCreateView.as_view(), name='add-testcase'),
+    path('problems/<int:problem_id>/test-cases/<int:pk>/delete', TestCaseDeleteView.as_view(), name='delete-testcase'),
 
     # Submissions
     path('submissions/', SubmissionListView.as_view(), name='submission-list'),

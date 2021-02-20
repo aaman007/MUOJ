@@ -16,14 +16,14 @@ from rest_framework import status
 from contest.forms import ContestForm
 from contest.models import Contest, Announcement
 from problemset.models import Problem, Submission, Clarification
-from dashboard.mixins import ContestActionMixin
+from dashboard.mixins import ContestActionMixin, IsAdminUserMixin
 
 from problemset.tasks import task_print_hello
 
 User = get_user_model()
 
 
-class DashboardView(TemplateView):
+class DashboardView(IsAdminUserMixin, TemplateView):
     template_name = 'dashboard/dashboard.html'
 
     def get_context_data(self, **kwargs):
@@ -46,7 +46,7 @@ class DashboardView(TemplateView):
 
 
 # Problem_set Related Dashboard Views
-class UserProblemSettingListView(ListView):
+class UserProblemSettingListView(IsAdminUserMixin, ListView):
     model = Problem
     context_object_name = 'user_problems'
     template_name = 'dashboard/user_problems_list.html'
@@ -63,11 +63,10 @@ class UserProblemSettingListView(ListView):
 
 
 # Contest Related Dashboard Views
-class MyContestListView(PermissionRequiredMixin, ListView):
+class MyContestListView(IsAdminUserMixin, ListView):
     model = Contest
     template_name = 'dashboard/contest_list.html'
     context_object_name = 'contests'
-    permission_required = []
 
     def get_queryset(self):
         return Contest.objects.filter(author=self.request.user).order_by('-created_at')
@@ -80,11 +79,10 @@ class MyContestListView(PermissionRequiredMixin, ListView):
         return context
 
 
-class ContestCreateView(PermissionRequiredMixin, CreateView):
+class ContestCreateView(IsAdminUserMixin, CreateView):
     model = Contest
     form_class = ContestForm
     template_name = 'dashboard/contest_form.html'
-    permission_required = []
     success_url = reverse_lazy('dashboard:my-contests')
 
     def get_context_data(self, **kwargs):
