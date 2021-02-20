@@ -32,6 +32,7 @@ urlpatterns = [
     path('trainings/', include('training.urls')),
     path('core/', include('core.urls')),
     path('dashboard/', include('dashboard.urls')),
+    path('channels/', include('channel.urls')),
 
     # Authentication
     path('register/', account_views.register, name='register'),

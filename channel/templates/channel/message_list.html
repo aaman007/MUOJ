@@ -1,0 +1,58 @@
+{% extends 'channel/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+    <ul class="chat-items">
+        {% for message in messages %}
+            <li> {{ message.text }} ({{ message.user.username }}) </li>
+        {% endfor %}
+    </ul>
+
+    <form method="POST" id="message-form" action="{% url 'channel:message-create' %}" novalidate>
+        {% csrf_token %}
+        {{ message_form|crispy }}
+        <button class="btn btn-sm btn-primary" type="submit"> Send </button>
+    </form>
+
+{% endblock %}
+
+{% block extra_body %}
+    <script>
+        const form = $('#message-form');
+        const message = $('#id_text');
+        const chatHolder = $('.chat-items');
+
+        const wsStart = location.protocol === 'https://' ? 'wss://' : 'ws://';
+        const endpoint = wsStart + location.host + location.pathname;
+
+        const socket = new WebSocket(endpoint);
+
+        socket.onmessage = function (e) {
+            const message = JSON.parse(e.data);
+            console.log(message)
+            chatHolder.append(`<li> ${message.message} (via ${message.username}) </li>`);
+        }
+
+        socket.onopen = function (e) {
+            console.log("open", e)
+            form.submit(function (e) {
+                e.preventDefault();
+                const data = {
+                    message: message.val(),
+                    username: "{{ user.username }}"
+                };
+                socket.send(JSON.stringify(data));
+                form[0].reset();
+            })
+        }
+
+        socket.onerror = function (e) {
+            console.log("error", e)
+        }
+
+        socket.onclose = function (e) {
+            console.log("close", e)
+        }
+    </script>
+{% endblock %}

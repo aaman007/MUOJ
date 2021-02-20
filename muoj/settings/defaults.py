@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django_celery_results',
     'django_celery_beat',
     'debug_toolbar',
+    'channels',
+    'channels_redis',
 
     # My Apps
     'accounts.apps.AccountsConfig',
@@ -48,7 +50,8 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'problemset.apps.ProblemsetConfig',
     'training.apps.TrainingConfig',
-    'dashboard.apps.DashboardConfig'
+    'dashboard.apps.DashboardConfig',
+    'channel.apps.ChannelConfig'
 ]
 
 MIDDLEWARE = [
@@ -81,7 +84,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'muoj.wsgi.application'
+# WSGI_APPLICATION = 'muoj.wsgi.application'
+ASGI_APPLICATION = "muoj.asgi.application"
 
 
 # Password validation
@@ -186,6 +190,13 @@ CELERY_CACHE_BACKEND = 'django-cache'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+
+# Channels Config
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
 
 
 # Internationalization
