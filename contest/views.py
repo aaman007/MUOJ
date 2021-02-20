@@ -16,6 +16,8 @@ from contest.forms import (
     ClarificationCreateForm,
     ClarificationReplyForm, AnnouncementForm
 )
+from contest.mixins import ContestantPassesTestMixin, ModeratorPassesTestMixin, ContestAllowOrRedirectMixin, \
+    ContestRegisterOrRedirectMixin
 from contest.models import Contest, Announcement
 from problemset.models import Problem, Submission,Clarification
 from django.utils import timezone
@@ -74,18 +76,10 @@ class PastContestListView(ListView):
         return context
 
 
-class ContestProblemListView(UserPassesTestMixin, ListView):
+class ContestProblemListView(ContestantPassesTestMixin, ListView):
     model = Problem
     template_name = 'contest/contest_problems.html'
     context_object_name = 'problems'
-
-    def get_contest(self):
-        return get_object_or_404(Contest, id=self.kwargs.get('contest_id'))
-
-    def test_func(self):
-        contest = self.get_contest()
-        state = contest.state
-        return state == 'Finished' or (state == 'Running' and self.request.user in contest.contestants.all())
 
     def get_queryset(self):
         return Problem.objects.filter_preserved_by_ids_with_count(
@@ -106,16 +100,9 @@ class ContestProblemListView(UserPassesTestMixin, ListView):
         return context
 
 
-class ClarificationCreateView(UserPassesTestMixin, CreateView):
+class ClarificationCreateView(ContestantPassesTestMixin, CreateView):
     model = Clarification
     form_class = ClarificationCreateForm
-
-    def get_contest(self):
-        return get_object_or_404(Contest, id=self.kwargs.get('contest_id'))
-
-    def test_func(self):
-        contest = self.get_contest()
-        return contest.state == 'Running' and self.request.user in contest.contestants.all()
 
     def get_success_url(self):
         return reverse('contest:contest-problems', kwargs={'contest_id': self.kwargs.get('contest_id')})
@@ -126,7 +113,7 @@ class ClarificationCreateView(UserPassesTestMixin, CreateView):
         return super().form_valid(form)
 
 
-class ClarificationReplyView(UpdateView):
+class ClarificationReplyView(ModeratorPassesTestMixin, UpdateView):
     model = Clarification
     form_class = ClarificationReplyForm
 
@@ -134,13 +121,10 @@ class ClarificationReplyView(UpdateView):
         return reverse('contest:contest-problems', kwargs={'contest_id': self.kwargs.get('contest_id')})
 
 
-class ContestProblemDetails(DetailView):
+class ContestProblemDetails(ContestantPassesTestMixin, DetailView):
     model = Problem
     template_name = 'contest/contest_problem_details.html'
     context_object_name = 'problem'
-
-    def get_contest(self):
-        return get_object_or_404(Contest, id=self.kwargs.get('contest_id'))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -153,7 +137,7 @@ class ContestProblemDetails(DetailView):
         return context
 
 
-class ContestSubmissionCreateView(CreateView):
+class ContestSubmissionCreateView(ContestantPassesTestMixin, CreateView):
     model = Submission
     form_class = SubmissionForm
 
@@ -167,16 +151,10 @@ class ContestSubmissionCreateView(CreateView):
         return super().form_valid(form)
 
 
-class ContestMySubmissionListView(UserPassesTestMixin, ListView):
+class ContestMySubmissionListView(ContestantPassesTestMixin, ListView):
     model = Submission
     template_name = 'contest/contest_my_submissions.html'
     context_object_name = 'submissions'
-
-    def get_contest(self):
-        return get_object_or_404(Contest, id=self.kwargs.get('contest_id'))
-
-    def test_func(self):
-        return self.request.user.is_authenticated and self.get_contest().state != 'Upcoming'
 
     def get_queryset(self):
         return Submission.objects.filter(contest=self.get_contest(), user=self.request.user).order_by('-created_at')
@@ -191,14 +169,8 @@ class ContestMySubmissionListView(UserPassesTestMixin, ListView):
         return context
 
 
-class ContestStandingsListView(UserPassesTestMixin, TemplateView):
+class ContestStandingsListView(ContestAllowOrRedirectMixin, TemplateView):
     template_name = 'contest/contest_standings.html'
-
-    def get_contest(self):
-        return get_object_or_404(Contest, id=self.kwargs.get('contest_id'))
-
-    def test_func(self):
-        return self.get_contest().state != 'Upcoming'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -210,18 +182,10 @@ class ContestStandingsListView(UserPassesTestMixin, TemplateView):
         return context
 
 
-class ContestAnnouncementsListView(UserPassesTestMixin, ListView):
+class ContestAnnouncementsListView(ContestantPassesTestMixin, ListView):
     model = Announcement
     template_name = 'contest/contest_announcements.html'
     context_object_name = 'announcements'
-
-    def get_contest(self):
-        return get_object_or_404(Contest, id=self.kwargs.get('contest_id'))
-
-    def test_func(self):
-        if self.get_contest().state == 'Finished':
-            return True
-        return self.request.user in self.get_contest().contestants.all() and self.get_contest().state != 'Upcoming'
 
     def get_queryset(self):
         return Announcement.objects.filter(contest=self.get_contest()).order_by('-created_at')
@@ -237,18 +201,12 @@ class ContestAnnouncementsListView(UserPassesTestMixin, ListView):
         return context
 
 
-class ContestAnnouncementCreateView(UserPassesTestMixin, CreateView):
+class ContestAnnouncementCreateView(ModeratorPassesTestMixin, CreateView):
     model = Announcement
     form_class = AnnouncementForm
 
     def get_success_url(self):
         return reverse('contest:contest-announcements', kwargs={'contest_id': self.kwargs.get('contest_id')})
-
-    def get_contest(self):
-        return get_object_or_404(Contest, id=self.kwargs.get('contest_id'))
-
-    def test_func(self):
-        return self.get_contest().author == self.request.user
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -256,15 +214,9 @@ class ContestAnnouncementCreateView(UserPassesTestMixin, CreateView):
         return super().form_valid(form)
 
 
-class ContestAnnouncementTemplateView(UserPassesTestMixin, TemplateView):
+class ContestAnnouncementTemplateView(ModeratorPassesTestMixin, TemplateView):
     model = Announcement
     template_name = 'contest/contest_announcements.html'
-
-    def get_contest(self):
-        return get_object_or_404(Contest, id=self.kwargs.get('contest_id'))
-
-    def test_func(self):
-        return self.get_contest().author == self.request.user
 
     def post(self, request, *args, **kwargs):
         try:
@@ -288,31 +240,19 @@ class ContestAnnouncementTemplateView(UserPassesTestMixin, TemplateView):
         )
 
 
-class ContestAnnouncementDeleteView(UserPassesTestMixin, SuccessMessageMixin, DeleteView):
+class ContestAnnouncementDeleteView(ModeratorPassesTestMixin, SuccessMessageMixin, DeleteView):
     model = Announcement
     success_message = 'Announcement deleted successfully'
 
     def get_success_url(self):
         return reverse('contest:contest-announcements', kwargs={'contest_id': self.kwargs.get('contest_id')})
 
-    def get_contest(self):
-        return get_object_or_404(Contest, id=self.kwargs.get('contest_id'))
-
-    def test_func(self):
-        return self.get_contest().author == self.request.user
-
     def get(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
 
 
-class ContestRegistrationTemplateView(UserPassesTestMixin, TemplateView):
+class ContestRegistrationTemplateView(ContestRegisterOrRedirectMixin, TemplateView):
     template_name = 'contest/contest_registration.html'
-
-    def get_contest(self):
-        return get_object_or_404(Contest, id=self.kwargs.get('contest_id'))
-
-    def test_func(self):
-        return self.request.user.is_authenticated and self.request.user and self.get_contest().state == 'Upcoming'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
@@ -322,9 +262,9 @@ class ContestRegistrationTemplateView(UserPassesTestMixin, TemplateView):
         })
         return context
 
-    def post(self, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         self.get_contest().contestants.add(self.request.user)
-        messages.add_message(self.request, messages.SUCCESS, 'Registration Successful!')
+        messages.add_message(request, messages.SUCCESS, 'Registration Successful!')
         return redirect('contest:running-contest-list')
 
 

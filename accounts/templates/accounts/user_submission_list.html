@@ -65,8 +65,15 @@
                              {% endif %}
                              <td> {{ 0 }} </td>
                              <td> {{ 0 }} </td>
-                             <td> <a href="#"> {{ submission.user }}</a> </td>
-                             <td> {{ submission.created_at|date:"H:i | d-n-Y" }} </td>
+                             <td>
+                                 <a
+                                         href="{% url 'accounts:user-profile' submission.user.username %}"
+                                         class="rank-text rank-{{ submission.user.profile.rank }}"
+                                 >
+                                     {{ submission.user }}
+                                 </a>
+                             </td>
+                             <td> {{ submission.created_at|date:"H:i | d-m-Y" }} </td>
                         </tr>
                     {% endfor %}
                 </tbody>
