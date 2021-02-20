@@ -1,0 +1,7 @@
+{% extends 'channel/base.html' %}
+
+{% block content %}
+    {% for channel in channels %}
+        <a class="btn btn-primary" href="{% url 'channel:message-list' channel.id %}"> {{ channel.title }} </a>
+    {% endfor %}
+{% endblock %}

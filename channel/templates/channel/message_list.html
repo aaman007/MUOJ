@@ -5,11 +5,27 @@
 
     <ul class="chat-items">
         {% for message in messages %}
-            <li> {{ message.text }} ({{ message.user.username }}) </li>
+            <div class="message-wrapper d-flex flex-column">
+                {% if user == message.user %}
+                    <div class="d-flex flex-row-reverse">
+                        <div class="message-text message-right">
+                            <div class="message-user-right text-right"> {{ message.user.username }} </div>
+                            {{ message.text }}
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="d-flex flex-row">
+                        <div class="message-text message-left">
+                            <div class="message-user-left text-left"> {{ message.user.username }} </div>
+                            {{ message.text }}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
         {% endfor %}
     </ul>
 
-    <form method="POST" id="message-form" action="{% url 'channel:message-create' %}" novalidate>
+    <form method="POST" id="message-form" action="{% url 'channel:message-create' channel.id %}" novalidate>
         {% csrf_token %}
         {{ message_form|crispy }}
         <button class="btn btn-sm btn-primary" type="submit"> Send </button>
@@ -18,41 +34,75 @@
 {% endblock %}
 
 {% block extra_body %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reconnecting-websocket/1.0.0/reconnecting-websocket.min.js"
+            integrity="sha512-B4skI5FiLurS86aioJx9VfozI1wjqrn6aTdJH+YQUmCZum/ZibPBTX55k5d9XM6EsKePDInkLVrN7vPmJxc1qA==" crossorigin="anonymous">
+    </script>
+
     <script>
-        const form = $('#message-form');
-        const message = $('#id_text');
-        const chatHolder = $('.chat-items');
+        $(document).ready(function () {
+            $(document).scrollTop($(document).height());
 
-        const wsStart = location.protocol === 'https://' ? 'wss://' : 'ws://';
-        const endpoint = wsStart + location.host + location.pathname;
+            const form = $('#message-form');
+            const message = $('#id_text');
+            const chatHolder = $('.chat-items');
 
-        const socket = new WebSocket(endpoint);
+            // Socket Related
+            const wsStart = location.protocol === 'https://' ? 'wss://' : 'ws://';
+            const endpoint = wsStart + location.host + location.pathname;
 
-        socket.onmessage = function (e) {
-            const message = JSON.parse(e.data);
-            console.log(message)
-            chatHolder.append(`<li> ${message.message} (via ${message.username}) </li>`);
-        }
+            const socket = new WebSocket(endpoint);
 
-        socket.onopen = function (e) {
-            console.log("open", e)
-            form.submit(function (e) {
-                e.preventDefault();
-                const data = {
-                    message: message.val(),
-                    username: "{{ user.username }}"
-                };
-                socket.send(JSON.stringify(data));
-                form[0].reset();
-            })
-        }
+            socket.onmessage = function (e) {
+                console.log("message", e);
+                const message = JSON.parse(e.data);
+                addMessage(message.message, message.username);
+            }
 
-        socket.onerror = function (e) {
-            console.log("error", e)
-        }
+            socket.onopen = function (e) {
+                console.log("open", e);
+                form.submit(function (e) {
+                    e.preventDefault();
+                    const data = {
+                        message: message.val(),
+                        username: "{{ user.username }}"
+                    };
+                    socket.send(JSON.stringify(data));
+                    form[0].reset();
+                })
+            }
 
-        socket.onclose = function (e) {
-            console.log("close", e)
-        }
+            socket.onerror = function (e) {
+                console.log("error", e)
+            }
+
+            socket.onclose = function (e) {
+                console.log("close", e)
+            }
+
+            // Utils
+            function addToRight(message, username) {
+                chatHolder.append(`<div class="d-flex flex-row-reverse">
+                    <div class="message-text message-right">
+                        <div class="message-user-right text-right"> ${username } </div>
+                        ${message}
+                    </div>
+                 </div>`);
+            }
+            function addToLeft(message, username) {
+                chatHolder.append(`<div class="d-flex flex-row">
+                    <div class="message-text message-left">
+                        <div class="message-user-left text-right"> ${username } </div>
+                        ${message}
+                    </div>
+                 </div>`);
+            }
+            function addMessage(message, username) {
+                if ("{{ user.username }}" === username) {
+                    addToRight(message, username);
+                } else {
+                    addToLeft(message, username);
+                }
+            }
+        });
     </script>
 {% endblock %}

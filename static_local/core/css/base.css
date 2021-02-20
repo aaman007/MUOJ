@@ -242,3 +242,30 @@ nav ul {
         width:7ch;
     }
 }
+
+
+/** Channel Styles **/
+
+.message-text {
+	color: white;
+	border-radius: 10px;
+	padding: 5px 20px;
+	margin: 10px 0;
+	max-width: 60%;
+}
+
+.message-right {
+	background-color: #3f739c;
+}
+
+.message-user-right {
+	color: #d5b283;
+}
+
+.message-user-left {
+	color: #fff203;
+}
+
+.message-left {
+	background-color: #468b7d;
+}

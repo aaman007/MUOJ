@@ -1,10 +1,11 @@
 from django.urls import path
 
-from channel.views import MessageListView, MessageCreateView
+from channel.views import ChannelListView, MessageListView, MessageCreateView
 
 app_name = 'channel'
 
 urlpatterns = [
-    path('messages/', MessageListView.as_view(), name='message-list'),
-    path('messages/create/', MessageCreateView.as_view(), name='message-create')
+    path('', ChannelListView.as_view(), name='channel-list'),
+    path('<int:pk>/', MessageListView.as_view(), name='message-list'),
+    path('<int:pk>/new/', MessageCreateView.as_view(), name='message-create')
 ]

@@ -27,7 +27,7 @@ application = ProtocolTypeRouter({
         AuthMiddlewareStack(
             URLRouter(
                 [
-                    path("channels/messages/", MessageConsumer.as_asgi())
+                    path("channels/<int:pk>/", MessageConsumer.as_asgi())
                 ]
             )
         )
