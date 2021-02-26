@@ -1,7 +1,14 @@
 {% extends 'channel/base.html' %}
 
 {% block content %}
-    {% for channel in channels %}
-        <a class="btn btn-primary" href="{% url 'channel:message-list' channel.id %}"> {{ channel.title }} </a>
-    {% endfor %}
+    <div class="card text-center">
+        <div class="card-header">
+            Discussion Channels
+        </div>
+        <div class="card-body d-flex flex-column">
+            {% for channel in channels %}
+                <a class="btn btn-info my-2" href="{% url 'channel:message-list' channel.id %}"> {{ channel.title }} </a>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

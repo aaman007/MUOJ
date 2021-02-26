@@ -2,8 +2,7 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-
-    <ul class="chat-items">
+    <ul class="chat-items" style="height: 450px; overflow-y: scroll;">
         {% for message in messages %}
             <div class="message-wrapper d-flex flex-column">
                 {% if user == message.user %}
