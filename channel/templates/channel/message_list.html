@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <ul class="chat-items" style="height: 450px; overflow-y: scroll;">
+    <ul class="chat-items" style="height: 420px; overflow-y: scroll;">
         {% for message in messages %}
             <div class="message-wrapper d-flex flex-column">
                 {% if user == message.user %}
@@ -38,9 +38,13 @@
     </script>
 
     <script>
-        $(document).ready(function () {
-            $(document).scrollTop($(document).height());
+        function scrollToBottom() {
+            const objDiv = document.getElementsByClassName("chat-items")[0];
+            objDiv.scrollTop = objDiv.scrollHeight;
+        }
 
+        $(document).ready(function () {
+            scrollToBottom();
             const form = $('#message-form');
             const message = $('#id_text');
             const chatHolder = $('.chat-items');
@@ -55,6 +59,7 @@
                 console.log("message", e);
                 const message = JSON.parse(e.data);
                 addMessage(message.message, message.username);
+                scrollToBottom();
             }
 
             socket.onopen = function (e) {

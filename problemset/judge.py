@@ -73,10 +73,13 @@ def compile_c_cpp_submission(submission, language):
                             break
                 elif p.returncode == 137:
                     result = 'TLE'
+                    break
                 elif p.returncode == 139:
                     result = 'MLE'
+                    break
                 else:
                     result = 'RTE'
+                    break
             except (FileNotFoundError, Exception):
                 result = 'CE'
                 break
@@ -104,12 +107,16 @@ def compile_python_submission(submission):
                     p = subprocess.run(
                         f'ulimit -t {submission.problem.time_limit}; '
                         f'ulimit -v {submission.problem.memory_limit * 1024}; '
-                        f"python {solution_url}",
+                        f"python3 {solution_url}",
                         shell=True,
                         stdin=infile,
                         stdout=outfile,
                         stderr=True
                     )
+
+                    if p.returncode == 137:
+                        result = 'TLE'
+                        break
                     # resource_data = resource.getrusage(resource.RUSAGE_CHILDREN)
                     # time_taken = resource_data.ru_utime
                     # print("Time Taken:", time_taken)
