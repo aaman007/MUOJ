@@ -1,44 +1,55 @@
 {% extends 'contest/base.html' %}
+{% load static %}
 
 {% block content %}
     {% include 'contest/snippets/list_tabs.html' %}
-
-            <table class="table table-responsive table-hover text-center table-bordered table-striped">
-                <thead class="thead-dark">
+    <div class="table-responsive">
+        <table class="table table-hover text-center table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th > #</th>
+                    <th width="40%"> Name</th>
+                    <th width="12%"> Author</th>
+                    <th width="12%"> Start</th>
+                    <th width="12%"> Duration</th>
+                    <th width="12%"> Time Left</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for contest in contests %}
                     <tr>
-                        <th > #</th>
-                        <th width="40%"> Name</th>
-                        <th width="12%"> Author</th>
-                        <th width="12%"> Start</th>
-                        <th width="12%"> Duration</th>
-                        <th width="12%"> Time Left</th>
+
+                        <td> {{ forloop.counter }} </td>
+                        <td>
+                            <a href="{% url 'contest:contest-details' contest.id %}"> {{ contest.title }}</a>
+                            <br>
+                        </td>
+                        <td>
+                            <a
+                                    href="{% url 'accounts:user-profile' contest.author.username %}"
+                                    class="rank-text rank-{{ contest.author.profile.rank }}"
+                            >
+                                {{ contest.author }}
+                            </a>
+                        </td>
+                        <td> {{ contest.start_time|date:"M/d/o H:i e" }} </td>
+                        <td>{{ contest.duration }}</td>
+                        <td data-end-time="{{ contest.end_time|date:'Y-m-d H:i:s' }}" class="countdown"> 00:00:00  </td>
                     </tr>
-                </thead>
-                <tbody>
-                    {% for contest in contests %}
-                        <tr>
-
-                            <td> {{ forloop.counter }} </td>
-                            <td>
-                                <a href="{% url 'contest:contest-details' contest.id %}"> {{ contest.title }}</a>
-                                <br>
-                            </td>
-                            <td>
-                                <a
-                                        href="{% url 'accounts:user-profile' contest.author.username %}"
-                                        class="rank-text rank-{{ contest.author.profile.rank }}"
-                                >
-                                    {{ contest.author }}
-                                </a>
-                            </td>
-                            <td> {{ contest.start_time|date:"M/d/o H:i e" }} </td>
-                            <td>{{ contest.duration }}</td>
-                            <td data-end-time="{{ contest.end_time|date:'Y-m-d H:i:s' }}" class="countdown"> 00:00:00  </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-
+                {% endfor %}
+            </tbody>
+        </table>
+        {% if not contests.count %}
+            <div class="d-flex flex-column justify-content-center align-items-center">
+                <img
+                        style="width: 40%; height: 40%; min-height: 250px; min-width: 250px;"
+                        alt="No Data"
+                        src="{% static 'images/svg/no_data.svg' %}"
+                />
+                <h4> No  Running Contests! </h4>
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}
 
 {% block extra_body %}
