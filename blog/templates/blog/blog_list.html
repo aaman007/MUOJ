@@ -1,37 +1,36 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-    {% comment %} Breadcrumb {% endcomment %}
 
     {% if user.is_authenticated %}
         <div class="mb-2 d-flex">
             <div class="w-100">
-                <a href="{% url 'blog:blog-create' %}" class="add-blog btn btn-sm btn-outline-info float-right mr-0">
+                <a href="{% url 'blog:blog-create' %}" class="add-blog btn btn-sm btn-primary float-right mr-0">
                     <i class="fa fa-plus mr-1"></i> Add Blog
                 </a>
             </div>
         </div>
     {% endif %}
     {% for blog in blogs %}
-                <div class="card bg-light mb-2">
-                    <div class="card-header">
-                        <h4> <a class="blog-title" href="{% url 'blog:blog-details' blog.id %}"> {{ blog.title }} </a>  </h4>
-                        <h6>
-                            by
-                            <a class="rank-text rank-{{ blog.user.profile.rank }}" href="{% url 'accounts:user-profile' blog.user.username %}">
-                                {{ blog.user.username }}
-                            </a>, <small>{{blog.created_at}}</small>
-                        </h6>
-                    </div>
-                    <div class="card-body" style="background-color:#f2f7fa;">
-                        <p>
-                            {{ blog.truncated_content|safe }}
-                        </p>
-                        {% if blog.content|length > 500 %}
-                            <a class="read-more" href="{% url 'blog:blog-details' blog.id %}"> Read More </a>
-                        {% endif %}
-                    </div>
-                </div>
+        <div class="card bg-light mb-2">
+            <div class="card-header">
+                <h4> <a class="blog-title" href="{% url 'blog:blog-details' blog.id %}"> {{ blog.title }} </a>  </h4>
+                <h6>
+                    by
+                    <a class="rank-text rank-{{ blog.user.profile.rank }}" href="{% url 'accounts:user-profile' blog.user.username %}">
+                        {{ blog.user.username }}
+                    </a>, <small>{{blog.created_at}}</small>
+                </h6>
+            </div>
+            <div class="card-body" style="background-color:#f2f7fa;">
+                <p>
+                    {{ blog.truncated_content|safe }}
+                </p>
+                {% if blog.content|length > 500 %}
+                    <a class="read-more" href="{% url 'blog:blog-details' blog.id %}"> Read More </a>
+                {% endif %}
+            </div>
+        </div>
     {% endfor %}
 
     {% include 'snippets/paginations.html' %}
