@@ -2,20 +2,22 @@
 
 {% block content %}
     {% comment %} Breadcrumb {% endcomment %}
-    <nav aria-label="breadcrumb" class="mb-4">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">Blogs</li>
-            <li class="breadcrumb-item active" aria-current="page">Details</li>
-        </ol>
-    </nav>
 
-    <div class="card mt-2 mb-2">
-        <div class="card-body">
-            <h4> <a class="blog-title" href="{% url 'blog:blog-details' blog.id %}"> {{ blog.title }} </a>  </h4>
-            <p>
-                {{ blog.content|safe }}
-            </p>
-        </div>
+    <div class="card bg-light mt-2 mb-2">
+                    <div class="card-header">
+                        <h4> <a class="blog-title" href="{% url 'blog:blog-details' blog.id %}"> {{ blog.title }} </a>  </h4>
+                        <h6>
+                            by
+                            <a class="rank-text rank-{{ blog.user.profile.rank }}" href="{% url 'accounts:user-profile' blog.user.username %}">
+                                {{ blog.user.username }}
+                            </a>, <small>{{blog.created_at}}</small>
+                        </h6>
+                    </div>
+                    <div class="card-body" style="background-color:#f2f7fa;">
+                        <p>
+                            {{ blog.content|safe }}
+                        </p>
+                    </div>
     </div>
     {% if blog.user == user %}
         <div class="d-flex mt-4">
