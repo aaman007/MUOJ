@@ -1,32 +1,59 @@
 {% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
     {% comment %} Breadcrumb {% endcomment %}
 
     <div class="card bg-light mt-2 mb-2">
-                    <div class="card-header">
-                        <h4> <a class="blog-title" href="{% url 'blog:blog-details' blog.id %}"> {{ blog.title }} </a>  </h4>
-                        <h6>
-                            by
-                            <a class="rank-text rank-{{ blog.user.profile.rank }}" href="{% url 'accounts:user-profile' blog.user.username %}">
-                                {{ blog.user.username }}
-                            </a>, <small>{{blog.created_at}}</small>
-                        </h6>
-                    </div>
-                    <div class="card-body" style="background-color:#f2f7fa;">
-                        <p>
-                            {{ blog.content|safe }}
-                        </p>
-                    </div>
+        <div class="card-header">
+            <h4> <a class="blog-title" href="{% url 'blog:blog-details' blog.id %}"> {{ blog.title }} </a>  </h4>
+            <h6>
+                <img class="rounded-circle mr-2" style="width: 30px; height: 30px;" src="{{ blog.user.profile.profile_picture.url }}">
+                by
+                <a class="rank-text rank-{{ blog.user.profile.rank }}" href="{% url 'accounts:user-profile' blog.user.username %}">
+                    {{ blog.user.username }}
+                </a>, <small>{{blog.created_at}}</small>
+            </h6>
+        </div>
+        <div class="card-body" style="background-color:#f2f7fa;">
+            <p>
+                {{ blog.content|safe }}
+            </p>
+        </div>
     </div>
     {% if blog.user == user %}
-        <div class="d-flex mt-4">
-            <div class="flex-grow-1">
-                <a href="{% url 'blog:blog-update' blog.id %}" class="btn btn-sm btn-info"> Edit </a>
-            </div>
-            <div class="flex-grow-1">
-                <a href="{% url 'blog:blog-delete' blog.id %}" class="btn btn-sm btn-danger float-right"> Delete </a>
-            </div>
-        </div>
+    <div class="d-flex float-right">
+        <a href="{% url 'blog:blog-update' blog.id %}"><i class="far fa-edit"></i></a>
+        <a href="{% url 'blog:blog-delete' blog.id %}" class="ml-2 delete-contest text-danger"> <i class="far fa-trash-alt" ></i></a>
+
+    </div>
     {% endif %}
+
+    <div class="card mt-5">
+        {% if user is not None %}
+            <form method="POST" enctype="multipart/form-data" novalidate>
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    {{ form | crispy }}
+                    <button  class="btn btn-link float-right" type="submit"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+                </fieldset>
+            </form>
+        {% endif %}
+        <div class="card-body">
+                {% for comment in comments %}
+                    <p>
+                        <img class="rounded-circle mr-2" style="width: 30px; height: 30px;" src="{{ comment.author.profile.profile_picture.url }}">
+                        <a class="mr-2 " href="{% url 'accounts:user-profile' comment.author.username %}">{{ comment.author }}</a>
+                        <small class="text-muted">{{ comment.date_posted|date:"F d, Y" }}</small>
+                        <div class="">
+                            <p>
+                                {{ comment.Comment }}
+                            </p>
+                        </div>
+                    </p>
+                    <hr>
+                {% endfor %}
+        </div>
+    </div>
+
 {% endblock %}

@@ -10,8 +10,8 @@ from django.views.generic import (
     TemplateView
 )
 
-from blog.forms import BlogForm
-from blog.models import Blog
+from blog.forms import BlogForm,NewCommentForm
+from blog.models import Blog, Comments
 
 
 class BlogListView(ListView):
@@ -111,7 +111,17 @@ class BlogDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        comments_connected = Comments.objects.filter(post_connected=self.get_object()).order_by('-date_posted')
         context.update({
-            'blog_nav': 'active'
+            'blog_nav': 'active',
+            'comments': comments_connected,
+            'form': NewCommentForm(instance=self.request.user),
         })
         return context
+
+    def post(self, request, *args, **kwargs):
+        new_comment = Comments(Comment=request.POST.get('Comment'),
+                            author=self.request.user,
+                            post_connected=self.get_object(), )
+        new_comment.save()
+        return self.get(self, request, *args, **kwargs)

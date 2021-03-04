@@ -34,3 +34,11 @@ class Blog(AbstractBaseModel):
         except (ValueError, Exception):
             index = len(self[500:])
         return f"{self.content[:500+index]}....."
+
+
+class Comments(models.Model):
+    Comment = models.TextField(max_length=150)
+    date_posted = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    post_connected = models.ForeignKey(Blog, on_delete=models.CASCADE)

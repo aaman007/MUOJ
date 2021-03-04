@@ -17,6 +17,7 @@
                     <div class="card-header">
                         <h4> <a class="blog-title" href="{% url 'blog:blog-details' blog.id %}"> {{ blog.title }} </a>  </h4>
                         <h6>
+                            <img class="rounded-circle mr-2" style="width: 30px; height: 30px;" src="{{ blog.user.profile.profile_picture.url }}">
                             by
                             <a class="rank-text rank-{{ blog.user.profile.rank }}" href="{% url 'accounts:user-profile' blog.user.username %}">
                                 {{ blog.user.username }}
