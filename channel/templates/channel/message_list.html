@@ -2,34 +2,35 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <ul class="chat-items" style="height: 420px; overflow-y: scroll;">
-        {% for message in messages %}
-            <div class="message-wrapper d-flex flex-column">
-                {% if user == message.user %}
-                    <div class="d-flex flex-row-reverse">
-                        <div class="message-text message-right">
-                            <div class="message-user-right text-right"> {{ message.user.username }} </div>
-                            {{ message.text }}
+    <div style="height: 78vh;">
+        <ul class="chat-items" style="height: 80%; overflow-y: scroll;">
+            {% for message in messages %}
+                <div class="message-wrapper d-flex flex-column">
+                    {% if user == message.user %}
+                        <div class="d-flex flex-row-reverse">
+                            <div class="message-text message-right">
+                                <div class="message-user-right text-right"> {{ message.user.username }} </div>
+                                {{ message.text }}
+                            </div>
                         </div>
-                    </div>
-                {% else %}
-                    <div class="d-flex flex-row">
-                        <div class="message-text message-left">
-                            <div class="message-user-left text-left"> {{ message.user.username }} </div>
-                            {{ message.text }}
+                    {% else %}
+                        <div class="d-flex flex-row">
+                            <div class="message-text message-left">
+                                <div class="message-user-left text-left"> {{ message.user.username }} </div>
+                                {{ message.text }}
+                            </div>
                         </div>
-                    </div>
-                {% endif %}
-            </div>
-        {% endfor %}
-    </ul>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </ul>
 
-    <form method="POST" id="message-form" action="{% url 'channel:message-create' channel.id %}" novalidate>
-        {% csrf_token %}
-        {{ message_form|crispy }}
-        <button class="btn btn-sm btn-primary" type="submit"> Send </button>
-    </form>
-
+        <form method="POST" id="message-form" action="{% url 'channel:message-create' channel.id %}" novalidate>
+            {% csrf_token %}
+            {{ message_form|crispy }}
+            <button class="btn btn-sm btn-primary" type="submit"> Send </button>
+        </form>
+    </div>
 {% endblock %}
 
 {% block extra_body %}

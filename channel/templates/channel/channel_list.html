@@ -7,7 +7,7 @@
         </div>
         <div class="card-body d-flex flex-column">
             {% for channel in channels %}
-                <a class="btn btn-info my-2" href="{% url 'channel:message-list' channel.id %}"> {{ channel.title }} </a>
+                <a class="btn btn-dark my-2" href="{% url 'channel:message-list' channel.id %}"> {{ channel.title }} </a>
             {% endfor %}
         </div>
     </div>

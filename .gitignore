@@ -11,6 +11,7 @@ db.sqlite3
 db.sqlite3-journal
 db_hsc.sqlite3
 db_hsc.sqlite3-journal
+secret.key
 media
 logs
 
