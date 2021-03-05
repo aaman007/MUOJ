@@ -6,7 +6,15 @@
 
     <div class="card bg-light mt-2 mb-2">
         <div class="card-header">
-            <h4> <a class="blog-title" href="{% url 'blog:blog-details' blog.id %}"> {{ blog.title }} </a>  </h4>
+            <div class="d-flex flex-row">
+                <h4 class="w-100"> <a class="blog-title" href="{% url 'blog:blog-details' blog.id %}"> {{ blog.title }} </a> </h4>
+                {% if blog.user == user %}
+                    <div class="d-flex">
+                        <a href="{% url 'blog:blog-update' blog.id %}"><i class="fa fa-edit"></i></a>
+                        <a href="{% url 'blog:blog-delete' blog.id %}" class="ml-2 delete-contest text-danger"> <i class="fa fa-trash" ></i></a>
+                    </div>
+                {% endif %}
+            </div>
             <h6>
                 <img class="rounded-circle mr-2" style="width: 30px; height: 30px;" src="{{ blog.user.profile.profile_picture.url }}">
                 by
@@ -21,13 +29,6 @@
             </p>
         </div>
     </div>
-    {% if blog.user == user %}
-    <div class="d-flex float-right">
-        <a href="{% url 'blog:blog-update' blog.id %}"><i class="far fa-edit"></i></a>
-        <a href="{% url 'blog:blog-delete' blog.id %}" class="ml-2 delete-contest text-danger"> <i class="far fa-trash-alt" ></i></a>
-
-    </div>
-    {% endif %}
 
     <div class="card mt-5">
         {% if user is not None %}

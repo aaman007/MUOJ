@@ -55,7 +55,9 @@ class BlogUpdateView(UserPassesTestMixin, UpdateView):
     template_name = 'blog/blog_form.html'
     context_object_name = 'blog'
     form_class = BlogForm
-    success_url = reverse_lazy('blog:blog-list')
+
+    def get_success_url(self):
+        return reverse('blog:blog-details', kwargs={'pk': self.kwargs.get('pk')})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
