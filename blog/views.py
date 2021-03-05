@@ -97,7 +97,7 @@ class BlogDetailView(DetailView):
         context.update({
             'blog_nav': 'active',
             'comments': comments_connected,
-            'form': NewCommentForm(instance=self.request.user),
+            'form': NewCommentForm(),
         })
         return context
 

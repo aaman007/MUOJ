@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
+from ckeditor.fields import RichTextField
+
 from core.models import AbstractBaseModel
 from contest.managers import ContestManager
 
@@ -10,7 +12,7 @@ User = get_user_model()
 
 class Contest(AbstractBaseModel):
     title = models.CharField(verbose_name=_('Title'), max_length=200)
-    description = models.TextField(verbose_name=_('Description'), blank=True)
+    description = RichTextField(verbose_name=_('Description'), blank=True)
     start_time = models.DateTimeField(verbose_name=_('Start Time'))
     duration = models.DurationField(verbose_name=_('Duration'))
 
@@ -60,7 +62,7 @@ class Contest(AbstractBaseModel):
     class Meta:
         verbose_name = _('Contest')
         verbose_name_plural = _('Contests')
-        ordering = ['id']
+        ordering = ['-id']
 
     def __str__(self):
         return self.title
@@ -94,7 +96,7 @@ class Announcement(AbstractBaseModel):
     class Meta:
         verbose_name = _('Announcement')
         verbose_name_plural = _('Announcements')
-        ordering = ['id']
+        ordering = ['-id']
 
     def __str__(self):
         return self.title

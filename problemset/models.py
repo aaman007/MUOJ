@@ -23,7 +23,7 @@ class Language(models.Model):
     class Meta:
         verbose_name = _('Language')
         verbose_name_plural = _('Languages')
-        ordering = ['id']
+        ordering = ['-id']
 
     def __str__(self):
         return self.name
@@ -50,7 +50,7 @@ class Problem(AbstractBaseModel):
     class Meta:
         verbose_name = _('Problem')
         verbose_name_plural = _('Problems')
-        ordering = ['id']
+        ordering = ['-id']
 
 
 class TestCase(models.Model):
@@ -70,7 +70,7 @@ class TestCase(models.Model):
     class Meta:
         verbose_name = _('TestCase')
         verbose_name_plural = _('TestCases')
-        ordering = ['id']
+        ordering = ['-id']
 
     @property
     def input_text(self):
@@ -162,7 +162,7 @@ class Submission(AbstractBaseModel):
     class Meta:
         verbose_name = _('Submission')
         verbose_name_plural = _('Submissions')
-        ordering = ['id']
+        ordering = ['-id']
 
 
 class Clarification(AbstractBaseModel):
@@ -192,4 +192,4 @@ class Clarification(AbstractBaseModel):
     class Meta:
         verbose_name = _('Clarification')
         verbose_name_plural = _('Clarifications')
-        ordering = ['id']
+        ordering = ['-id']

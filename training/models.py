@@ -14,7 +14,7 @@ class Tutorial(AbstractBaseModel):
     class Meta:
         verbose_name = _('Tutorial')
         verbose_name_plural = _('Tutorials')
-        ordering = ['id']
+        ordering = ['-id']
 
     def __str__(self):
         return self.title

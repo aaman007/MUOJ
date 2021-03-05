@@ -27,9 +27,7 @@
                 </h6>
             </div>
             <div class="card-body">
-                <p>
-                    {{ blog.truncated_content|safe }}
-                </p>
+                {{ blog.content|safe|truncatechars_html:500 }}
                 {% if blog.content|length > 500 %}
                     <a class="read-more" href="{% url 'blog:blog-details' blog.id %}"> Read More </a>
                 {% endif %}

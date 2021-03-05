@@ -25,3 +25,11 @@
         </div>
     </div>
 {% endblock %}
+
+{% block extra_body %}
+    <script>
+         $(document).ready(function () {
+            $(".django-ckeditor-widget").css("display", "block")
+         });
+    </script>
+{% endblock %}

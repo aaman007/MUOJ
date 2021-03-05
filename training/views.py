@@ -10,6 +10,9 @@ class TutorialListView(LoginRequiredMixin, ListView):
     template_name = 'training/tutorial_list.html'
     context_object_name = 'tutorials'
 
+    def get_queryset(self):
+        return Tutorial.objects.order_by('level')
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({

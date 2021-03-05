@@ -40,7 +40,7 @@ class Message(AbstractBaseModel):
     )
 
     class Meta:
-        ordering = ['id']
+        ordering = ['-id']
         verbose_name = _('Message')
         verbose_name_plural = _('Messages')
 

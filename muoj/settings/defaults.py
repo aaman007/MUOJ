@@ -157,6 +157,7 @@ CKEDITOR_CONFIGS = {
         'width': '100%',
         'toolbarCanCollapse': True,
         'toolbarStartupExpanded': False,
+        'codeSnippet_theme': 'railscasts',
         'toolbar_Basic': [
             ['Source', '-', 'Bold', 'Italic']
         ],
@@ -169,8 +170,13 @@ CKEDITOR_CONFIGS = {
             ['Styles', 'Font', 'FontSize'],
             ['TextColor', 'BGColor'],
             ["Source"],
-            ["Maximize"]
+            ["Maximize", "CodeSnippet"]
         ],
+        'extraPlugins': ','.join([
+            'codesnippet',
+            'widget',
+            'dialog',
+        ])
     },
 }
 

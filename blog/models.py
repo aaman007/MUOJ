@@ -17,7 +17,7 @@ class Blog(AbstractBaseModel):
     class Meta:
         verbose_name = _('Blog')
         verbose_name_plural = _('Blogs')
-        ordering = ['id']
+        ordering = ['-id']
 
     def __str__(self):
         return self.title

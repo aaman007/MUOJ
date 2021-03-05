@@ -11,7 +11,8 @@
                         <tr>
                             <th > #</th>
                             <th width="50%"> Handle</th>
-                            <th width="50%"> Rating</th>
+                            <th width="25%"> Contests </th>
+                            <th width="25%"> Rating</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -23,6 +24,7 @@
                                         {{ user.user }}
                                     </a>
                                 </td>
+                                <td> {{ user.contest_count }} </td>
                                 <td> {{ user.rating }} </td>
                             </tr>
                         {% endfor %}
@@ -31,4 +33,6 @@
             </div>
         </div>
     </div>
+
+    {% include 'snippets/paginations.html' %}
 {% endblock %}

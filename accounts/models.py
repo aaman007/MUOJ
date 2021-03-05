@@ -34,12 +34,12 @@ class Profile(models.Model):
     ]
     """
     rating_history = models.JSONField(verbose_name=_('Rating History'), default=list, blank=True)
-    levels_completed = models.PositiveIntegerField(verbose_name=_("Level's Completed"), default=1)
+    levels_completed = models.PositiveIntegerField(verbose_name=_("Current Level"), default=1)
 
     class Meta:
         verbose_name = _('Profile')
         verbose_name_plural = _('Profiles')
-        ordering = ['id']
+        ordering = ['-id']
 
     def __str__(self):
         return f'{self.user.username} Profile'
@@ -53,6 +53,10 @@ class Profile(models.Model):
             output_size = (300, 300)
             img.thumbnail(output_size)
             img.save(self.profile_picture.path)
+
+    @property
+    def contest_count(self):
+        return len(self.rating_history)
 
     @property
     def rank_label(self):

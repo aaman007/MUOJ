@@ -24,14 +24,14 @@
                             </a>, <small>{{blog.created_at}}</small>
                         </h6>
                     </div>
-                    <div class="card-body" style="background-color:#f2f7fa;">
-                        <p>
-                            {{ blog.truncated_content|safe }}
-                        </p>
-                        {% if blog.content|length > 500 %}
-                            <a class="read-more" href="{% url 'blog:blog-details' blog.id %}"> Read More </a>
-                        {% endif %}
-                    </div>
+                    {% spaceless %}
+                        <div class="card-body" style="background-color:#f2f7fa;">
+                            {{ blog.content|safe|truncatechars_html:500 }}
+                            {% if blog.content|length > 500 %}
+                                <a class="read-more" href="{% url 'blog:blog-details' blog.id %}"> Read More </a>
+                            {% endif %}
+                        </div>
+                    {% endspaceless %}
                 </div>
 
     {% endfor %}

@@ -11,7 +11,6 @@ from problemset.models import Submission
 from accounts.forms import UserRegisterForm,UserUpdateForm,ProfileUpdateForm
 from blog.models import Blog
 from contest.models import Contest
-from problemset.models import Problem
 
 
 User = get_user_model()
@@ -32,6 +31,7 @@ def register(request):
 
 class UserListView(ListView):
     model = User
+    paginate_by = 20
     template_name = 'accounts/user_list.html'
     context_object_name = 'users'
 
