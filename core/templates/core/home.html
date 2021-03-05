@@ -16,9 +16,9 @@
                     </div>
                     <div class="card-body" style="background-color:#f2f7fa;">
                         <p>
-                            {{ blog.content|safe }}
+                            {{ blog.content|safe|truncatechars_html:1000 }}
                         </p>
-                        {% if blog.content|length > 500 %}
+                        {% if blog.content|length > 1000 %}
                             <a class="read-more" href="{% url 'blog:blog-details' blog.id %}"> Read More </a>
                         {% endif %}
                     </div>

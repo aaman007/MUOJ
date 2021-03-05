@@ -13,27 +13,26 @@
         </div>
     {% endif %}
     {% for blog in blogs %}
-                <div class="card bg-light mb-2">
-                    <div class="card-header">
-                        <h4> <a class="blog-title" href="{% url 'blog:blog-details' blog.id %}"> {{ blog.title }} </a>  </h4>
-                        <h6>
-                            <img class="rounded-circle mr-2" style="width: 30px; height: 30px;" src="{{ blog.user.profile.profile_picture.url }}">
-                            by
-                            <a class="rank-text rank-{{ blog.user.profile.rank }}" href="{% url 'accounts:user-profile' blog.user.username %}">
-                                {{ blog.user.username }}
-                            </a>, <small>{{blog.created_at}}</small>
-                        </h6>
-                    </div>
-                    {% spaceless %}
-                        <div class="card-body" style="background-color:#f2f7fa;">
-                            {{ blog.content|safe|truncatechars_html:500 }}
-                            {% if blog.content|length > 500 %}
-                                <a class="read-more" href="{% url 'blog:blog-details' blog.id %}"> Read More </a>
-                            {% endif %}
-                        </div>
-                    {% endspaceless %}
+        <div class="card bg-light mb-2">
+            <div class="card-header">
+                <h4> <a class="blog-title" href="{% url 'blog:blog-details' blog.id %}"> {{ blog.title }} </a>  </h4>
+                <h6>
+                    <img class="rounded-circle mr-2" style="width: 30px; height: 30px;" src="{{ blog.user.profile.profile_picture.url }}">
+                    by
+                    <a class="rank-text rank-{{ blog.user.profile.rank }}" href="{% url 'accounts:user-profile' blog.user.username %}">
+                        {{ blog.user.username }}
+                    </a>, <small>{{blog.created_at}}</small>
+                </h6>
+            </div>
+            {% spaceless %}
+                <div class="card-body" style="background-color:#f2f7fa;">
+                    {{ blog.content|safe|truncatechars_html:500 }}
+                    {% if blog.content|length > 500 %}
+                        <a class="read-more" href="{% url 'blog:blog-details' blog.id %}"> Read More </a>
+                    {% endif %}
                 </div>
-
+            {% endspaceless %}
+        </div>
     {% endfor %}
 
     {% include 'snippets/paginations.html' %}
