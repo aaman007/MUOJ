@@ -156,6 +156,7 @@ CKEDITOR_CONFIGS = {
         'height': '300',
         'width': '100%',
         'toolbarCanCollapse': True,
+        'toolbarStartupExpanded': False,
         'toolbar_Basic': [
             ['Source', '-', 'Bold', 'Italic']
         ],

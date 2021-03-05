@@ -1,14 +1,13 @@
 from .defaults import *
 
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
-
-DEBUG = True
 ALLOWED_HOSTS = []
+DEBUG = True
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 DATABASES = {
-    'default': {
+    'postgres_default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': env.str('DB_NAME'),
         'USER': env.str('DB_USER'),

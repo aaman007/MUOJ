@@ -1,8 +1,11 @@
+from pathlib import Path
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
-from pathlib import Path
 from django.utils import timezone
+from ckeditor.fields import RichTextField
+
 from problemset.utils import input_directory_path, output_directory_path, submission_directory_path
 from problemset.managers import ProblemManager
 from contest.models import Contest
@@ -27,15 +30,15 @@ class Language(models.Model):
 
 
 class Problem(AbstractBaseModel):
-    name = models.CharField(max_length=100)
-    statement = models.TextField()
-    input_section = models.TextField()
-    output_section = models.TextField()
-    editorial = models.TextField()
+    name = models.CharField(verbose_name=_('Name'), max_length=100)
+    statement = RichTextField(verbose_name=_('Statement'))
+    input_section = RichTextField(verbose_name=_('Input Section'))
+    output_section = RichTextField(verbose_name=_('Output Section'))
+    editorial = RichTextField(verbose_name=_('Editorial'))
     solution = models.FileField(verbose_name=_('Solution'))
     solution_language = models.ForeignKey(verbose_name=_('Language'), to=Language, on_delete=models.CASCADE)
     author = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True)
-    is_protected = models.BooleanField(default=0)
+    is_protected = models.BooleanField(verbose_name=_('Is Protected'), default=0)
     time_limit = models.IntegerField(verbose_name=_('Time Limit'), default=1)
     memory_limit = models.PositiveIntegerField(verbose_name=_('Memory Limit'), default=256)
 
