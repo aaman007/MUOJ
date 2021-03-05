@@ -1,6 +1,6 @@
 from django import forms
 
-from blog.models import Blog,Comments
+from blog.models import Blog,Comment
 
 
 class BlogForm(forms.ModelForm):
@@ -8,12 +8,14 @@ class BlogForm(forms.ModelForm):
         model = Blog
         fields = ['title', 'content']
 
+
 class NewCommentForm(forms.ModelForm):
     class Meta:
-        model = Comments
-        fields = ['Comment']
+        model = Comment
+        fields = ['comment']
         widgets = {
-            'Comment': forms.TextInput(
-                attrs={'placeholder': 'Add a comment'}),
+            'comment': forms.TextInput(
+                attrs={'placeholder': 'Add a comment'}
+            )
         }
-        labels = {'Comment':''}
+        labels = {'comment': ''}

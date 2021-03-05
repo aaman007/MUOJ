@@ -1,17 +1,18 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
-from django.urls import reverse_lazy
-from contest.models import Contest
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse_lazy, reverse
 from django.views.generic import (
     ListView,
     DeleteView,
     CreateView,
     UpdateView,
     DetailView,
-    TemplateView
+    FormView
 )
 
 from blog.forms import BlogForm,NewCommentForm
-from blog.models import Blog, Comments
+from blog.models import Blog, Comment
 
 
 class BlogListView(ListView):
@@ -25,25 +26,6 @@ class BlogListView(ListView):
         context = super().get_context_data(**kwargs)
         context.update({
             'blog_nav': 'active'
-        })
-        return context
-
-
-class HomeView(ListView):
-    model = Blog
-    paginate_by = 5
-    context_object_name = 'blogs'
-    ordering = ['-created_at']
-    template_name = 'base.html'
-
-    def get_queryset(self):
-        return Blog.objects.filter(preference=True)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context.update({
-            'home_nav': 'active',
-            'upcoming_contest': Contest.objects.upcoming_contests(self.request.user.username)
         })
         return context
 
@@ -111,7 +93,7 @@ class BlogDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        comments_connected = Comments.objects.filter(post_connected=self.get_object()).order_by('-date_posted')
+        comments_connected = Comment.objects.filter(post_connected=self.get_object()).order_by('-date_posted')
         context.update({
             'blog_nav': 'active',
             'comments': comments_connected,
@@ -119,9 +101,23 @@ class BlogDetailView(DetailView):
         })
         return context
 
-    def post(self, request, *args, **kwargs):
-        new_comment = Comments(Comment=request.POST.get('Comment'),
-                            author=self.request.user,
-                            post_connected=self.get_object(), )
-        new_comment.save()
-        return self.get(self, request, *args, **kwargs)
+
+class CreateCommentFormView(LoginRequiredMixin, FormView):
+    form_class = NewCommentForm
+    template_name = 'blog/blog_details.html'
+
+    def get_success_url(self):
+        return reverse('blog:blog-details', kwargs={'pk': self.kwargs.get('pk')})
+
+    def get_blog(self):
+        return get_object_or_404(Blog, id=self.kwargs.get('pk'))
+
+    def form_valid(self, form):
+        form.instance.post_connected = self.get_blog()
+        form.instance.author = self.request.user
+        form.save()
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.add_message(self.request, messages.ERROR, 'Comment cannot be empty')
+        return redirect(self.get_success_url())

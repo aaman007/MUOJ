@@ -27,7 +27,6 @@
                 </h6>
             </div>
             <div class="card-body">
-                <h4> <a class="blog-title" href="{% url 'blog:blog-details' blog.id %}"> {{ blog.title }} </a>  </h4>
                 <p>
                     {{ blog.truncated_content|safe }}
                 </p>

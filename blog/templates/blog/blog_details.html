@@ -31,7 +31,7 @@
 
     <div class="card mt-5">
         {% if user is not None %}
-            <form method="POST" enctype="multipart/form-data" novalidate>
+            <form method="POST" enctype="multipart/form-data" action="{% url 'blog:create-comment' blog.id %}" novalidate>
                 {% csrf_token %}
                 <fieldset class="form-group">
                     {{ form | crispy }}
@@ -40,19 +40,19 @@
             </form>
         {% endif %}
         <div class="card-body">
-                {% for comment in comments %}
-                    <p>
-                        <img class="rounded-circle mr-2" style="width: 30px; height: 30px;" src="{{ comment.author.profile.profile_picture.url }}">
-                        <a class="mr-2 " href="{% url 'accounts:user-profile' comment.author.username %}">{{ comment.author }}</a>
-                        <small class="text-muted">{{ comment.date_posted|date:"F d, Y" }}</small>
-                        <div class="">
-                            <p>
-                                {{ comment.Comment }}
-                            </p>
-                        </div>
-                    </p>
-                    <hr>
-                {% endfor %}
+            {% for comment in comments %}
+                <p>
+                    <img class="rounded-circle mr-2" style="width: 30px; height: 30px;" src="{{ comment.author.profile.profile_picture.url }}">
+                    <a class="mr-2 " href="{% url 'accounts:user-profile' comment.author.username %}">{{ comment.author }}</a>
+                    <small class="text-muted">{{ comment.date_posted|date:"F d, Y" }}</small>
+                    <div class="">
+                        <p>
+                            {{ comment.comment }}
+                        </p>
+                    </div>
+                </p>
+                <hr>
+            {% endfor %}
         </div>
     </div>
 
