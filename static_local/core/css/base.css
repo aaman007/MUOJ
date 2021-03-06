@@ -236,7 +236,7 @@ nav ul {
 }
 @keyframes type {
     0% {
-        width:0ch;
+        width: 0px;
     }
     100% {
         width:7ch;
@@ -245,9 +245,15 @@ nav ul {
 
 
 /** Channel Styles **/
-
+.chat-items {
+	height: 80%;
+	overflow-y: scroll;
+	background: #2f2a2a;
+	padding: 0 10px;
+	border-radius: 10px;
+}
 .message-text {
-	color: white;
+	color: #000000;
 	border-radius: 10px;
 	padding: 5px 20px;
 	margin: 10px 0;
@@ -255,17 +261,9 @@ nav ul {
 }
 
 .message-right {
-	background-color: #3f739c;
-}
-
-.message-user-right {
-	color: #d5b283;
-}
-
-.message-user-left {
-	color: #fff203;
+	background-color: #ebf1f0;
 }
 
 .message-left {
-	background-color: #468b7d;
+	background-color: #ebf1f0;
 }

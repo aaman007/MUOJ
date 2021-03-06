@@ -3,21 +3,31 @@
 
 {% block content %}
     <div style="height: 78vh;">
-        <ul class="chat-items" style="height: 80%; overflow-y: scroll;">
+        <ul class="chat-items">
             {% for message in messages %}
                 <div class="message-wrapper d-flex flex-column">
                     {% if user == message.user %}
                         <div class="d-flex flex-row-reverse">
                             <div class="message-text message-right">
-                                <div class="message-user-right text-right"> {{ message.user.username }} </div>
-                                {{ message.text }}
+                                <div class="rank-text rank-{{ message.user.profile.rank }} text-right">
+                                    {{ message.user.username }}
+                                </div>
+                                <div class="text-right"> {{ message.text }} </div>
+                                <div class="text-muted text-right" style="font-size: 10px;">
+                                    {{ message.created_at|date:"F d, Y, H:i" }}
+                                </div>
                             </div>
                         </div>
                     {% else %}
                         <div class="d-flex flex-row">
                             <div class="message-text message-left">
-                                <div class="message-user-left text-left"> {{ message.user.username }} </div>
-                                {{ message.text }}
+                                <div class="rank-text rank-{{ message.user.profile.rank }} text-left">
+                                    {{ message.user.username }}
+                                </div>
+                                <div class="text-left"> {{ message.text }} </div>
+                                <div class="text-muted text-left" style="font-size: 10px;">
+                                    {{ message.created_at|date:"F d, Y, H:i" }}
+                                </div>
                             </div>
                         </div>
                     {% endif %}
@@ -59,7 +69,7 @@
             socket.onmessage = function (e) {
                 console.log("message", e);
                 const message = JSON.parse(e.data);
-                addMessage(message.message, message.username);
+                addMessage(message);
                 scrollToBottom();
             }
 
@@ -85,27 +95,33 @@
             }
 
             // Utils
-            function addToRight(message, username) {
+            function addToRight(data) {
                 chatHolder.append(`<div class="d-flex flex-row-reverse">
                     <div class="message-text message-right">
-                        <div class="message-user-right text-right"> ${username } </div>
-                        ${message}
+                        <div class="rank-text rank-${data.rank} text-right">
+                            ${data.username}
+                        </div>
+                        <div class="text-right"> ${data.message} </div>
+                        <div class="text-muted text-right" style="font-size: 10px;"> ${data.created_at} </div>
                     </div>
                  </div>`);
             }
-            function addToLeft(message, username) {
+            function addToLeft(data) {
                 chatHolder.append(`<div class="d-flex flex-row">
                     <div class="message-text message-left">
-                        <div class="message-user-left text-right"> ${username } </div>
-                        ${message}
+                        <div class="rank-text rank-${data.rank} text-left">
+                            ${data.username}
+                        </div>
+                        <div class="text-left"> ${data.message} </div>
+                        <div class="text-muted" style="font-size: 10px;"> ${data.created_at} </div>
                     </div>
                  </div>`);
             }
-            function addMessage(message, username) {
-                if ("{{ user.username }}" === username) {
-                    addToRight(message, username);
+            function addMessage(data) {
+                if ("{{ user.username }}" === data.username) {
+                    addToRight(data);
                 } else {
-                    addToLeft(message, username);
+                    addToLeft(data);
                 }
             }
         });

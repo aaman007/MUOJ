@@ -1,8 +1,10 @@
 import json
+import pytz
 
 from django.contrib.auth import get_user_model
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
+from django.utils import timezone
 
 from channel.models import Channel, Message
 
@@ -27,17 +29,25 @@ class MessageConsumer(AsyncWebsocketConsumer):
         user = self.scope.get('user')
 
         if message and user.is_authenticated:
-            await self.create_message(user=user, message=message)
-            await self.channel_layer.group_send(
-                self.group_name,
-                {
-                    "type": "channel.message",
-                    "text": json.dumps({
-                        'message': message,
-                        'username': user.username
-                    }),
-                }
-            )
+            try:
+                message = await self.create_message(user=user, message=message)
+                rank = await self.get_user_rank()
+                created_at = timezone.localtime(message.created_at).astimezone(pytz.timezone('Asia/Dhaka'))
+
+                await self.channel_layer.group_send(
+                    self.group_name,
+                    {
+                        "type": "channel.message",
+                        "text": json.dumps({
+                            'message': message.text,
+                            'created_at': created_at.strftime("%B %d, %Y, %H:%M"),
+                            'username': user.username,
+                            'rank': rank
+                        }),
+                    }
+                )
+            except Exception as e:
+                print(e)
 
     async def channel_message(self, event):
         await self.send(event["text"])
@@ -49,6 +59,10 @@ class MessageConsumer(AsyncWebsocketConsumer):
     def get_channel(self, channel_slug=''):
         kwargs = self.scope.get('url_route', {}).get('kwargs', {})
         return Channel.objects.get(id=kwargs.get('pk'))
+
+    @database_sync_to_async
+    def get_user_rank(self):
+        return self.scope.get('user').profile.rank
 
     @database_sync_to_async
     def create_message(self, user, message):
