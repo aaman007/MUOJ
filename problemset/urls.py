@@ -10,7 +10,7 @@ from problemset.views import (
     ProblemUpdateView,
     TestCaseCreateView,
     TestCaseListView,
-    TestCaseDeleteView
+    TestCaseDeleteView,
 )
 
 app_name = 'problemset'
