@@ -10,12 +10,13 @@ class LanguageAdmin(admin.ModelAdmin):
 
 @admin.register(Problem)
 class ProblemAdmin(admin.ModelAdmin):
-    list_display = ['name', 'author', 'created_at']
+    list_filter = ['is_protected', 'memory_limit', 'time_limit']
+    list_display = ['name', 'author', 'created_at', 'is_protected', 'memory_limit', 'time_limit']
 
 
 @admin.register(TestCase)
 class TestCaseAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['problem', 'is_sample', 'label']
 
 
 @admin.register(Submission)
@@ -25,4 +26,4 @@ class SubmissionAdmin(admin.ModelAdmin):
 
 @admin.register(Clarification)
 class ClarificationAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['question', 'answer', 'user', 'contest', 'problem']

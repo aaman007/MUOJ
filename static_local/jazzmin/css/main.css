@@ -1,0 +1,45 @@
+.select2-selection__choice__display {
+    color: black;
+}
+
+.jsoneditor-field {
+    color: white !important;
+}
+
+.jsoneditor-object, .jsoneditor-array {
+    color: white !important;
+}
+
+.jsoneditor-string {
+    color: #f66f16 !important;
+}
+
+.select2-results__option--selected {
+    color: #7d7878 !important;
+}
+
+.login-box > .card {
+    margin-top: 50px;
+}
+
+.login-logo > h1 {
+    font-size: 35px !important;
+}
+.jazzmin-login-page {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    margin-top: 10%;
+}
+
+.sidebar {
+    padding-bottom: 30px !important;
+}
+
+.main-footer {
+    display: none;
+}
+
+.content-wrapper {
+    margin-top: 70px !important;
+}

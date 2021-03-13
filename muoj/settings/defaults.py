@@ -26,6 +26,7 @@ SECRET_KEY = env.str('SECRET_KEY')
 
 # Application definition
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'channels',
     'channels_redis',
+    'django_json_widget',
 
     # My Apps
     'accounts.apps.AccountsConfig',
@@ -231,3 +233,119 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
 
+
+# JAZZMIN Configs
+JAZZMIN_SETTINGS = {
+    # "show_ui_builder": True,
+
+    # title of the window (Will default to current_admin_site.site_title if absent or None)
+    "site_title": "MUOJ Admin",
+
+    # Title on the brand, and login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None)
+    "site_header": "MUOJ Admin Panel",
+
+    # square logo to use for your site, must be present in static files, used for favicon and brand on top left
+    # "site_logo": "books/img/logo.png",
+
+    # Welcome text on the login screen
+    "welcome_sign": "Welcome to MU Online Judge",
+
+    # Copyright on the footer
+    "copyright": "MUOJ Team",
+
+    # Field name on user model that contains avatar image
+    "user_avatar": None,
+
+    # Links to put along the top menu
+    "topmenu_links": [
+        # Url that gets reversed (Permissions can be added)
+        {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
+        # {"app": "contest"},
+        # {"model": "problemset.Problem"}
+    ],
+
+    #############
+    # User Menu #
+    #############
+
+    # Additional links to include in the user menu on the top right ("app" url type is not allowed)
+    "usermenu_links": [
+        {"name": "View Site", "url": "/", "icon": "fa fa-eye"},
+    ],
+
+    #############
+    # Side Menu #
+    #############
+
+    # Whether to display the side menu
+    "show_sidebar": True,
+
+    # Whether to aut expand the menu
+    "navigation_expanded": True,
+
+    # Hide these apps when generating side menu e.g (auth)
+    "hide_apps": ['django_celery_results', 'django_celery_beat'],
+
+    # Hide these models when generating side menu (e.g auth.user)
+    "hide_models": [],
+
+    # Custom icons for side menu apps/models See https://fontawesome.com/icons?d=gallery&m=free
+    # for a list of icon classes
+    "icons": {
+        "auth": "fas fa-users-cog",
+        "auth.user": "fas fa-user",
+        "auth.Group": "fas fa-users",
+        "auth.Permission": "fas fa-lock",
+        "accounts.Profile": "fas fa-user",
+        "blog.Blog": "fas fa-book",
+        "blog.Comment": "fas fa-comment",
+        "channel.Channel": "fas fa-wallet",
+        "channel.Message": "fas fa-comment-dots",
+        "contest.Contest": "fas fa-poll",
+        "contest.Announcement": "fas fa-bullhorn",
+        "core.Constant": "fas fa-adjust",
+        "problemset.Problem": "fas fa-question-circle",
+        "problemset.Language": "fas fa-language",
+        "problemset.Submission": "fas fa-chalkboard",
+        "problemset.Clarification": "fas fa-broom",
+        "problemset.TestCase": "fas fa-vial",
+        "training.Tutorial": "fas fa-graduation-cap",
+    },
+
+    "custom_css": "jazzmin/css/main.css",
+    "custom_js": "jazzmin/js/main.js",
+
+}
+
+JAZZMIN_UI_TWEAKS = {
+    "navbar_small_text": False,
+    "footer_small_text": False,
+    "body_small_text": True,
+    "brand_small_text": False,
+    "brand_colour": "navbar-dark",
+    "accent": "accent-teal",
+    "navbar": "navbar-dark",
+    "no_navbar_border": False,
+    "navbar_fixed": True,
+    "layout_boxed": False,
+    "footer_fixed": False,
+    "sidebar_fixed": False,
+    "sidebar": "sidebar-dark-primary",
+    "sidebar_nav_small_text": False,
+    "sidebar_disable_expand": True,
+    "sidebar_nav_child_indent": False,
+    "sidebar_nav_compact_style": False,
+    "sidebar_nav_legacy_style": True,
+    "sidebar_nav_flat_style": True,
+    "theme": "darkly",
+    "dark_mode_theme": "darkly",
+    "button_classes": {
+        "primary": "btn-outline-danger",
+        "secondary": "btn-outline-secondary",
+        "info": "btn-outline-info",
+        "warning": "btn-outline-warning",
+        "danger": "btn-outline-danger",
+        "success": "btn-outline-success"
+    },
+    "actions_sticky_top": False
+}

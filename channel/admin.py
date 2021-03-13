@@ -11,3 +11,4 @@ class ChannelAdmin(admin.ModelAdmin):
 @admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
     list_display = ['text', 'channel', 'user']
+    list_filter = ['channel']

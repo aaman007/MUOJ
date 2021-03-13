@@ -132,7 +132,7 @@ class Submission(AbstractBaseModel):
         ]
     }
     """
-    submission_details = models.TextField(
+    submission_details = models.JSONField(
         verbose_name=_('Submission Details'),
         default=dict,
         blank=True
@@ -168,7 +168,6 @@ class Submission(AbstractBaseModel):
 class Clarification(AbstractBaseModel):
     question = models.TextField(verbose_name=_('Question'), default='')
     answer = models.TextField(verbose_name=_('Answer'), default='', blank=True)
-    created_at = models.DateTimeField(auto_now_add=timezone.now())
 
     user = models.ForeignKey(
         verbose_name=_('User'),
