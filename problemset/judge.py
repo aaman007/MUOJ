@@ -30,6 +30,7 @@ def compile_c_cpp_submission(submission, language):
     try:
         subprocess.run(f'{command} -o {executable_file_loc} {solution_url}', check=True, shell=True)
     except (subprocess.CalledProcessError, Exception) as e:
+        print(e)
         result = 'CE'
 
     """

@@ -115,7 +115,7 @@
                         {% for clarification in clarifications %}
                             <tr>
                                 <td> {{ forloop.counter }} </td>
-                                <td> {{ clarification.user }} </td>
+                                <td><a href="#">{{ clarification.user }} </a></td>
                                 <td> {{ clarification.created_at|date:"H:i  d-n-Y" }} </td>
                                 <td>
                                     <a href="{% url 'contest:contest-problem-details' contest.id clarification.problem.id %}">
