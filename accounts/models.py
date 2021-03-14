@@ -1,7 +1,17 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser, UserManager as BaseUserManager
 from django.utils.translation import gettext_lazy as _
 from PIL import Image
+
+
+class UserManager(BaseUserManager):
+    pass
+
+
+class User(AbstractUser):
+    accuracy = models.PositiveIntegerField(verbose_name=_('Agent Accuracy'), default=50)
+
+    objects = UserManager()
 
 
 class Profile(models.Model):
