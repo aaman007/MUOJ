@@ -6,14 +6,18 @@
             <h2> {{ tutorial.title }} </h2>
             <p> {{ tutorial.content|safe }} </p>
 
-            <div class="text-light bg-primary p-2 mb-2"> Solve these problems to clear this level </div>
-            <ul>
-                {% for problem in problems %}
-                    <li>
-                        <a href="{% url 'problemset:problem-details' problem.id %}"> {{ problem.name }} </a>
-                    </li>
-                {% endfor %}
-            </ul>
+            <div class="text-light text-center bg-primary p-2 mb-2" style="border-radius: 10px; width: 100%;">
+                Solve these problems to clear this level
+            </div>
+            <div class="text-center d-flex flex-column justify-content-center align-items-center">
+                <ul>
+                    {% for problem in problems %}
+                        <li class="bg-dark m-2 px-4 py-2" style="border-radius: 7px;">
+                            <a  class="text-light" href="{% url 'problemset:problem-details' problem.id %}"> {{ problem.name }} </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
     </div>
 {% endblock %}

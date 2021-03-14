@@ -1,5 +1,5 @@
 {% if is_paginated %}
-    <div class="float-right item-pagination">
+    <div class="float-right mt-2 item-pagination">
         {% if page_obj.has_previous %}
             <a class="btn btn-sm btn-outline-info mb-4" href="?page=1">First</a>
             <a class="btn btn-sm btn-outline-info mb-4" href="?page={{page_obj.previous_page_number}}">Previous</a>

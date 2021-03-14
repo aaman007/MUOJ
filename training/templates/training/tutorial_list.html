@@ -6,7 +6,7 @@
             <div class="card-body text-dark">
                 {% if user.is_authenticated and user.profile.levels_completed >= tutorial.level %}
                     <h4> <a href="{% url 'training:tutorial-details' tutorial.id %}">{{ tutorial.title }} </a>  </h4>
-                    {{ tutorial.content|safe|truncatechars_html:250 }}
+                    {{ tutorial.content|safe|truncatechars_html:1000 }}
                     <a class="read-more" href="{% url 'training:tutorial-details' tutorial.id %}"> Read More </a>
                 {% else %}
                     <div class="text-center" style="font-size: 30px;">
