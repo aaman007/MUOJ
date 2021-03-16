@@ -9,8 +9,6 @@
     }
 
     function calculateRemaining() {
-        console.log(new Date("{{ contest.start_time|date:'Y-m-d H:i:s' }}"))
-        console.log(new Date())
         const start_time = new Date("{{ contest.start_time|date:'Y-m-d H:i:s' }}").getTime();
         const end_time = new Date("{{ contest.duration|add:contest.start_time|date:'Y-m-d H:i:s' }}").getTime();
         const remainingStart = Math.floor((start_time - new Date().getTime()) / 1000);

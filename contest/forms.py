@@ -1,6 +1,7 @@
 import datetime
 
 from django import forms
+from django.utils import timezone
 
 from contest.models import Contest, Announcement
 from contest.widgets import BootstrapDateTimePickerInput
@@ -25,12 +26,12 @@ class ContestForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if not self.instance.id:
             kwargs.update(initial={
-                'start_time': datetime.datetime.now().strftime('%d/%m/%Y %I:%M %p'),
+                'start_time': timezone.localtime(timezone.now()).strftime('%d/%m/%Y %I:%M %p'),
                 'duration': '00:00:00'
             })
         else:
             kwargs.update(initial={
-                'start_time': self.instance.start_time.strftime('%d/%m/%Y %I:%M %p'),
+                'start_time': timezone.localtime(self.instance.start_time).strftime('%d/%m/%Y %I:%M %p'),
             })
         super().__init__(*args, **kwargs)
 

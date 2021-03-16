@@ -8,10 +8,16 @@
         return `${hours <= 9 ? '0'+hours : hours}:${minutes <= 9 ? '0'+minutes : minutes}:${seconds <= 9 ? '0'+seconds : seconds}`;
     }
 
+    function getTime(obj) {
+        if (window.location.pathname === "/contests/upcoming/") {
+            return new Date($(obj).data('start-time')).getTime();
+        }
+        return new Date($(obj).data('end-time')).getTime();
+    }
+
     function changeCountDownTime() {
         $('.countdown').each(function (index, obj) {
-            const end_time = new Date($(obj).data('end-time')).getTime();
-            const remaining = Math.floor((end_time - new Date().getTime()) / 1000);
+            const remaining = Math.floor((getTime(obj) - new Date().getTime()) / 1000);
             $(obj).html(convertSeconds(remaining));
         });
     }
