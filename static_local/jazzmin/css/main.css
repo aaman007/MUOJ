@@ -43,3 +43,7 @@
 .content-wrapper {
     margin-top: 70px !important;
 }
+
+.alert > a {
+    color: #f14622 !important;
+}

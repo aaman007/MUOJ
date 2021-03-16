@@ -19,6 +19,10 @@ class BaseContestFetch:
 
 
 class ContestantPassesTestMixin(BaseContestFetch, UserPassesTestMixin):
+    def handle_no_permission(self):
+        messages.add_message(self.request, messages.ERROR, 'Only registered users can view this')
+        return redirect(reverse('contest:contest-standings', kwargs={'contest_id': self.kwargs.get('contest_id')}))
+
     def test_func(self):
         request = getattr(self, 'request')
         contest = self.get_contest()

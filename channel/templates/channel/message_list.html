@@ -35,7 +35,7 @@
             {% endfor %}
         </ul>
 
-        <form method="POST" id="message-form" action="{% url 'channel:message-create' channel.id %}" novalidate>
+        <form method="POST" autocomplete="off" id="message-form" action="{% url 'channel:message-create' channel.id %}" novalidate>
             {% csrf_token %}
             {{ message_form|crispy }}
             <button class="btn btn-sm btn-primary" type="submit"> Send </button>

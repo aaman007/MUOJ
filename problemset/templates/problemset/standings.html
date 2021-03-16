@@ -16,7 +16,7 @@
             <tbody class="text-center">
                 {% for user in users %}
                     <tr>
-                        <td> {{ forloop.counter }} </td>
+                        <td> {{ forloop.counter|add:page_obj.start_index|add:-1 }} </td>
                         <td> <a href="{% url 'accounts:user-profile' user.username %}" class="rank-text rank-{{ user.profile.rank }}"> {{ user.username }} </a></td>
                         <td> {{ user.solve_count }} </td>
                     </tr>
@@ -24,4 +24,5 @@
             </tbody>
         </table>
     </div>
+    {% include 'snippets/paginations.html' %}
 {% endblock %}

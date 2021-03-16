@@ -106,6 +106,7 @@ class SubmissionCreateView(LoginRequiredMixin, CreateView):
 class StandingsListView(ListView):
     model = User
     context_object_name = 'users'
+    paginate_by = 20
     template_name = 'problemset/standings.html'
 
     def get_queryset(self):
