@@ -25,12 +25,12 @@ class ContestForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if not self.instance.id:
             kwargs.update(initial={
-                'start_time': datetime.datetime.now().strftime('%d/%m/%Y %H:%M %p'),
+                'start_time': datetime.datetime.now().strftime('%d/%m/%Y %I:%M %p'),
                 'duration': '00:00:00'
             })
         else:
             kwargs.update(initial={
-                'start_time': self.instance.start_time.strftime('%d/%m/%Y %H:%M %p'),
+                'start_time': self.instance.start_time.strftime('%d/%m/%Y %I:%M %p'),
             })
         super().__init__(*args, **kwargs)
 
