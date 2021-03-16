@@ -1,9 +1,6 @@
 from django.views.generic import ListView
-from django.http import JsonResponse
 from blog.models import Blog
 from contest.models import Contest
-from accounts.models import Profile
-from django.contrib import messages
 
 
 class HomeView(ListView):

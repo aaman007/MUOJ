@@ -12,13 +12,13 @@
                         <span class="text-muted"> Limits </span> {{ problem.time_limit }}s, {{ problem.memory_limit }}MB
                     </p>
                     <br />
-                    <p> {{ problem.statement|safe|linebreaks }} </p>
+                    <p> {{ problem.statement|safe }} </p>
                     <br />
                     <h4> Input </h4>
-                    <p> {{ problem.input_section|safe|linebreaks }} </p>
+                    <p> {{ problem.input_section|safe }} </p>
                     <br />
                     <h4> Output </h4>
-                    <p> {{ problem.output_section|safe|linebreaks }} </p>
+                    <p> {{ problem.output_section|safe }} </p>
                     <br />
                     <h4> Sample </h4>
                     <table class="table table-borderless">
