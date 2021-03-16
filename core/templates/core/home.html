@@ -56,137 +56,57 @@
                     </ul>
                 </div>
             </div>
-            <div class="card bg-light mt-1 " style="width: 18rem;background-color:#f2f7fa;">
 
+            <div class="card bg-light mt-1 " style="width: 18rem;background-color:#f2f7fa;">
                 <div class="card-header CardHeadCol"><strong>Upcoming Contests - Others</strong></div>
                 <ul id="contests"></ul>
-
             </div>
-            <div class="card bg-light mt-1 " style="width: 18rem;background-color:#f2f7fa;">
 
+            <div class="card bg-light mt-1 " style="width: 18rem;background-color:#f2f7fa;">
                 <div class="card-header text-center CardHeadCol"><strong>Search User</strong></div>
                 <div class="card-body" style="width: 18rem;background-color:#f2f7fa;">
+                    <form id="searchForm">
                         <div class="form-outline">
-                            <input type="search" id="getUser" class="form-control" />
+                            <input type="search" onsubmit="" id="getUser" class="form-control" />
                         </div>
+                    </form>
                 </div>
-
-
             </div>
-
         </div>
     </div>
 {% endblock %}
 
 {% block extra_body %}
+    {% include 'core/snippets/kontests_api.html' %}
+
     <script>
-        function createNode(element) {
-            return document.createElement(element);
-        }
+        function usernameCheckAndRedirect(username) {
+            $.ajax({
+                url: '{% url 'accounts-api:accounts-api-v1:autocomplete' %}',
+                data: {
+                    'term': username
+                },
 
-        function append(parent, el) {
-          return parent.appendChild(el);
-        }
+                success: function (response) {
+                    window.location = "{% url 'accounts:user-profile' 12345 %}".replace('/12345/', `/${username}/`);
+                },
 
-        function func() {
-            const ul = document.getElementById('contests');
-            const txt = document.getElementById('text');
-            fetch('https://kontests.net/api/v1/all')
-              .then(response => response.json())
-              .then(response => {
-                  response.sort(function(a, b) {
-                      return a.start_time - b.start_time;
-                  });
-                  for (let i = 0; i < response.length; i++) {
-                      let diff = (new Date(response[i].start_time) - new Date()) / (1000 * 3600);
-                      if (diff <= 24.00 && new Date() < new Date(new Date(response[i].start_time))) {
-                          let li = createNode('li');
-                          let h6 = createNode('h6');
-                          let bold = createNode('b');
-                          append(h6, bold);
-
-                          h6.setAttribute('style', 'font-weight:bold');
-                          li.className = "list-group-item";
-
-                          let contestName = response[i].name;
-
-                          if (contestName.length >= response[i].site.length) {
-                              if (contestName.substr(0, response[i].site.length) !== response[i].site) {
-                                  contestName = response[i].site + " " + contestName;
-                              }
-                          } else {
-                              contestName = response[i].site + " " + contestName;
-                          }
-
-                          let p = document.createTextNode(contestName);
-
-                          append(h6, p);
-                          append(li, h6);
-
-                          let div = document.createElement('h7');
-                          div.innerHTML += "Start Time: " + new Date(response[i].start_time);
-                          append(li, div);
-
-                          div = document.createElement('h6');
-
-                          if (Math.floor(response[i].duration/(3600)) > 1) {
-                              div.innerHTML += "Duration: " + Math.floor(response[i].duration/ 3600) + " Hours";
-
-                              if (parseInt(response[i].duration) % 3600 !== 0) {
-                                  div.innerHTML += " " + Math.floor((parseInt(response[i].duration) % 3600) / 60) + " Minutes";
-                              }
-
-                              append(li, div);
-                          } else if (Math.floor(response[i].duration/(3600)) > 0) {
-                              div.innerHTML += "Duration: " + Math.floor(response[i].duration/ 3600) + " Hour";
-
-                              if (parseInt(response[i].duration) % 3600 !== 0) {
-                                  div.innerHTML += " " + Math.floor((parseInt(response[i].duration) % 3600) / 60) + " Minutes";
-                              }
-
-                              append(li, div);
-                          } else {
-                              if (parseInt(response[i].duration) % 3600 !== 0) {
-                                  div.innerHTML += "Duration: " + Math.floor(response[i].duration / 60) + " Minutes";
-                              }
-                              append(li, div);
-                          }
-
-                          p = document.createTextNode('Contest Link');
-                          let a = document.createElement('a');
-                          a.href = response[i].url;
-                          a.setAttribute('role', 'button');
-                          a.setAttribute('target', '_blank');
-                          a.setAttribute('class', 'btn btn-primary btn-sm');
-
-                          li.setAttribute('style', 'padding-bottom:20px')
-
-                          append(a, p);
-                          append(li, a);
-                          append(ul, li);
-                      }
-                  }
-                  txt.innerHTML += 'Generated by - MUOJ<br>';
-              })
-        }
-        function wait(ms){
-           const start = new Date().getTime();
-           let end = start;
-           while(end < start + ms) {
-             end = new Date().getTime();
-          }
+                error: function (error) {
+                    toastr.error(error["responseJSON"]["detail"], "Not Found");
+                }
+            })
         }
 
         $(document).ready(function() {
-            func();
+            $( "#getUser" ).autocomplete({
+                source: '{% url 'accounts-api:accounts-api-v1:autocomplete' %}',
+                minLength: 1,
+            });
+
+            $('#searchForm').on('submit', function (e) {
+                e.preventDefault();
+                usernameCheckAndRedirect($('#getUser').val());
+            })
         })
     </script>
-      <script>
-          $( function() {
-
-            $( "#getUser" ).autocomplete({
-              source: '{% url 'home' %}'
-            });
-          } );
-  </script>
 {% endblock %}

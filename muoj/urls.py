@@ -41,7 +41,8 @@ urlpatterns = [
 
     # API Endpoints
     path('api/contest/', include('contest.api.urls')),
-    path('api/core/', include('core.api.urls'))
+    path('api/core/', include('core.api.urls')),
+    path('api/accounts/', include('accounts.api.urls'))
 ]
 
 if settings.DEBUG:

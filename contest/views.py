@@ -5,7 +5,6 @@ from django.views.generic import (
     UpdateView, DeleteView,
 )
 from django.contrib import messages
-from django.contrib.auth.mixins import UserPassesTestMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView, TemplateView
 from django.contrib.auth import get_user_model

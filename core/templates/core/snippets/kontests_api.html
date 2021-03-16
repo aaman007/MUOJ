@@ -1,0 +1,102 @@
+<script>
+    function createNode(element) {
+        return document.createElement(element);
+    }
+
+    function append(parent, el) {
+      return parent.appendChild(el);
+    }
+
+    function func() {
+        const ul = document.getElementById('contests');
+        const txt = document.getElementById('text');
+        fetch('https://kontests.net/api/v1/all')
+          .then(response => response.json())
+          .then(response => {
+              response.sort(function(a, b) {
+                  return a.start_time - b.start_time;
+              });
+              for (let i = 0; i < response.length; i++) {
+                  let diff = (new Date(response[i].start_time) - new Date()) / (1000 * 3600);
+                  if (diff <= 24.00 && new Date() < new Date(new Date(response[i].start_time))) {
+                      let li = createNode('li');
+                      let h6 = createNode('h6');
+                      let bold = createNode('b');
+                      append(h6, bold);
+
+                      h6.setAttribute('style', 'font-weight:bold');
+                      li.className = "list-group-item";
+
+                      let contestName = response[i].name;
+
+                      if (contestName.length >= response[i].site.length) {
+                          if (contestName.substr(0, response[i].site.length) !== response[i].site) {
+                              contestName = response[i].site + " " + contestName;
+                          }
+                      } else {
+                          contestName = response[i].site + " " + contestName;
+                      }
+
+                      let p = document.createTextNode(contestName);
+
+                      append(h6, p);
+                      append(li, h6);
+
+                      let div = document.createElement('h7');
+                      div.innerHTML += "Start Time: " + new Date(response[i].start_time);
+                      append(li, div);
+
+                      div = document.createElement('h6');
+
+                      if (Math.floor(response[i].duration/(3600)) > 1) {
+                          div.innerHTML += "Duration: " + Math.floor(response[i].duration/ 3600) + " Hours";
+
+                          if (parseInt(response[i].duration) % 3600 !== 0) {
+                              div.innerHTML += " " + Math.floor((parseInt(response[i].duration) % 3600) / 60) + " Minutes";
+                          }
+
+                          append(li, div);
+                      } else if (Math.floor(response[i].duration/(3600)) > 0) {
+                          div.innerHTML += "Duration: " + Math.floor(response[i].duration/ 3600) + " Hour";
+
+                          if (parseInt(response[i].duration) % 3600 !== 0) {
+                              div.innerHTML += " " + Math.floor((parseInt(response[i].duration) % 3600) / 60) + " Minutes";
+                          }
+
+                          append(li, div);
+                      } else {
+                          if (parseInt(response[i].duration) % 3600 !== 0) {
+                              div.innerHTML += "Duration: " + Math.floor(response[i].duration / 60) + " Minutes";
+                          }
+                          append(li, div);
+                      }
+
+                      p = document.createTextNode('Contest Link');
+                      let a = document.createElement('a');
+                      a.href = response[i].url;
+                      a.setAttribute('role', 'button');
+                      a.setAttribute('target', '_blank');
+                      a.setAttribute('class', 'btn btn-primary btn-sm');
+
+                      li.setAttribute('style', 'padding-bottom:20px')
+
+                      append(a, p);
+                      append(li, a);
+                      append(ul, li);
+                  }
+              }
+          })
+    }
+
+    function wait(ms){
+       const start = new Date().getTime();
+       let end = start;
+       while(end < start + ms) {
+         end = new Date().getTime();
+      }
+    }
+
+    $(document).ready(function() {
+        func();
+    })
+</script>
