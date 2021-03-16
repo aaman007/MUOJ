@@ -31,7 +31,11 @@
                         <tbody>
                             {% for testcase in testcases %}
                                 <tr>
-                                    <td> {{ testcase.input_text|safe|linebreaks }} </td>
+                                    {% if testcase.input_text %}
+                                        <td> {{ testcase.input_text|safe|linebreaks }} </td>
+                                    {% else %}
+                                        ddd
+                                    {% endif %}
                                     <td> {{ testcase.output_text|safe|linebreaks }} </td>
                                 </tr>
                                 <br />

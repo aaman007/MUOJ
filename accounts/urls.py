@@ -5,13 +5,14 @@ from accounts.views import (
     UserSubmissionListView,
     UserBlogListView,
     UserContestListView,
-    profile_update_view
+    profile_update_view,
 )
 
 app_name = 'accounts'
 
 urlpatterns = [
     path('', UserListView.as_view(), name='user-list'),
+
     path('<str:username>/user-submission-list/', UserSubmissionListView.as_view(), name='user-submission-list'),
     path('<str:username>/user-blog-list/', UserBlogListView.as_view(), name='user-blog-list'),
     path('<str:username>/user-contest-list/', UserContestListView.as_view(), name='user-contest-list'),

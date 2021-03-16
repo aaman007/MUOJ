@@ -61,6 +61,17 @@
                 <ul id="contests"></ul>
 
             </div>
+            <div class="card bg-light mt-1 " style="width: 18rem;background-color:#f2f7fa;">
+
+                <div class="card-header text-center CardHeadCol"><strong>Search User</strong></div>
+                <div class="card-body" style="width: 18rem;background-color:#f2f7fa;">
+                        <div class="form-outline">
+                            <input type="search" id="getUser" class="form-control" />
+                        </div>
+                </div>
+
+
+            </div>
 
         </div>
     </div>
@@ -169,4 +180,12 @@
             func();
         })
     </script>
+      <script>
+          $( function() {
+
+            $( "#getUser" ).autocomplete({
+              source: '{% url 'home' %}'
+            });
+          } );
+  </script>
 {% endblock %}
