@@ -50,7 +50,7 @@
                             <th width="20%">Input </th>
                             <th width="20%"> Output </th>
                             <th width="20%"> Sample </th>
-                            <th width="20%"> </th>
+                            <th width="20%"> Actions </th>
                         </tr>
                     </thead>
                     <tbody class="text-center">
@@ -60,7 +60,13 @@
                             <td> {{ testcase.label }} </td>
                             <td><a href="#">{{ testcase.input }}</a> </td>
                             <td><a href="#">{{ testcase.output }}</a> </td>
-                            <td> {{ testcase.is_sample }} </td>
+                            <td>
+                                {% if testcase.is_sample %}
+                                    <i class="text-success fa fa-check-circle-o"></i>
+                                {% else %}
+                                    <i class="text-danger fa fa-times-circle-o"></i>
+                                {% endif %}
+                            </td>
                             <td>
                                 <a class="ml-2 delete-contest text-danger" href="{% url 'problemset:delete-testcase' problem.id testcase.id%}">
                                     <i class="fa fa-trash" title="Delete"></i>

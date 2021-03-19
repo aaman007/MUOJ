@@ -13,9 +13,11 @@
                     <thead class="text-center thead-dark">
                         <tr>
                             <th width="8%"> # </th>
-                            <th>
-                                Name
-                            </th>
+                            <th> Name </th>
+                            <th width="10%"> Time Limit </th>
+                            <th width="12%"> Memory Limit </th>
+                            <th width="12%"> Is Protected </th>
+                            <th width="15%"> Actions </th>
                         </tr>
                     </thead>
 
@@ -26,9 +28,20 @@
                                 <td>
                                     <a href="{% url 'problemset:problem-details' problem.id %}">
                                         {{ problem.name }}
-                                        {% if problem.is_solved %}
-                                            <span class="fa fa-check text-success"> </span>
-                                        {% endif %}
+                                    </a>
+                                </td>
+                                <td> {{ problem.time_limit }} s </td>
+                                <td> {{ problem.memory_limit }} kb </td>
+                                <td>
+                                    {% if problem.is_protected %}
+                                        <i class="text-success fa fa-check-circle-o"></i>
+                                    {% else %}
+                                        <i class="text-danger fa fa-times-circle-o"></i>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a class="text-info" href="{% url 'problemset:problem-update' problem.id %}">
+                                        <i class="fa fa-edit" title="Update"></i>
                                     </a>
                                 </td>
                             </tr>

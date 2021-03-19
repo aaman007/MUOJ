@@ -12,7 +12,10 @@ class SubmissionForm(forms.ModelForm):
 class ProblemCreateForm(forms.ModelForm):
     class Meta:
         model = Problem
-        fields = ['name', 'statement', 'input_section', 'output_section', 'editorial', 'is_protected','solution','solution_language']
+        fields = [
+            'name', 'statement', 'input_section', 'output_section', 'editorial', 'is_protected',
+            'solution', 'solution_language', 'time_limit', 'memory_limit'
+        ]
 
 
 class TestCreateForm(forms.ModelForm):

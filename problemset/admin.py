@@ -21,7 +21,7 @@ class TestCaseAdmin(admin.ModelAdmin):
 
 @admin.register(Submission)
 class SubmissionAdmin(admin.ModelAdmin):
-    list_display = ['problem', 'contest', 'user', 'status', 'created_at']
+    list_display = ['problem', 'contest', 'user', 'status', 'created_at', 'modified_at']
 
 
 @admin.register(Clarification)

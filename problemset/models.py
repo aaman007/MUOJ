@@ -30,6 +30,18 @@ class Language(models.Model):
 
 
 class Problem(AbstractBaseModel):
+    class MemoryLimit(models.IntegerChoices):
+        MB_64 = 64, _('64 MB')
+        MB_128 = 128, _('128 MB')
+        MB_256 = 256, _('256 MB')
+        MB_512 = 512, _('512 MB')
+
+    class TimeLimit(models.IntegerChoices):
+        S_1 = 1, _('1 s')
+        S_2 = 2, _('2 s')
+        S_3 = 3, _('3 s')
+        S_4 = 4, _('4 s')
+
     name = models.CharField(verbose_name=_('Name'), max_length=100)
     statement = RichTextField(verbose_name=_('Statement'))
     input_section = RichTextField(verbose_name=_('Input Section'))
@@ -39,8 +51,8 @@ class Problem(AbstractBaseModel):
     solution_language = models.ForeignKey(verbose_name=_('Language'), to=Language, on_delete=models.CASCADE)
     author = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True)
     is_protected = models.BooleanField(verbose_name=_('Is Protected'), default=0)
-    time_limit = models.IntegerField(verbose_name=_('Time Limit'), default=1)
-    memory_limit = models.PositiveIntegerField(verbose_name=_('Memory Limit'), default=256)
+    time_limit = models.PositiveIntegerField(verbose_name=_('Time Limit'), choices=TimeLimit.choices, default=1)
+    memory_limit = models.PositiveIntegerField(verbose_name=_('Memory Limit'), choices=MemoryLimit.choices, default=256)
 
     objects = ProblemManager()
 

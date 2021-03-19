@@ -3,6 +3,7 @@ from pathlib import Path
 import subprocess
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -16,8 +17,8 @@ class JudgeX:
         self.solution_url = f"{BASE_DIR}{submission.solution.url}"
         self.result = 'AC'
         self.results = []
-        self.executable_file_loc = f"{BASE_DIR}/media/userfiles/todo_coder"
-        self.output_loc = f"{BASE_DIR}/media/userfiles/todo_coder_output.txt"
+        self.executable_file_loc = f"{BASE_DIR}/media/userfiles/exec_{submission.user_id}"
+        self.output_loc = f"{BASE_DIR}/media/userfiles/output_{submission.user_id}.txt"
 
     def get_extension(self):
         if self.language == 'C':
@@ -98,12 +99,9 @@ class JudgeX:
     def update_submission(self):
         self.submission.status = self.result
         self.submission.submission_details = self.get_submission_details()
-        self.submission.save(update_fields=['status', 'submission_details'])
+        self.submission.save(update_fields=['status', 'submission_details', 'modified_at'])
 
     def compile_cpp(self):
-        if not self.check_extension():
-            self.result = 'CE'
-            self.add_result()
         self.create_executable_file()
 
         if self.result == 'AC':
@@ -155,10 +153,6 @@ class JudgeX:
                 self.add_result()
 
     def compile_python(self):
-        if not self.check_extension():
-            self.result = 'CE'
-            self.add_result()
-
         if self.result == 'AC':
             for index, testcase in enumerate(self.test_cases.all()):
                 input_url = f"{BASE_DIR}{testcase.input.url}"
@@ -199,7 +193,10 @@ class JudgeX:
                 self.add_result()
 
     def compile_and_update(self):
-        if self.language == 'C' or self.language == 'C++':
+        if not self.check_extension():
+            self.result = 'CE'
+            self.add_result()
+        elif self.language == 'C' or self.language == 'C++':
             self.compile_cpp()
         else:
             self.compile_python()
