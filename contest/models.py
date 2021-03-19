@@ -12,7 +12,7 @@ User = get_user_model()
 
 class Contest(AbstractBaseModel):
     title = models.CharField(verbose_name=_('Title'), max_length=200)
-    description = RichTextField(verbose_name=_('Description'), blank=True)
+    description = RichTextField(verbose_name=_('Description'))
     start_time = models.DateTimeField(verbose_name=_('Start Time'))
     duration = models.DurationField(verbose_name=_('Duration'))
 

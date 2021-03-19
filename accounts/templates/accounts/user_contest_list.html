@@ -21,7 +21,7 @@
                         <tr>
 
                             <td> {{ forloop.counter }} </td>
-                            <td> <a href="#"> {{ contest.title }}</a> </td>
+                            <td> <a href="{% url 'contest:contest-details' contest.id %}"> {{ contest.title }}</a> </td>
                             <td>
                                 <a
                                          href="{% url 'accounts:user-profile' contest.author.username %}"
@@ -32,7 +32,7 @@
                             </td>
                             <td> {{ contest.start_time|date:"H:i e | M/d/o" }} </td>
                             <td>{{ contest.duration }}</td>
-                            <td><a href="#">{{ "Final Standings" }}</a></td>
+                            <td><a href="{% url 'contest:contest-standings' contest.id %}">{{ "Final Standings" }}</a></td>
                         </tr>
                     {% endfor %}
                 </tbody>
