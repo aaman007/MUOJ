@@ -26,7 +26,7 @@
                                 {% if submission.problem.is_protected %}
                                     {{ submission.id }}
                                 {% else %}
-                                    <a href="{{ submission.solution.url }}"> {{ submission.id }}</a>
+                                    <a href="{% url 'problemset:submission-details' submission.id %}"> {{ submission.id }}</a>
                                 {% endif %}
                             </td>
                             <td>

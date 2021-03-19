@@ -5,6 +5,7 @@ from problemset.views import (
     ProblemDetailView,
     SubmissionListView,
     SubmissionCreateView,
+    SubmissionDetailView,
     StandingsListView,
     ProblemCreateView,
     ProblemUpdateView,
@@ -27,6 +28,7 @@ urlpatterns = [
 
     # Submissions
     path('submissions/', SubmissionListView.as_view(), name='submission-list'),
+    path('submissions/<int:pk>/', SubmissionDetailView.as_view(), name='submission-details'),
     path('problems/<int:problem_id>/submit/', SubmissionCreateView.as_view(), name='submission-create'),
 
     # Standings

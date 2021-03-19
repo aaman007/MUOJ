@@ -103,6 +103,23 @@ class SubmissionCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
+class SubmissionDetailView(UserPassesTestMixin, DetailView):
+    model = Submission
+    template_name = 'problemset/submission_details.html'
+
+    def test_func(self):
+        if self.request.user.is_superuser:
+            return True
+        return not self.get_object().problem.is_protected
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'problemset_nav': 'active',
+        })
+        return context
+
+
 class StandingsListView(ListView):
     model = User
     context_object_name = 'users'

@@ -70,7 +70,7 @@ class TestCase(models.Model):
     class Meta:
         verbose_name = _('TestCase')
         verbose_name_plural = _('TestCases')
-        ordering = ['-id']
+        ordering = ['id']
 
     @property
     def input_text(self):
@@ -116,18 +116,26 @@ class Submission(AbstractBaseModel):
     Submission Details format:
     {
         "final_verdict": "WA",
-        "result": [
+        "average_time_usage: 42, # ms
+        "average_memory_usage": 432 # kb
+        "results": [
             {
                 testcase: 1,
-                verdict: "AC"
+                verdict: "AC",
+                memory_usage: 40, # kb
+                time_usage: 42 # ms
             },
             {
                 testcase: 2,
-                verdict: "WA"
+                verdict: "WA",
+                memory_usage: 40, # kb
+                time_usage: 42 # ms
             },
             {
                 testcase: 3,
-                verdict: "Skipped
+                verdict: "Skipped,
+                memory_usage: 0, # kb
+                time_usage: 0 # ms
             }
         ]
     }
@@ -163,6 +171,14 @@ class Submission(AbstractBaseModel):
         verbose_name = _('Submission')
         verbose_name_plural = _('Submissions')
         ordering = ['-id']
+
+    @property
+    def solution_text(self):
+        try:
+            with open(f"{BASE_DIR}{self.solution.url}", 'r', encoding='UTF-8') as f:
+                return f"\n{f.read()}"
+        except FileNotFoundError:
+            return 'Not Available'
 
 
 class Clarification(AbstractBaseModel):

@@ -87,12 +87,9 @@ a:hover {
 .rank-2400 {
     color: red;
 }
-/** nabvar styles**/
+/** navbar styles**/
 .navbar .nav-item:not(:last-child) {
   margin-right: 10px;
-}
-.dropdown:hover>.dropdown-menu{
-    display:block;
 }
 
 .dropdown-toggle::after {

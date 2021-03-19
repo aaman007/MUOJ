@@ -1,0 +1,125 @@
+{% extends 'problemset/base.html' %}
+{% load custom_tags %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            <strong> Submission </strong>
+            <div class="table-responsive py-1 mt-2">
+                <table class="table table-hover table-bordered text-center table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th width="30%"> Problem </th>
+                            <th width="10%"> Language </th>
+                            <th width="10%"> Status </th>
+                            <th width="10%"> Time </th>
+                            <th width="10%"> Memory </th>
+                            <th width="10%"> Who </th>
+                            <th width="20%"> When </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <a href="{% url 'problemset:problem-details' submission.problem.id %}">
+                                    {{ submission.problem.name }}
+                                </a>
+                            </td>
+                             <td> {{ submission.solution_language }} </td>
+                             {% if submission.status == 'AC' %}
+                                    <td>
+                                        <span class="badge badge-success"> {{ submission.status }} </span>
+                                    </td>
+                             {% elif submission.status == 'WA'%}
+                                    <td>
+                                        <span class="badge badge-danger"> {{ submission.status }} </span>
+                                    </td>
+                             {% elif submission.status == 'TLE'%}
+                                 <td>
+                                    <span class="badge badge-warning"> {{ submission.status }} </span>
+                                </td>
+                             {% elif submission.status == 'CE'%}
+                                 <td>
+                                     <span class="badge badge-info"> {{ submission.status }} </span>
+                                 </td>
+                             {% elif submission.status == 'MLE'%}
+                                 <td>
+                                     <span class="badge badge-dark"> {{ submission.status }} </span>
+                                 </td>
+                             {% else %}
+                                 <td>
+                                     <span class="badge badge-primary"> {{ submission.status }} </span>
+                                 </td>
+                             {% endif %}
+                             <td> {{ submission.submission_details.average_time_usage }} ms </td>
+                             <td> {{ submission.submission_details.average_memory_usage }} kb </td>
+                             <td>
+                                 <a
+                                         href="{% url 'accounts:user-profile' submission.user.username %}"
+                                         class="rank-text rank-{{ submission.user.profile.rank }}"
+                                 >
+                                     {{ submission.user }}
+                                 </a>
+                             </td>
+                             <td> {{ submission.created_at|date:"H:i | d-m-Y" }} </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="card mt-2">
+        <div class="card-body">
+            <strong> Source </strong> <br /> <br />
+            <strong class="text-secondary text-left"> {{ submission.solution }} </strong>
+            <pre class="mt-2">
+                <code>
+                    {{ submission.solution_text }}
+                </code>
+            </pre>
+        </div>
+    </div>
+    <div class="card mt-2">
+        <div class="card-body">
+            <strong> TestCases </strong>
+            <div class="table-responsive py-1 mt-2">
+                <table class="table table-hover table-bordered text-center table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th> # </th>
+                            <th> Time </th>
+                            <th> Memory </th>
+                            <th> Verdict </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for res in submission.submission_details.results %}
+                            <tr>
+                                <td> {{ res.testcase }} </td>
+                                <td> {{ res.time_usage }} ms </td>
+                                <td> {{ res.memory_usage }} kb </td>
+                                <td>
+                                    {% if res.verdict == 'AC' %}
+                                        <span class="badge badge-success"> {{ res.verdict }} </span>
+                                     {% elif res.verdict == 'WA'%}
+                                        <span class="badge badge-danger"> {{ res.verdict }} </span>
+                                     {% elif res.verdict == 'TLE'%}
+                                        <span class="badge badge-warning"> {{ res.verdict }} </span>
+                                     {% elif res.verdict == 'CE'%}
+                                        <span class="badge badge-info"> {{ res.verdict }} </span>
+                                     {% elif res.verdict == 'MLE'%}
+                                        <span class="badge badge-dark"> {{ res.verdict }} </span>
+                                    {% elif res.verdict == 'Skipped'%}
+                                        <span class="badge p-1" style="background: #66605c; color: white;"> {{ res.verdict }} </span>
+                                     {% else %}
+                                        <span class="badge badge-primary"> {{ res.verdict }} </span>
+                                     {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
