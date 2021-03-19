@@ -9,8 +9,6 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractUser):
-    accuracy = models.PositiveIntegerField(verbose_name=_('Agent Accuracy'), default=50)
-
     objects = UserManager()
 
 
