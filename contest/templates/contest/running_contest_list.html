@@ -22,7 +22,13 @@
                         <td> {{ forloop.counter }} </td>
                         <td>
                             <a href="{% url 'contest:contest-details' contest.id %}"> {{ contest.title }}</a>
+                            {% if contest.is_rated %}
+                                <span class="ml-2 badge badge-info"> Rated </span>
+                            {% endif %}
                             <br>
+                            {% if contest.is_registered %}
+                                <span><a href="{% url 'contest:contest-problems' contest.id %}" class="btn btn-sm" style="background:#0275d8;color:white;padding:2px;border-radius:5px;">Enter</a></span>
+                            {% endif %}
                         </td>
                         <td>
                             <a

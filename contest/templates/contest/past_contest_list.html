@@ -19,7 +19,12 @@
                 <tr>
 
                     <td> {{ forloop.counter }} </td>
-                    <td> <a href="{% url 'contest:contest-details' contest.id %}"> {{ contest.title }}</a> </td>
+                    <td>
+                        <a href="{% url 'contest:contest-details' contest.id %}"> {{ contest.title }}</a>
+                        {% if contest.is_rated %}
+                            <span class="ml-2 badge badge-info"> Rated </span>
+                        {% endif %}
+                    </td>
                     <td>
                         <a
                                 href="{% url 'accounts:user-profile' contest.author.username %}"

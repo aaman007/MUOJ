@@ -2,44 +2,49 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <div style="height: 78vh;">
-        <ul class="chat-items">
-            {% for message in messages %}
-                <div class="message-wrapper d-flex flex-column">
-                    {% if user == message.user %}
-                        <div class="d-flex flex-row-reverse">
-                            <div class="message-text message-right">
-                                <div class="rank-text rank-{{ message.user.profile.rank }} text-right">
-                                    {{ message.user.username }}
+    <div class="card">
+        <div class="card-header text-center"> {{  channel.title  }} </div>
+        <div class="card-body">
+            <div style="height: 72vh;">
+                <ul class="chat-items">
+                    {% for message in messages %}
+                        <div class="message-wrapper d-flex flex-column">
+                            {% if user == message.user %}
+                                <div class="d-flex flex-row-reverse">
+                                    <div class="message-text message-right">
+                                        <div class="rank-text rank-{{ message.user.profile.rank }} text-right">
+                                            {{ message.user.username }}
+                                        </div>
+                                        <div class="text-right"> {{ message.text }} </div>
+                                        <div class="text-muted text-right" style="font-size: 10px;">
+                                            {{ message.created_at|date:"F d, Y, H:i" }}
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="text-right"> {{ message.text }} </div>
-                                <div class="text-muted text-right" style="font-size: 10px;">
-                                    {{ message.created_at|date:"F d, Y, H:i" }}
+                            {% else %}
+                                <div class="d-flex flex-row">
+                                    <div class="message-text message-left">
+                                        <div class="rank-text rank-{{ message.user.profile.rank }} text-left">
+                                            {{ message.user.username }}
+                                        </div>
+                                        <div class="text-left"> {{ message.text }} </div>
+                                        <div class="text-muted text-left" style="font-size: 10px;">
+                                            {{ message.created_at|date:"F d, Y, H:i" }}
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            {% endif %}
                         </div>
-                    {% else %}
-                        <div class="d-flex flex-row">
-                            <div class="message-text message-left">
-                                <div class="rank-text rank-{{ message.user.profile.rank }} text-left">
-                                    {{ message.user.username }}
-                                </div>
-                                <div class="text-left"> {{ message.text }} </div>
-                                <div class="text-muted text-left" style="font-size: 10px;">
-                                    {{ message.created_at|date:"F d, Y, H:i" }}
-                                </div>
-                            </div>
-                        </div>
-                    {% endif %}
-                </div>
-            {% endfor %}
-        </ul>
+                    {% endfor %}
+                </ul>
 
-        <form method="POST" autocomplete="off" id="message-form" action="{% url 'channel:message-create' channel.id %}" novalidate>
-            {% csrf_token %}
-            {{ message_form|crispy }}
-            <button class="btn btn-sm btn-primary" type="submit"> Send </button>
-        </form>
+                <form method="POST" autocomplete="off" id="message-form" action="{% url 'channel:message-create' channel.id %}" novalidate>
+                    {% csrf_token %}
+                    {{ message_form|crispy }}
+                    <button class="btn btn-sm btn-primary" type="submit"> Send </button>
+                </form>
+            </div>
+        </div>
     </div>
 {% endblock %}
 
