@@ -141,11 +141,12 @@ class ContestSubmissionCreateView(ContestantPassesTestMixin, CreateView):
     form_class = SubmissionForm
 
     def get_success_url(self):
-        return reverse('contest:contest-my-submissions', kwargs={'contest_id': self.kwargs.get('contest_id')})
+        return reverse('contest:contest-my-submissions', kwargs={'contest_id': self.get_contest().id})
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        form.instance.contest = get_object_or_404(Contest, pk=self.kwargs.get('contest_id'))
+        if self.get_contest().state == "Running":
+            form.instance.contest = self.get_contest()
         form.instance.problem = get_object_or_404(Problem, pk=self.kwargs.get('problem_id'))
         return super().form_valid(form)
 
