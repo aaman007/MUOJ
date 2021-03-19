@@ -264,3 +264,26 @@ nav ul {
 .message-left {
 	background-color: #ebf1f0;
 }
+
+/* Auth */
+.signin-signup-wrapper {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.signin-signup {
+	width: 50%;
+}
+
+@media screen and (max-width: 900px) {
+	.signin-signup {
+		width: 75%;
+	}
+}
+
+@media screen and (max-width: 770px) {
+	.signin-signup {
+		width: 95%;
+	}
+}

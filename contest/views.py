@@ -83,7 +83,8 @@ class ContestProblemListView(ContestantPassesTestMixin, ListView):
     def get_queryset(self):
         return Problem.objects.filter_preserved_by_ids_with_count(
             self.get_contest().problem_ids,
-            self.kwargs.get('contest_id')
+            self.kwargs.get('contest_id'),
+            current_user=self.request.user
         )
 
     def get_context_data(self, **kwargs):

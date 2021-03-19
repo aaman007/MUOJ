@@ -17,6 +17,7 @@ class ProblemManager(models.Manager):
         and solve_count for each problem under a contest
         Returns a list of problem instances
         """
+        print(current_user)
         qs = self.filter(id__in=problem_ids).annotate(
             solve_count=Count(
                 'submissions__user',
@@ -27,9 +28,9 @@ class ProblemManager(models.Manager):
                 'submissions__user',
                 filter=Q(
                     submissions__status='AC',
-                    submissions__contest=contest_id
-                ),
-                submissions__user=current_user
+                    submissions__contest=contest_id,
+                    submissions__user = current_user
+                )
             )
         )
         dt = {problem.id: problem for problem in qs}
