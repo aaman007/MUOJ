@@ -18,8 +18,6 @@ from contest.models import Contest, Announcement
 from problemset.models import Problem, Submission, Clarification
 from dashboard.mixins import ContestActionMixin, IsAdminUserMixin
 
-from problemset.tasks import task_print_hello
-
 User = get_user_model()
 
 
