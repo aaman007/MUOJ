@@ -62,12 +62,13 @@
                     traditional: true,
 
                     success: function (data) {
-                        toastr.success(data['detail'], 'Success!')
+                        toastr.success(data['detail'], 'Success!');
+                        $('.apply-rating').css('display', 'none');
                     },
 
                     error: function (error) {
                         const response = error['responseJSON'];
-                        toastr.error(response["detail"], 'Error!')
+                        toastr.error(response["detail"], 'Error!');
                     },
                 });
             });
