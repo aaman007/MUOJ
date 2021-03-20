@@ -129,7 +129,7 @@ class ContestProblemDetails(ContestantPassesTestMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
-            'problemset_nav': 'active',
+            'contest_nav': 'active',
             'contest': self.get_contest(),
             'submission_form': SubmissionForm(),
             'testcases': self.get_object().testcases.filter(is_sample=True)

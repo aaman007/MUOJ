@@ -34,7 +34,7 @@
                                 {% if submission.problem.is_protected %}
                                     {{ submission.problem.name }}
                                 {% else %}
-                                    <a href="{% url 'problemset:problem-details' submission.problem.id %}">
+                                    <a href="{% url 'contest:contest-problem-details' contest.id submission.problem.id %}">
                                         {{ submission.problem.name }}
                                     </a>
                                 {% endif %}
