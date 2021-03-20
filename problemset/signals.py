@@ -30,6 +30,6 @@ def update_user_level(sender, instance, created, **kwargs):
             common = solved_ids.intersection(set(tutorial.problem_ids))
             if len(common) != len(tutorial.problem_ids):
                 break
-            updated_level += 1
+            updated_level = tutorial.level + 1
 
         Profile.objects.filter(id=user.id).update(levels_completed=updated_level)

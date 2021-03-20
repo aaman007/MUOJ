@@ -22,7 +22,7 @@ class ContestManager(models.Manager):
         ).filter(
             start_time__lte=timezone.now(),
             end_time__gte=timezone.now()
-        )
+        ).order_by('-start_time')
 
     def upcoming_contests(self, username=None):
         """
@@ -36,7 +36,7 @@ class ContestManager(models.Manager):
                 'contestants',
                 filter=(Q(contestants__username=username))
             )
-        )
+        ).order_by('-start_time')
 
     def past_contests(self):
         """
@@ -50,7 +50,7 @@ class ContestManager(models.Manager):
             )
         ).filter(
             end_time__lt=timezone.now()
-        )
+        ).order_by('-start_time')
 
     def user_participation(self, user=None):
         """
@@ -68,5 +68,4 @@ class ContestManager(models.Manager):
             submissions__user=user,
             submissions__created_at__lte=F('end_time'),
             is_rated=True
-        )
-
+        ).order_by('-start_time')

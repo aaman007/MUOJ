@@ -14,6 +14,7 @@
     color: #f66f16 !important;
 }
 
+
 .select2-results__option--selected {
     color: #7d7878 !important;
 }
@@ -59,4 +60,8 @@ th:nth-child(2) {
 
 .related-widget-wrapper >  .select2 {
     min-width: 200px !important;
+}
+
+.vTextField {
+    width: 100% !important;
 }

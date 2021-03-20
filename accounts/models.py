@@ -1,7 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 from PIL import Image
+
+User = get_user_model()
 
 
 class Profile(models.Model):
@@ -15,12 +17,12 @@ class Profile(models.Model):
         INTERNATIONAL_MASTER = 2300, 'International Master'
         GRANDMASTER = 2400, _('Grandmaster')
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    profile_picture = models.ImageField(default='default.jpg', upload_to='profile_pics')
-    institution = models.CharField(max_length=100)
-    location = models.CharField(max_length=200)
-    rating = models.IntegerField(default=0)
-    rank = models.IntegerField(choices=RankChoices.choices, default=RankChoices.NEWBIE)
+    user = models.OneToOneField(verbose_name=_('User'), to=User, on_delete=models.CASCADE)
+    profile_picture = models.ImageField(verbose_name=_('Picture'), default='default.jpg', upload_to='profile_pics')
+    institution = models.CharField(verbose_name=_('Institution'), max_length=100)
+    location = models.CharField(verbose_name=_('Location'), max_length=200)
+    rating = models.IntegerField(verbose_name=_('Rating'), default=0)
+    rank = models.IntegerField(verbose_name=_('Rank'), choices=RankChoices.choices, default=RankChoices.NEWBIE)
     """
     Rating History Format:
     [

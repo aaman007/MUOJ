@@ -41,7 +41,10 @@
                                 </td>
                                 <td>
                                     <a class="text-info" href="{% url 'problemset:problem-update' problem.id %}">
-                                        <i class="fa fa-edit" title="Update"></i>
+                                        <i class="fa fa-edit" title="Update Info"></i>
+                                    </a>
+                                    <a class="text-dark ml-2" href="{% url 'problemset:testcase-list' problem.id %}">
+                                        <i class="fa fa-database" title="TestCases"></i>
                                     </a>
                                 </td>
                             </tr>

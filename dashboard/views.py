@@ -67,7 +67,7 @@ class MyContestListView(IsAdminUserMixin, ListView):
     context_object_name = 'contests'
 
     def get_queryset(self):
-        return Contest.objects.filter(author=self.request.user).order_by('-created_at')
+        return Contest.objects.filter(author=self.request.user).order_by('-start_time')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
