@@ -44,7 +44,9 @@
             {% for comment in comments %}
                 <p>
                     <img class="rounded-circle mr-2" style="width: 30px; height: 30px;" src="{{ comment.author.profile.profile_picture.url }}">
-                    <a class="mr-2 " href="{% url 'accounts:user-profile' comment.author.username %}">{{ comment.author }}</a>
+                    <a class="mr-2 rank-text rank-{{ comment.author.profile.rank }}" href="{% url 'accounts:user-profile' comment.author.username %}">
+                        {{ comment.author.username }}
+                    </a>
                     <small class="text-muted">{{ comment.date_posted|date:"F d, Y" }}</small>
                     <div class="">
                         <p>

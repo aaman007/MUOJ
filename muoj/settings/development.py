@@ -15,7 +15,7 @@ DATABASES = {
 
 # debug toolbar configs
 INTERNAL_IPS = [
-    '127.0.0.11'
+    '127.0.0.1'
 ]
 
 # Static files (CSS, JavaScript, Images)
