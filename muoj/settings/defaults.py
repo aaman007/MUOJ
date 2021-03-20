@@ -294,9 +294,9 @@ JAZZMIN_SETTINGS = {
     # for a list of icon classes
     "icons": {
         "auth": "fas fa-users-cog",
-        "auth.user": "fas fa-user",
         "auth.Group": "fas fa-users",
         "auth.Permission": "fas fa-lock",
+        "accounts.user": "fas fa-users",
         "accounts.Profile": "fas fa-user",
         "blog.Blog": "fas fa-book",
         "blog.Comment": "fas fa-comment",
