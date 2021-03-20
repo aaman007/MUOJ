@@ -3,7 +3,7 @@ from django.db.models import F, ExpressionWrapper, Q, Count
 from django.utils import timezone
 
 
-class ContestManager(models.Manager):
+class ContestQuerySet(models.QuerySet):
 
     def running_contests(self, username=None):
         """

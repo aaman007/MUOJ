@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from ckeditor.fields import RichTextField
 
 from core.models import AbstractBaseModel
-from contest.managers import ContestManager
+from contest.managers import ContestQuerySet
 
 
 User = get_user_model()
@@ -57,7 +57,7 @@ class Contest(AbstractBaseModel):
         blank=True
     )
 
-    objects = ContestManager()
+    objects = ContestQuerySet.as_manager()
 
     class Meta:
         verbose_name = _('Contest')

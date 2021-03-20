@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django_json_widget.widgets import JSONEditorWidget
 
+from contest.managers import ContestQuerySet
 from contest.models import Contest, Announcement
 
 
@@ -17,12 +18,14 @@ class ContestStateFilter(admin.SimpleListFilter):
             (2, _('Past Contests'))
         )
 
-    def queryset(self, request, queryset: Contest):
+    def queryset(self, request, queryset: ContestQuerySet):
         if self.value() == '0':
-            return Contest.objects.running_contests()
+            return queryset.running_contests()
         elif self.value() == '1':
-            return Contest.objects.upcoming_contests()
-        return Contest.objects.past_contests()
+            return queryset.upcoming_contests()
+        elif self.value() == '2':
+            return queryset.past_contests()
+        return queryset
 
 
 @admin.register(Contest)
