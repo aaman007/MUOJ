@@ -47,3 +47,16 @@
 .alert > a {
     color: #f14622 !important;
 }
+
+#changelist-search > div {
+    margin-left: 10px !important;
+}
+
+th:nth-child(2) {
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+}
+
+.related-widget-wrapper >  .select2 {
+    min-width: 200px !important;
+}
