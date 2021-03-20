@@ -10,6 +10,9 @@ from core.models import AbstractBaseModel
 User = get_user_model()
 
 
+User = get_user_model()
+
+
 class Blog(AbstractBaseModel):
     title = models.CharField(verbose_name=_('Title'), max_length=100)
     content = RichTextField(verbose_name=_('Content'))

@@ -7,7 +7,7 @@ DEBUG = True
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 DATABASES = {
-    'postgres_default': {
+    'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': env.str('DB_NAME'),
         'USER': env.str('DB_USER'),
