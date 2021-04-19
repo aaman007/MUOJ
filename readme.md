@@ -1,1 +1,2 @@
-# Hello Django
+# MU Online Judge
+<b>MU Online Judge</b> is a problem solving platform where programmers can participate in different live contests and they also can arrange contests as moderators. Users also can upsolve the problems from the problem archive. Users will be rated depending on their performance on contests.Different users can write blogs on the topic they want to discuss or seek help.Beginner programmers can build up their programming skill by going through the tutorial section of the platform. Users will be able to create blog about different topics and check out others blogs. Realtime discussion channels will help contestants to discuss on various topics.
