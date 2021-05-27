@@ -38,3 +38,309 @@ For Admin
 - ⚡ Can add new discussion channels
 - ⚡ Can add new tutorials
 - ⚡ Can change blog preference
+
+
+# User Interface
+
+Authentication: Login Form
+![](https://github.com/aaman007/MUOJ/tree/master/MU%20Online%20Judge%20Images)
+Authentication: Registration Form
+
+
+Home
+
+
+
+User Search
+
+
+
+
+
+
+
+
+Contests List: Running
+
+
+
+
+
+
+Contests List: Upcoming
+
+
+
+
+Contests List: Past Contests
+
+
+
+
+
+Contest Details
+
+
+
+
+
+
+
+Contest: Problems
+
+
+
+
+
+Contest: Ask Clarification
+
+
+
+
+
+
+
+Contest: My Submissions
+
+
+
+
+
+Contest: Standings
+
+
+
+
+
+
+Contest: Announcements
+
+
+
+
+
+
+PROBLEM SET :
+
+Problems Archive
+
+
+
+Problem Details
+
+
+
+
+
+
+Problem: Submit Solution
+
+
+
+
+
+All Submissions
+
+
+
+
+
+
+Standing based of problem solving 
+
+
+
+
+
+All users sorted by their rating
+
+
+
+
+
+Blogs
+
+Blog List :
+
+
+
+
+
+
+
+
+
+
+
+Create Blog
+
+
+
+
+
+Blog Details
+
+
+
+
+
+
+
+
+Blog Comments
+
+
+Training :
+
+Tutorial list
+
+
+
+
+
+
+Tutorial details
+
+
+
+
+Tutorial problem list 
+
+
+
+
+
+Channel list based on topics
+
+
+
+
+
+
+Message box
+
+
+
+
+User Profile
+
+
+
+
+
+
+
+User submissions
+
+
+
+
+
+
+
+User Participated Contests
+
+
+
+
+Blogs by user
+
+
+
+
+
+User Profile Settings
+
+
+
+
+
+
+
+User Dashboard (For Problemsetters Only)
+
+
+
+
+
+
+Problemsetter: Contest List
+
+
+
+
+Problemsetter: Add New Contest
+
+
+
+
+
+
+Problemsetter: Update Contest Info
+
+
+
+
+
+
+Problemsetter: Add Problems in Contests
+
+
+
+
+
+
+Problemsetter: Update Problem Set
+
+
+
+
+
+
+Contest: Authors
+
+
+
+
+
+
+Contest: Statistics
+
+
+
+Problemsetter: Problem List
+
+
+
+
+
+Problemsetter: Add New Problem
+
+
+
+
+
+Problemsetter: Update Problem
+
+
+
+
+
+
+Problemsetter: TestCase List
+
+
+
+
+
+
+Problemsetter: Add New TestCase
+
+
+
+
+
+
+Admin Panel (For Admins Only)
+
+
