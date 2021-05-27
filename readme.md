@@ -43,7 +43,7 @@ For Admin
 # User Interface
 
 Authentication: Login Form
-![](https://github.com/aaman007/MUOJ/tree/master/MU%20Online%20Judge%20Images)
+![](https://github.com/aaman007/MUOJ/blob/master/MU%20Online%20Judge%20Images/login.png)
 Authentication: Registration Form
 
 
