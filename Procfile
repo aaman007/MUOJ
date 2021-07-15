@@ -1,0 +1,1 @@
+web: gunicorn muoj.wsgi --log-file -
