@@ -13,6 +13,8 @@ from django.contrib.messages import constants as message_constants
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
+LOGS_DIR = BASE_DIR / 'logs'
+LOGS_DIR.mkdir(parents=True, exist_ok=True)
 
 env = environ.Env()
 environ.Env.read_env((BASE_DIR / '.env').as_posix())
@@ -141,7 +143,7 @@ LOGGING = {
         'file': {
             'level': 'INFO',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': BASE_DIR / 'logs' / 'debug.log',
+            'filename': LOGS_DIR / 'debug.log',
             'maxBytes': 1024 * 1024 * 100,  # 100 MB
             'backupCount': 5,
             'formatter': 'verbose'
