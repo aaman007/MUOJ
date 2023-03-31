@@ -21,7 +21,7 @@ In Linux this might fail in case you don't have the package `libpq-dev`. To fix 
 In DEVELOPMENT mode, psycopg-binary is not required. So removing that from requirements.txt also should
 solve this issue.
 
-### Create Migration Files
+### 4. Create Migration Files
 By default the migration files are not created. To create them
 run the following command:
 ```python manage.py makemigrations```
