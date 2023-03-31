@@ -1,3 +1,5 @@
+# [DEPRECATED] Use [Setup and Installation](https://github.com/aaman007/MUOJ/wiki/Installation-Guidelines) instead
+
 ## Installation and Setup
 
 ### 1. Create .env file
