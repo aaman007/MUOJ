@@ -17,7 +17,7 @@ If you are using PyCharm, you can do the same thing using GUI
 All the dependencies are in ```requirements.txt``` file. Run the following command to install them -             
 ``` pip install -r requirements.txt ```
 In Linux this might fail in case you don't have the package `libpq-dev`. To fix that run the following command
-```sudo apt-get install libpq-dev```
+```sudo apt-get install libpq-dev``` \
 In DEVELOPMENT mode, psycopg-binary is not required. So removing that from requirements.txt also should
 solve this issue.
 
